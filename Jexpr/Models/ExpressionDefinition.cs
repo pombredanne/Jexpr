@@ -8,8 +8,9 @@ namespace Jexpr.Models
         {
             ReturnType = ReturnTypes.Object;
         }
-        public List<ExpressionGroup> ExpressionGroup { get; set; }
+        public List<ExpressionGroup> Groups { get; set; }
         public ExpressionGroupOp Op { get; set; }
         public ReturnTypes ReturnType { get; set; }
+        public List<ExpressionGroup> ResultExpression { get; set; }
     }
 }

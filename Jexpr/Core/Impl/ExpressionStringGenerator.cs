@@ -4,7 +4,7 @@ namespace Jexpr.Core.Impl
 {
     public class ExpressionStringGenerator : IExpressionStringGenerator
     {
-        public string GenerateFrom(BasicExpression expression)
+        public string GenerateFrom(JexprExpression expression)
         {
             string result = null;
 
@@ -22,7 +22,7 @@ namespace Jexpr.Core.Impl
             return result;
         }
 
-        private static string GenerateJsExpr(BasicExpression expression, string func)
+        private static string GenerateJsExpr(JexprExpression expression, string func)
         {
             string parameterName = string.Format("p.{0}", expression.Key);
 
@@ -34,38 +34,40 @@ namespace Jexpr.Core.Impl
             return result;
         }
 
-        private string GenerateJsExprByType(BasicExpression basicExpression, string op)
+        private string GenerateJsExprByType(JexprExpression jexprExpression, string op)
         {
             string result;
 
-            MacroExpression macroExpression = basicExpression as MacroExpression;
+            JexprMacroExpression jexprMacroExpression = jexprExpression as JexprMacroExpression;
 
-            if (macroExpression != null)
+            if (jexprMacroExpression != null)
             {
-                result = string.Format("({0} {1} {2})", GenerateMacroJsExpr(macroExpression), op, basicExpression.Value);
+                result = jexprMacroExpression.Value != null
+                    ? string.Format("({0} {1} {2})", GenerateMacroJsExpr(jexprMacroExpression), op, jexprExpression.Value)
+                    : string.Format("({0})", GenerateMacroJsExpr(jexprMacroExpression));
             }
             else
             {
-                if (basicExpression.Value is string)
+                if (jexprExpression.Value is string)
                 {
-                    result = string.Format("({0} {1} '{2}')", string.Format("p.{0}", basicExpression.Key), op, basicExpression.Value);
+                    result = string.Format("({0} {1} '{2}')", string.Format("p.{0}", jexprExpression.Key), op, jexprExpression.Value);
                 }
                 else
                 {
-                    result = string.Format("({0} {1} {2})", string.Format("p.{0}", basicExpression.Key), op, basicExpression.Value);
+                    result = string.Format("({0} {1} {2})", string.Format("p.{0}", jexprExpression.Key), op, jexprExpression.Value);
                 }
             }
 
             return result;
         }
 
-        private static string GenerateMacroJsExpr(MacroExpression macroExpression)
+        private static string GenerateMacroJsExpr(JexprMacroExpression jexprMacroExpression)
         {
             string result = null;
 
-            MacroOpDefinition macroOpDefinition = macroExpression.MacroOp;
+            MacroOpDefinition macroOpDefinition = jexprMacroExpression.MacroOp;
 
-            string parameterToChain = string.Format("p.{0}", macroExpression.Key);
+            string parameterToChain = string.Format("p.{0}", jexprMacroExpression.Key);
 
             switch (macroOpDefinition.Op)
             {
@@ -132,7 +134,7 @@ namespace Jexpr.Core.Impl
                                                 .includes({2})
                                                 .value() )",
                             parameterToChain,
-                            macroOpDefinition.PropertyToVisit, macroExpression.Value);
+                            macroOpDefinition.PropertyToVisit, jexprMacroExpression.Value);
                         break;
                     }
             }

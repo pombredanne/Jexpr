@@ -5,6 +5,7 @@ namespace Jexpr
         Number,
         Boolean,
         String,
+        JsonString,
         Object
     }
 }

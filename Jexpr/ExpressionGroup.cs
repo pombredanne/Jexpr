@@ -5,7 +5,7 @@ namespace Jexpr
 {
     public class ExpressionGroup
     {
-        public List<BasicExpression> ExpressionList { get; set; }
+        public List<JexprExpression> Items { get; set; }
 
         public ExpressionGroupOp Op { get; set; }
     }

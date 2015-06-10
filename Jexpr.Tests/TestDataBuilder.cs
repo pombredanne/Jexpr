@@ -9,38 +9,38 @@ namespace Jexpr.Tests
         {
             ExpressionDefinition definition = new ExpressionDefinition
             {
-                ExpressionGroup = new List<ExpressionGroup>
+                Groups = new List<ExpressionGroup>
                 {
                     new ExpressionGroup
                     {
-                        ExpressionList = new List<BasicExpression>
+                        Items = new List<JexprExpression>
                         {
-                            new BasicExpression
+                            new JexprExpression
                             {
                                 Key = "BoutiqueId",
                                 Value = 258,
                                 Operator = ExpressionOp.Eq
                             }
                             ,
-                            new BasicExpression
+                            new JexprExpression
                             {
                                 Key = "BasketTotal",
                                 Value = 200,
                                 Operator = ExpressionOp.Eq
                             },
-                            new BasicExpression
+                            new JexprExpression
                             {
                                 Key = "CodeCampaign",
                                 Value = 63,
                                 Operator = ExpressionOp.Lt
                             },
-                            new BasicExpression
+                            new JexprExpression
                             {
                                 Key = "BankBin",
                                 Value = "Garanti",
                                 Operator = ExpressionOp.Eq
                             },
-                            new BasicExpression
+                            new JexprExpression
                             {
                                 Key = "SavedCreditCard",
                                 Value = 1,
@@ -63,24 +63,24 @@ namespace Jexpr.Tests
         {
             ExpressionDefinition expressionDefinition = new ExpressionDefinition
             {
-                ExpressionGroup = new List<ExpressionGroup>
+                Groups = new List<ExpressionGroup>
                 {
                     new ExpressionGroup
                     {
-                        ExpressionList = new List<BasicExpression>
+                        Items = new List<JexprExpression>
                         {
-                            new MacroExpression
+                            new JexprMacroExpression
                             {
                                 Key = "Basket.Items",
                                 Value = 10,
                                 Operator = ExpressionOp.Gte,
                                 MacroOp = new FilterMacroOpDefinition
                                 {
-                                    PropertyToVisit ="Product.Price",
+                                    PropertyToVisit = "Product.Price",
                                     Take = 2,
                                     Op = MacroOp.SumOfMinXItem
                                 }
-                                
+
                             }
                         },
 
@@ -95,11 +95,37 @@ namespace Jexpr.Tests
             return expressionDefinition;
         }
 
+        public static List<ExpressionGroup> GetResultExpression(int num)
+        {
+            return new List<ExpressionGroup>
+            {
+                new ExpressionGroup
+                {
+                    Items = new List<JexprExpression>
+                    {
+                        new JexprMacroExpression
+                        {
+                            Key = "Basket.Items",
+                            MacroOp = new FilterMacroOpDefinition
+                            {
+                                PropertyToVisit = "Product.Price",
+                                Take = 2,
+                                Op = MacroOp.SumOfMinXItem
+                            }
+
+                        }
+                    },
+
+                    Op = ExpressionGroupOp.And
+                }
+            };
+        }
+
         public static ExpressionDefinition GetBasicExprDef(int num, ExpressionOp op, ReturnTypes returnType, string key)
         {
-            var expressionList = new List<BasicExpression>
+            var expressionList = new List<JexprExpression>
             {
-                new BasicExpression
+                new JexprExpression
                 {
                     Key = key,
                     Value = num,
@@ -110,11 +136,11 @@ namespace Jexpr.Tests
 
             ExpressionDefinition expressionDefinition = new ExpressionDefinition
             {
-                ExpressionGroup = new List<ExpressionGroup>
+                Groups = new List<ExpressionGroup>
                 {
                     new ExpressionGroup
                     {
-                        ExpressionList = expressionList,
+                        Items = expressionList,
 
                         Op = ExpressionGroupOp.And
                     }
@@ -130,13 +156,13 @@ namespace Jexpr.Tests
         {
             ExpressionDefinition expressionDefinition = new ExpressionDefinition
             {
-                ExpressionGroup = new List<ExpressionGroup>
+                Groups = new List<ExpressionGroup>
                 {
                     new ExpressionGroup
                     {
-                        ExpressionList = new List<BasicExpression>
+                        Items = new List<JexprExpression>
                         {
-                            new MacroExpression
+                            new JexprMacroExpression
                             {
                                 Key = key,
                                 Value = num,
@@ -146,7 +172,7 @@ namespace Jexpr.Tests
                                     PropertyToVisit ="Product.Price",
                                     Op = macroOp
                                 }
-                                
+
                             }
                         },
 

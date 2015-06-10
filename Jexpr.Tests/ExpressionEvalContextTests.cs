@@ -61,7 +61,7 @@ namespace Jexpr.Tests
         public void Expression_Group_Eval_Test()
         {
             var expression = TestDataBuilder.GetExprDefinition();
-            expression.ExpressionGroup.AddRange(TestDataBuilder.GetExprDefinition4Basket().ExpressionGroup);
+            expression.Groups.AddRange(TestDataBuilder.GetExprDefinition4Basket().Groups);
 
             var parameters = new Dictionary<string, object>
             {
@@ -76,6 +76,33 @@ namespace Jexpr.Tests
             ExpressionEvalResult result = _context.Evaluate(expression, parameters);
 
             bool.Parse(result.Value.ToString()).Should().BeFalse();
+        }
+
+        [Test]
+        public void Advanced_Expression_Group_Eval_Test()
+        {
+            Basket basket = FixtureRepository.Create<Basket>();
+
+            int max = (int)basket.Items.Select(item => item.Product.Price).Max(arg => arg);
+
+            var definition = TestDataBuilder.GetExprDefinition();
+            definition.Groups.AddRange(TestDataBuilder.GetExprDefinition4Basket().Groups);
+            definition.ResultExpression = TestDataBuilder.GetResultExpression(max);
+            definition.ReturnType = ReturnTypes.JsonString;
+
+            var parameters = new Dictionary<string, object>
+            {
+                {"BoutiqueId", 258},
+                {"BasketTotal", 62},
+                {"CodeCampaign", 56},
+                {"BankBin", "Garanti"},
+                {"SavedCreditCard", 1},
+                {"Basket", FixtureRepository.Create<Basket>()}
+            };
+
+            ExpressionEvalResult result = _context.Evaluate(definition, parameters);
+
+            ((JsFuncResult)result.Value).Success.Should().BeFalse();
         }
 
         [Test]
@@ -172,7 +199,7 @@ namespace Jexpr.Tests
 
             int max = (int)basket.Items.Select(item => item.Product.Price).Max(arg => arg);
 
-            var expression = TestDataBuilder.GetMacroExprDef4MinMax(max, ExpressionOp.Eq, ReturnTypes.Boolean,"Basket.Items", MacroOp.Max);
+            var expression = TestDataBuilder.GetMacroExprDef4MinMax(max, ExpressionOp.Eq, ReturnTypes.Boolean, "Basket.Items", MacroOp.Max);
 
             var parameters = new Dictionary<string, object>
             {

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Jexpr.Models;
@@ -19,23 +18,84 @@ namespace Jexpr.Core.Impl
 
         public JsExpressionResult Build(ExpressionDefinition definition, Dictionary<string, object> paramerters)
         {
-            StringBuilder jsExpression = new StringBuilder();
-            List<string> groupExpressions = new List<string>();
 
-            foreach (ExpressionGroup expressionGroup in definition.ExpressionGroup)
+
+            var expressions = GetCompiledExpressions(definition.Groups);
+
+            var jsExpressionBody = GetJsExpressionBody(definition.Op, expressions);
+
+            string js;
+
+            if (definition.ResultExpression != null && definition.ResultExpression.Any())
             {
-                List<string> groupExpressionList = expressionGroup.ExpressionList.Select(basicExpression => _expressionStringGenerator.GenerateFrom(basicExpression)).ToList();
+                var resultExpressions = GetCompiledExpressions(definition.ResultExpression);
+
+                var resultJsExpression = GetJsExpressionBody(definition.Op, resultExpressions);
+
+                js = string.Format(@"function {0}(jsonParam) {{ 
+                                             var p = JSON.parse(jsonParam); 
+                                             var result = {{ Value : '', Success :false}};
+                                             if({1}){{ 
+                                                result = {{ Value: {2}, Success: true}};
+                                             }}
+                                             return JSON.stringify(result); 
+                                             
+                                      }}", FUNC_NAME, jsExpressionBody, resultJsExpression);
+            }
+            else
+            {
+                js = string.Format("function {0}(jsonParam) {{ var p = JSON.parse(jsonParam); return {1}; }}", FUNC_NAME, jsExpressionBody);
+            }
+
+            return new JsExpressionResult
+            {
+                Body = js,
+                FuncName = FUNC_NAME
+            };
+
+        }
+
+        private static string GetJsExpressionBody(ExpressionGroupOp op, List<string> expressions)
+        {
+            StringBuilder result = new StringBuilder();
+
+            switch (op)
+            {
+                case ExpressionGroupOp.And:
+                    {
+                        result.Append(string.Join(" && ", expressions));
+                        break;
+                    }
+                case ExpressionGroupOp.Or:
+                    {
+                        result.Append(string.Join(" || ", expressions));
+                        break;
+                    }
+            }
+
+            return result.ToString();
+        }
+
+        private List<string> GetCompiledExpressions(List<ExpressionGroup> groups)
+        {
+            List<string> result = new List<string>();
+
+            foreach (ExpressionGroup expressionGroup in groups)
+            {
+                List<string> groupExpressionList =
+                    expressionGroup.Items.Select(basicExpression => _expressionStringGenerator.GenerateFrom(basicExpression))
+                        .ToList();
 
                 switch (expressionGroup.Op)
                 {
                     case ExpressionGroupOp.And:
                         {
-                            groupExpressions.Add(String.Join(" && ", groupExpressionList));
+                            result.Add(string.Join(" && ", groupExpressionList));
                             break;
                         }
                     case ExpressionGroupOp.Or:
                         {
-                            groupExpressions.Add(String.Join(" || ", groupExpressionList));
+                            result.Add(string.Join(" || ", groupExpressionList));
                             break;
                         }
                 }
@@ -43,29 +103,7 @@ namespace Jexpr.Core.Impl
                 groupExpressionList.Clear();
             }
 
-            switch (definition.Op)
-            {
-                case ExpressionGroupOp.And:
-                    {
-                        jsExpression.Append(string.Join(" && ", groupExpressions));
-                        break;
-                    }
-                case ExpressionGroupOp.Or:
-                    {
-                        jsExpression.Append(string.Join(" || ", groupExpressions));
-                        break;
-                    }
-            }
-
-
-            string format = string.Format("function {0}(jsonParam) {{ var p = JSON.parse(jsonParam); return {1}; }}", FUNC_NAME, jsExpression);
-
-            return new JsExpressionResult
-            {
-                Body = format,
-                FuncName = FUNC_NAME
-            };
-
+            return result;
         }
     }
 }

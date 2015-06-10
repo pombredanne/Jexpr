@@ -1,6 +1,6 @@
 namespace Jexpr.Models
 {
-    public class MacroExpression : BasicExpression
+    public class JexprMacroExpression : JexprExpression
     {
         public MacroOpDefinition MacroOp { get; set; }
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Jexpr.Common;
 using Jexpr.Models;
 using Jint;
+using Newtonsoft.Json.Linq;
 
 namespace Jexpr.Core.Impl
 {
@@ -61,6 +62,9 @@ namespace Jexpr.Core.Impl
                     break;
                 case ReturnTypes.String:
                     exprEvalResult.Value = jsValue.AsString();
+                    break;
+                case ReturnTypes.JsonString:
+                    exprEvalResult.Value = _serializer.Deserialize<JsFuncResult>(jsValue.AsString());
                     break;
                 default:
                     exprEvalResult.Value = jsValue.AsObject();

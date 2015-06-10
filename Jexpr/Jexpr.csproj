@@ -11,6 +11,10 @@
     <AssemblyName>Jexpr</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -58,17 +62,18 @@
     <Compile Include="Core\Impl\ExpressionStringGenerator.cs" />
     <Compile Include="Core\Impl\JsExpressionBuilder.cs" />
     <Compile Include="Core\Impl\JsExpressionVisitor.cs" />
+    <Compile Include="Core\Impl\JsFuncResult.cs" />
     <Compile Include="Core\Impl\ScriptLoader.cs" />
     <Compile Include="Core\IScriptLoader.cs" />
     <Compile Include="ExpressionGroup.cs" />
     <Compile Include="ExpressionGroupOp.cs" />
     <Compile Include="ExpressionOp.cs" />
     <Compile Include="MacroOp.cs" />
-    <Compile Include="Models\BasicExpression.cs" />
+    <Compile Include="Models\JexprExpression.cs" />
     <Compile Include="Models\ExpressionDefinition.cs" />
     <Compile Include="Models\ExpressionEvalResult.cs" />
     <Compile Include="Models\JsExpressionResult.cs" />
-    <Compile Include="Models\MacroExpression.cs" />
+    <Compile Include="Models\JexprMacroExpression.cs" />
     <Compile Include="Models\MacroOpDefinition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReturnTypes.cs" />

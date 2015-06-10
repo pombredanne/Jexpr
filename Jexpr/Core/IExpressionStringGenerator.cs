@@ -4,6 +4,6 @@ namespace Jexpr.Core
 {
     public interface IExpressionStringGenerator
     {
-        string GenerateFrom(BasicExpression expression);
+        string GenerateFrom(JexprExpression expression);
     }
 }
