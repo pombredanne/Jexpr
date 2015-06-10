@@ -1,4 +1,4 @@
-# ExprShell
+# Jexpr
 
 Expression shell (Will be documented soon)
 
@@ -50,6 +50,8 @@ function ExpFunc(jsonParam) {
 **EVALUATE EXPRESSIN WITH PARAMETERS**
 
 ```csharp
+var _context = new ExpressionEvalContext();
+
 Basket basket = FixtureRepository.Create<Basket>();
 
 var parameters = new Dictionary<string, object>
