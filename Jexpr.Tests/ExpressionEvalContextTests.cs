@@ -7,17 +7,16 @@ using Jexpr.Core.Impl;
 using Jexpr.Models;
 using NUnit.Framework;
 using Ploeh.AutoFixture;
-
 namespace Jexpr.Tests
 {
     public class ExpressionEvalContextTests : TestBase
     {
-        private IExpressionEvalContext _context;
+        private IJexprEngine _engine;
         private const int TEST_INT_PARAM = 12;
 
         protected override void FinalizeSetUp()
         {
-            _context = new ExpressionEvalContext();
+            _engine = new JexprEngine();
         }
 
         [Test]
@@ -34,9 +33,9 @@ namespace Jexpr.Tests
                 {"SavedCreditCard", 1}
             };
 
-            ExpressionEvalResult result = _context.Evaluate(expressionDefinition, parameters);
+            EvalResult result = _engine.Evaluate(expressionDefinition, parameters);
 
-            bool.Parse(result.Value.ToString()).Should().BeFalse();
+            Assert.IsFalse(result.Value);
         }
 
         [Test]
@@ -51,10 +50,10 @@ namespace Jexpr.Tests
                 {"Basket", basket}
             };
 
-            ExpressionEvalResult result = _context.Evaluate(expressionDefinition, parameters);
+            EvalResult result = _engine.Evaluate(expressionDefinition, parameters);
 
             result.Should().NotBeNull();
-            bool.Parse(result.Value.ToString()).Should().BeTrue();
+            Assert.IsTrue(result.Value);
         }
 
         [Test]
@@ -73,9 +72,9 @@ namespace Jexpr.Tests
                 {"Basket", FixtureRepository.Create<Basket>()}
             };
 
-            ExpressionEvalResult result = _context.Evaluate(expression, parameters);
+            EvalResult result = _engine.Evaluate(expression, parameters);
 
-            bool.Parse(result.Value.ToString()).Should().BeFalse();
+            Assert.IsFalse(result.Value);
         }
 
         [Test]
@@ -100,63 +99,63 @@ namespace Jexpr.Tests
                 {"Basket", FixtureRepository.Create<Basket>()}
             };
 
-            ExpressionEvalResult result = _context.Evaluate(definition, parameters);
+            EvalResult result = _engine.Evaluate(definition, parameters);
 
-            ((JsFuncResult)result.Value).Success.Should().BeFalse();
+            ((JsExecResult)result.Value).Success.Should().BeFalse();
         }
 
         [Test]
         public void Eq_Expression_Test()
         {
-            ExpressionEvalResult result = GetExprEvalResult(ExpressionOp.Eq, TEST_INT_PARAM);
+            EvalResult result = GetExprEvalResult(ExpressionOp.Eq, TEST_INT_PARAM);
 
             result.Should().NotBeNull();
-            bool.Parse(result.Value.ToString()).Should().BeTrue();
+            Assert.IsTrue(result.Value);
         }
 
         [Test]
         public void Neq_Expression_Test()
         {
-            ExpressionEvalResult result = GetExprEvalResult(ExpressionOp.Neq, TEST_INT_PARAM + 1);
+            EvalResult result = GetExprEvalResult(ExpressionOp.Neq, TEST_INT_PARAM + 1);
 
             result.Should().NotBeNull();
-            bool.Parse(result.Value.ToString()).Should().BeTrue();
+            Assert.IsTrue(result.Value);
         }
 
         [Test]
         public void Gt_Expression_Test()
         {
-            ExpressionEvalResult result = GetExprEvalResult(ExpressionOp.Gt, TEST_INT_PARAM + 1);
+            EvalResult result = GetExprEvalResult(ExpressionOp.Gt, TEST_INT_PARAM + 1);
 
             result.Should().NotBeNull();
-            bool.Parse(result.Value.ToString()).Should().BeTrue();
+            Assert.IsTrue(result.Value);
         }
 
         [Test]
         public void Lt_Expression_Test()
         {
-            ExpressionEvalResult result = GetExprEvalResult(ExpressionOp.Lt, TEST_INT_PARAM - 1);
+            EvalResult result = GetExprEvalResult(ExpressionOp.Lt, TEST_INT_PARAM - 1);
 
             result.Should().NotBeNull();
-            bool.Parse(result.Value.ToString()).Should().BeTrue();
+            Assert.IsTrue(result.Value);
         }
 
         [Test]
         public void Gte_Expression_Test()
         {
-            ExpressionEvalResult result = GetExprEvalResult(ExpressionOp.Gte, TEST_INT_PARAM);
+            EvalResult result = GetExprEvalResult(ExpressionOp.Gte, TEST_INT_PARAM);
 
             result.Should().NotBeNull();
-            bool.Parse(result.Value.ToString()).Should().BeTrue();
+            Assert.IsTrue(result.Value);
         }
 
         [Test]
         public void Lte_Expression_Test()
         {
-            ExpressionEvalResult result = GetExprEvalResult(ExpressionOp.Lte, TEST_INT_PARAM);
+            EvalResult result = GetExprEvalResult(ExpressionOp.Lte, TEST_INT_PARAM);
 
             result.Should().NotBeNull();
-            bool.Parse(result.Value.ToString()).Should().BeTrue();
+            Assert.IsTrue(result.Value);
         }
 
         [Test]
@@ -166,10 +165,10 @@ namespace Jexpr.Tests
 
             var parameters = new Dictionary<string, object> { { "BoutiqueId", new List<int> { TEST_INT_PARAM, 58, 69 } } };
 
-            ExpressionEvalResult result = _context.Evaluate(expression, parameters);
+            EvalResult result = _engine.Evaluate(expression, parameters);
 
             result.Should().NotBeNull();
-            bool.Parse(result.Value.ToString()).Should().BeTrue();
+            Assert.IsTrue(result.Value);
         }
 
         [Test]
@@ -186,10 +185,10 @@ namespace Jexpr.Tests
                 {"Basket", basket}
             };
 
-            ExpressionEvalResult result = _context.Evaluate(expression, parameters);
+            EvalResult result = _engine.Evaluate(expression, parameters);
 
             result.Should().NotBeNull();
-            bool.Parse(result.Value.ToString()).Should().BeTrue();
+            Assert.IsTrue(result.Value);
         }
 
         [Test]
@@ -206,19 +205,19 @@ namespace Jexpr.Tests
                 {"Basket", basket}
             };
 
-            ExpressionEvalResult result = _context.Evaluate(expression, parameters);
+            EvalResult result = _engine.Evaluate(expression, parameters);
 
             result.Should().NotBeNull();
-            bool.Parse(result.Value.ToString()).Should().BeTrue();
+            Assert.IsTrue(result.Value);
         }
 
-        private ExpressionEvalResult GetExprEvalResult(ExpressionOp op, object paramValue)
+        private EvalResult GetExprEvalResult(ExpressionOp op, object paramValue)
         {
             var expression = TestDataBuilder.GetBasicExprDef(TEST_INT_PARAM, op, ReturnTypes.Boolean, "BoutiqueId");
 
             var parameters = new Dictionary<string, object> { { "BoutiqueId", paramValue } };
 
-            ExpressionEvalResult result = _context.Evaluate(expression, parameters);
+            EvalResult result = _engine.Evaluate(expression, parameters);
 
             return result;
         }
