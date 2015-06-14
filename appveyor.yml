@@ -1,0 +1,11 @@
+configuration: Release
+branches:
+  only:
+    - master
+
+before_build:
+  - nuget restore Jexpr.sln
+
+build:
+  project: Jexpr.sln       
+  verbosity: minimal
