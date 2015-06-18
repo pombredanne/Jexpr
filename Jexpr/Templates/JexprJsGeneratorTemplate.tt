@@ -1,0 +1,53 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Jexpr" #>
+<#@ import namespace="Jexpr.Core" #>
+<#@ import namespace="Jexpr.Core.Impl" #>
+function ExpFunc(parametersJson) {
+
+	var p = JSON.parse(parametersJson);
+	var result = { value:'' };
+	<#
+		IJsStringBuilder builder = new JsStringBuilder();
+		IJsExpressionConcatService concatService = new JsExpressionConcatService(builder);
+	#>
+	<#
+		var expressionGroup = this.ExpressionMetadata.Items.First();
+		//Priority = true
+		var hasPExprs = concatService.ConcatCompiledExpressions(expressionGroup.Items.Where(expression => expression.HasPriority).ToList(), expressionGroup.Operator);
+		var jshasPExprsBody = concatService.ConcatJsExpressionBody(this.ExpressionMetadata.Operator, hasPExprs);
+	 #>
+
+	 <# /* BODY START */ #>
+	if (<#= !string.IsNullOrEmpty(jshasPExprsBody) ?jshasPExprsBody :"true" #>){
+		<# 
+		   var hasntPExprs = concatService.ConcatCompiledExpressions(expressionGroup.Items.Where(expression => !expression.HasPriority).ToList(), expressionGroup.Operator);
+		   var jshasntPExprsBody = concatService.ConcatJsExpressionBody(this.ExpressionMetadata.Operator, hasntPExprs);
+		 #>
+		 <# if (this.ExpressionMetadata.ResultExpression == null){ #>
+		 result.value =<#= jshasntPExprsBody #>
+		 <# }else{ #>
+		 <#= jshasntPExprsBody #>
+		 <# } #>
+	}
+	<# /* BODY END */ #>
+	
+	<# if (this.ExpressionMetadata.ResultExpression != null){ #>
+	<# /*RESULT EXPR START */ #>
+
+		<# 
+		var resultExpGroup = this.ExpressionMetadata.ResultExpression.First();
+		var resultExp = resultExpGroup.Items.First();
+		string resultExpJs = builder.BuildFrom(resultExp);
+		 #>
+
+		<#= resultExpJs #>
+	<# /*RESULT EXPR END */ #>
+	<# }#>
+
+	 return JSON.stringify(result);
+}

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Jexpr.Common;
 using Jexpr.Models;
+using Jexpr.Templates;
 using Jint;
 using Jint.Native;
 
@@ -10,10 +11,11 @@ namespace Jexpr.Core.Impl
     public class JexprEngine : IJexprEngine
     {
         private readonly ISerializer _serializer;
-        private readonly IExpressionBuilder _expressionBuilder;
+        private readonly ILogger _logger;
         private readonly Engine _jintEngine;
 
         public readonly string ScriptsCache;
+        const string FUNC_NAME = "ExpFunc";
 
         private readonly Dictionary<string, string> _scriptPaths = new Dictionary<string, string>
         {
@@ -21,60 +23,59 @@ namespace Jexpr.Core.Impl
         };
 
 
-        internal JexprEngine(IExpressionBuilder expressionBuilder, ISerializer serializer, IScriptLoader scriptLoader)
+        internal JexprEngine(ISerializer serializer, IScriptLoader scriptLoader, ILogger logger)
         {
-            _expressionBuilder = expressionBuilder;
             _serializer = serializer;
+            _logger = logger;
 
             _jintEngine = new Engine();
-            _expressionBuilder = expressionBuilder;
 
             ScriptsCache = scriptLoader.Load(_scriptPaths);
         }
 
         public JexprEngine()
-            : this(new JsExpressionBuilder(new ExpressionStringGenerator()), new JsonNetSerializer(), new ScriptLoader())
+            : this(new JsonNetSerializer(), new JsReferenceLoader(), new NullLogger())
         {
         }
 
-        public EvalResult Evaluate(ExpressionDefinition expression, Dictionary<string, object> paramerters = null)
+        public EvalResult<T> Evaluate<T>(ExpressionMetadata metadata, Dictionary<string, object> paramerters = null)
         {
-            var result = new EvalResult();
+            EvalResult<T> result = new EvalResult<T>();
 
-            var build = _expressionBuilder.Build(expression, paramerters);
+            JexprJsGeneratorTemplate template = new JexprJsGeneratorTemplate(metadata);
 
-            string jsContent = string.Format("{0}{1};{2}", ScriptsCache, Environment.NewLine, build.Body);
+            string transformText = template.TransformText();
+            result.Js = transformText;
+
+            string jsContent = string.Format("{0}{1};{2}", ScriptsCache, Environment.NewLine, transformText);
 
             JsValue jsValue;
 
             try
             {
                 var func = _jintEngine.Execute(jsContent);
-                jsValue = paramerters != null ? func.Invoke(build.FuncName, _serializer.Serialize(paramerters)) : func.Invoke(build.FuncName);
+                jsValue = paramerters != null ? func.Invoke(FUNC_NAME, _serializer.Serialize(paramerters)) : func.Invoke(FUNC_NAME);
             }
             catch (Exception exception)
             {
-                //TODO
+                _logger.Log("", exception);
                 jsValue = new JsValue(false);
             }
 
-            switch (expression.ReturnType)
+            try
             {
-                case ReturnTypes.Number:
-                    result.Value = jsValue.AsNumber();
-                    break;
-                case ReturnTypes.Boolean:
-                    result.Value = jsValue.AsBoolean();
-                    break;
-                case ReturnTypes.String:
-                    result.Value = jsValue.AsString();
-                    break;
-                case ReturnTypes.JsonString:
-                    result.Value = _serializer.Deserialize<JsExecResult>(jsValue.AsString());
-                    break;
-                default:
-                    result.Value = jsValue.AsObject();
-                    break;
+                if (typeof(T).IsPrimitive || typeof(T) == typeof(string))
+                {
+                    result = _serializer.Deserialize<EvalResult<T>>(jsValue.AsString());
+                }
+                else
+                {
+                    result.Value = _serializer.Deserialize<T>(jsValue.AsString());
+                }
+            }
+            catch (Exception exception)
+            {
+                _logger.Log("", exception);
             }
 
             return result;

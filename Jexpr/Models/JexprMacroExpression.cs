@@ -1,7 +1,9 @@
+using Jexpr.Filters;
+
 namespace Jexpr.Models
 {
     public class JexprMacroExpression : JexprExpression
     {
-        public MacroOpDefinition MacroOp { get; set; }
+        public JexprFilter MacroOp { get; set; }
     }
 }

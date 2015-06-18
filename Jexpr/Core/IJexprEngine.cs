@@ -5,6 +5,6 @@ namespace Jexpr.Core
 {
     public interface IJexprEngine
     {
-        EvalResult Evaluate(ExpressionDefinition expression, Dictionary<string, object> paramerters = null);
+        EvalResult<T> Evaluate<T>(ExpressionMetadata metadata, Dictionary<string, object> paramerters = null);
     }
 }

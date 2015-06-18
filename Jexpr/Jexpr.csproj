@@ -46,6 +46,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -54,31 +55,53 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\EnumExtensions.cs" />
     <Compile Include="Common\ISerializer.cs" />
     <Compile Include="Common\JsonNetSerializer.cs" />
     <Compile Include="Common\ObjectExtensions.cs" />
-    <Compile Include="Core\IExpressionBuilder.cs" />
+    <Compile Include="Core\IJsExpressionConcatService.cs" />
     <Compile Include="Core\IJexprEngine.cs" />
-    <Compile Include="Core\IExpressionStringGenerator.cs" />
+    <Compile Include="Core\IJsStringBuilder.cs" />
+    <Compile Include="Core\Impl\DatetimeHelper.cs" />
+    <Compile Include="Core\Impl\IDatetimeHelper.cs" />
+    <Compile Include="Core\Impl\ILogger.cs" />
     <Compile Include="Core\Impl\JexprEngine.cs" />
-    <Compile Include="Core\Impl\ExpressionStringGenerator.cs" />
-    <Compile Include="Core\Impl\JsExpressionBuilder.cs" />
-    <Compile Include="Core\Impl\JsExpressionVisitor.cs" />
-    <Compile Include="Core\Impl\JsExecResult.cs" />
-    <Compile Include="Core\Impl\ScriptLoader.cs" />
+    <Compile Include="Core\Impl\JsStringBuilder.cs" />
+    <Compile Include="Core\Impl\JsExpressionConcatService.cs" />
+    <Compile Include="Core\Impl\NullLogger.cs" />
+    <Compile Include="Core\Impl\JsReferenceLoader.cs" />
     <Compile Include="Core\IScriptLoader.cs" />
     <Compile Include="ExpressionGroup.cs" />
     <Compile Include="ExpressionGroupOp.cs" />
     <Compile Include="ExpressionOp.cs" />
+    <Compile Include="Filters\IHasResultProperty.cs" />
+    <Compile Include="Filters\JexprFilter.cs" />
+    <Compile Include="Filters\ApplyPercentToSumFilter.cs" />
+    <Compile Include="Filters\ExistsFilter.cs" />
+    <Compile Include="Filters\GroupByFilter.cs" />
+    <Compile Include="Filters\IndexOfFilter.cs" />
+    <Compile Include="Filters\MaxFilter.cs" />
+    <Compile Include="Filters\MinFilter.cs" />
+    <Compile Include="Filters\ResultProperty.cs" />
+    <Compile Include="Filters\SelectFilter.cs" />
+    <Compile Include="Filters\SetResultFilter.cs" />
+    <Compile Include="Filters\SumFilter.cs" />
+    <Compile Include="Filters\TakeFilter.cs" />
     <Compile Include="MacroOp.cs" />
     <Compile Include="Models\JexprExpression.cs" />
-    <Compile Include="Models\ExpressionDefinition.cs" />
+    <Compile Include="Models\ExpressionMetadata.cs" />
     <Compile Include="Models\EvalResult.cs" />
     <Compile Include="Models\JsExpressionResult.cs" />
     <Compile Include="Models\JexprMacroExpression.cs" />
-    <Compile Include="Models\MacroOpDefinition.cs" />
+    <Compile Include="Models\SimpleJexprExpression.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReturnTypes.cs" />
+    <Compile Include="Templates\JexprJsGeneratorTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>JexprJsGeneratorTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\JexprJsGeneratorTemplate.Parameters.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Scripts\lodash.js" />
@@ -87,7 +110,18 @@
     <EmbeddedResource Include="Scripts\lodash.min.js" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Templates\JexprJsGeneratorTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>JexprJsGeneratorTemplate.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

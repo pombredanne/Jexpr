@@ -1,7 +1,9 @@
 ﻿namespace Jexpr.Models
 {
-    public class EvalResult
+    public class EvalResult<T>
     {
-        public dynamic Value { get; set; }
+        public T Value { get; set; }
+
+        public string Js { get; set; }
     }
 }

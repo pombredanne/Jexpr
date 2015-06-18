@@ -6,6 +6,11 @@ namespace Jexpr
         SumOfMaxXItem,
         Min,
         Max,
-        In
+        Contains,
+        GroupBy,
+        Where,
+        Sum,
+        Select,
+        Assign
     }
 }

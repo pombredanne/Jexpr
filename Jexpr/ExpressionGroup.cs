@@ -7,6 +7,6 @@ namespace Jexpr
     {
         public List<JexprExpression> Items { get; set; }
 
-        public ExpressionGroupOp Op { get; set; }
+        public ExpressionGroupOp Operator { get; set; }
     }
 }
