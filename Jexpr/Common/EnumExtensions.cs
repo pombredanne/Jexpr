@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 
 namespace Jexpr.Common
 {
-    public static class EnumExtensions
+    internal static class EnumExtensions
     {
         public static T GetAttribute<T>(this Enum value) where T : Attribute
         {
@@ -18,6 +18,5 @@ namespace Jexpr.Common
             var attribute = value.GetAttribute<EnumMemberAttribute>();
             return attribute == null ? value.ToString() : attribute.Value;
         }
-
     }
 }

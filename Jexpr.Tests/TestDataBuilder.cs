@@ -59,8 +59,6 @@ namespace Jexpr.Tests
 
             return metadata;
         }
-
-
         public static List<ExpressionGroup> GetResultExpression(int num)
         {
             return new List<ExpressionGroup>
@@ -81,7 +79,6 @@ namespace Jexpr.Tests
                 }
             };
         }
-
         public static ExpressionMetadata GetBasicExprDef(int num, ExpressionOp op, ReturnTypes returnType, string key)
         {
             var expressionList = new List<JexprExpression>
@@ -143,7 +140,6 @@ namespace Jexpr.Tests
 
             return expressionMetadata;
         }
-
         public static ExpressionMetadata GetMacroExprDef4GroupBy()
         {
             ExpressionMetadata expressionMetadata = new ExpressionMetadata
@@ -193,13 +189,13 @@ namespace Jexpr.Tests
                                             {
                                                 PropertyToVisit = "Parameters.BoutiqueId",
                                                 Op = MacroOp.Contains,
-                                                ValueToSearch = new List<int> {12, 14}
+                                                ValueToLookup = new List<int> {12, 14}
                                             },
                                             new IndexOfFilter
                                             {
                                                 PropertyToVisit = "Parameters.Brand",
                                                 Op = MacroOp.Contains,
-                                                ValueToSearch = new List<string> {"Adidas"}
+                                                ValueToLookup = new List<string> {"Adidas"}
                                             }
                                         },
                                         Op = MacroOp.Select,
@@ -252,6 +248,77 @@ namespace Jexpr.Tests
                                         MultiplierPropertToVisit = "Quantity"
                                     },
                                    Op = MacroOp.Assign
+                                }
+                            }
+                        }
+                    }
+                },
+                Operator = ExpressionGroupOp.Return,
+                ReturnType = ReturnTypes.JsonString
+            };
+
+            return expressionMetadata;
+        }
+
+        public static ExpressionMetadata GetMacroExprMetadata4ComplexScenarion2()
+        {
+            ExpressionMetadata expressionMetadata = new ExpressionMetadata
+            {
+                Items = new List<ExpressionGroup>
+                {
+                    new ExpressionGroup
+                    {
+                        Items = new List<JexprExpression>
+                        {
+                            new JexprMacroExpression
+                            {
+                                Key = "Basket.Products",
+                                MacroOp =
+                                    new SelectFilter
+                                    {
+                                        Filters = new List<JexprFilter>
+                                        {
+                                            new IndexOfFilter
+                                            {
+                                                PropertyToVisit = "Parameters.Brand",
+                                                Op = MacroOp.Contains,
+                                                ValueToLookup = new List<string> {"Adidas"}
+                                            }
+                                        },
+                                        Op = MacroOp.Select,
+                                        AssignTo = "Basket.Products"
+                                    }
+                            }
+                        },
+
+                        Operator = ExpressionGroupOp.And
+                    }
+                },
+                ResultExpression = new List<ExpressionGroup>
+                {
+                    new ExpressionGroup
+                    {
+                        Items = new List<JexprExpression>
+                        {
+                            new JexprMacroExpression
+                            {
+                                Key = "Basket.Products",
+                                MacroOp = new SetResultFilter
+                                {
+                                    ResultProperties = new List<ResultProperty>
+                                    {
+                                        new ResultProperty {Name = "Discount"},
+                                        new ResultProperty {Name = "Basket", PropertyToPickUpFromParameters = "Basket"}
+                                    },
+                                    InnerFilter = new ApplyPercentToSumFilter
+                                    {
+                                        PropertyToVisit = "UnitPrice",
+                                        Percent = 20,
+                                        Op = MacroOp.Sum,
+                                        ResultProperty = "Discount",
+                                        MultiplierPropertToVisit = "Quantity"
+                                    },
+                                    Op = MacroOp.Assign
                                 }
                             }
                         }

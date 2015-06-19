@@ -2,7 +2,7 @@
 
 namespace Jexpr.Core
 {
-    public interface IJsStringBuilder
+    internal interface IJsStringBuilder
     {
         string BuildFrom(JexprExpression expression);
     }

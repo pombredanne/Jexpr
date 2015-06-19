@@ -23,7 +23,7 @@ namespace Jexpr.Templates
     
     #line 1 "D:\Trendyol\Trendyol\FrontEnd\Dev\API\PromotionApi\Jexpr\Templates\JexprJsGeneratorTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "12.0.0.0")]
-    public partial class JexprJsGeneratorTemplate : JexprJsGeneratorTemplateBase
+    internal partial class JexprJsGeneratorTemplate : JexprJsGeneratorTemplateBase
     {
 #line hidden
         /// <summary>
@@ -31,9 +31,8 @@ namespace Jexpr.Templates
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("\r\n");
-            this.Write("function ExpFunc(parametersJson) {\r\n\r\n\tvar p = JSON.parse(parametersJson);\r\n\tvar " +
-                    "result = { value:\'\' };\r\n\t");
+            this.Write("\r\nfunction ExpFunc(parametersJson) {\r\n\r\n\tvar p = JSON.parse(parametersJson);\r\n\tva" +
+                    "r result = { value:\'\' };\r\n\t");
             
             #line 14 "D:\Trendyol\Trendyol\FrontEnd\Dev\API\PromotionApi\Jexpr\Templates\JexprJsGeneratorTemplate.tt"
 
@@ -65,7 +64,7 @@ namespace Jexpr.Templates
             this.Write("\tif (");
             
             #line 26 "D:\Trendyol\Trendyol\FrontEnd\Dev\API\PromotionApi\Jexpr\Templates\JexprJsGeneratorTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(!string.IsNullOrEmpty(jshasPExprsBody) ?jshasPExprsBody :"true"));
+            this.Write(this.ToStringHelper.ToStringWithCulture(!string.IsNullOrEmpty(jshasPExprsBody) ? jshasPExprsBody :"true"));
             
             #line default
             #line hidden
@@ -179,7 +178,7 @@ namespace Jexpr.Templates
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "12.0.0.0")]
-    public class JexprJsGeneratorTemplateBase
+    internal class JexprJsGeneratorTemplateBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

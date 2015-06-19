@@ -39,16 +39,6 @@
     <Reference Include="Common.Testing.NUnit">
       <HintPath>..\packages\Common.Testing.NUnit.1.0.0\lib\net45\Common.Testing.NUnit.dll</HintPath>
     </Reference>
-    <Reference Include="FluentAssertions, Version=3.3.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
-      <HintPath>..\packages\FluentAssertions.3.3.0\lib\net45\FluentAssertions.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="FluentAssertions.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
-      <HintPath>..\packages\FluentAssertions.3.3.0\lib\net45\FluentAssertions.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Moq, Version=4.2.1502.911, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
-      <HintPath>..\packages\Moq.4.2.1502.0911\lib\net40\Moq.dll</HintPath>
     <Reference Include="FluentAssertions">
       <HintPath>..\packages\FluentAssertions.3.3.0\lib\net45\FluentAssertions.dll</HintPath>
     </Reference>
@@ -79,11 +69,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Basket.cs" />
-    <Compile Include="ExpressionEvalContextTests.cs" />
-    <Compile Include="PromotionApplyResult.cs" />
+    <Compile Include="JexprEngineComplexScenarioTests.cs" />
+    <Compile Include="JexprEngineTests.cs" />
+    <Compile Include="Models\Basket.cs" />
+    <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\TestApplyResult.cs" />
+    <Compile Include="Models\PromotionRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TemplateEngineTests.cs" />
+    <Compile Include="TemplateEngine.GroupBy.Tests.cs" />
+    <Compile Include="JexprT4TemplateTransformTests.cs" />
     <Compile Include="TestDataBuilder.cs" />
   </ItemGroup>
   <ItemGroup>

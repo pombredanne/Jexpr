@@ -12,7 +12,7 @@ namespace Jexpr.Core.Impl
     {
         private readonly ISerializer _serializer;
         private readonly ILogger _logger;
-        private readonly Engine _jintEngine;
+        private Engine _jintEngine;
 
         public readonly string ScriptsCache;
         const string FUNC_NAME = "ExpFunc";
@@ -27,9 +27,7 @@ namespace Jexpr.Core.Impl
         {
             _serializer = serializer;
             _logger = logger;
-
-            _jintEngine = new Engine();
-
+            //_jintEngine = new Engine();
             ScriptsCache = scriptLoader.Load(_scriptPaths);
         }
 
@@ -38,23 +36,38 @@ namespace Jexpr.Core.Impl
         {
         }
 
-        public EvalResult<T> Evaluate<T>(ExpressionMetadata metadata, Dictionary<string, object> paramerters = null)
+        public JexprResult<T> Evaluate<T>(ExpressionMetadata metadata, Dictionary<string, object> paramerters = null)
         {
-            EvalResult<T> result = new EvalResult<T>();
-
             JexprJsGeneratorTemplate template = new JexprJsGeneratorTemplate(metadata);
+            string script = template.TransformText();
 
-            string transformText = template.TransformText();
-            result.Js = transformText;
+            var result = EvaluateImpl<T>(script, paramerters);
+            result.Js = script;
 
-            string jsContent = string.Format("{0}{1};{2}", ScriptsCache, Environment.NewLine, transformText);
+            return result;
+        }
+
+        public JexprResult<T> Evaluate<T>(string script, Dictionary<string, object> paramerters = null)
+        {
+            return EvaluateImpl<T>(script, paramerters);
+        }
+
+        private JexprResult<T> EvaluateImpl<T>(string script, Dictionary<string, object> paramerters)
+        {
+            //TODO: JINT SCRPIPT CACHE BY FUNCNAME
+            _jintEngine = new Engine();
+            JexprResult<T> result = new JexprResult<T>();
+
+            string js = string.Format("{0}{1};{2}", ScriptsCache, Environment.NewLine, script);
 
             JsValue jsValue;
 
             try
             {
-                var func = _jintEngine.Execute(jsContent);
-                jsValue = paramerters != null ? func.Invoke(FUNC_NAME, _serializer.Serialize(paramerters)) : func.Invoke(FUNC_NAME);
+                var func = _jintEngine.Execute(js);
+                jsValue = paramerters != null
+                    ? func.Invoke(FUNC_NAME, _serializer.Serialize(paramerters))
+                    : func.Invoke(FUNC_NAME);
             }
             catch (Exception exception)
             {
@@ -66,7 +79,7 @@ namespace Jexpr.Core.Impl
             {
                 if (typeof(T).IsPrimitive || typeof(T) == typeof(string))
                 {
-                    result = _serializer.Deserialize<EvalResult<T>>(jsValue.AsString());
+                    result = _serializer.Deserialize<JexprResult<T>>(jsValue.AsString());
                 }
                 else
                 {

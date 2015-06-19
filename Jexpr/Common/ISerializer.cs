@@ -1,6 +1,6 @@
 ﻿namespace Jexpr.Common
 {
-    public interface ISerializer
+    internal interface ISerializer
     {
         T Deserialize<T>(string json);
         string Serialize<T>(T value);

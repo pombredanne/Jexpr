@@ -90,7 +90,7 @@
     <Compile Include="MacroOp.cs" />
     <Compile Include="Models\JexprExpression.cs" />
     <Compile Include="Models\ExpressionMetadata.cs" />
-    <Compile Include="Models\EvalResult.cs" />
+    <Compile Include="Models\JexprResult.cs" />
     <Compile Include="Models\JsExpressionResult.cs" />
     <Compile Include="Models\JexprMacroExpression.cs" />
     <Compile Include="Models\SimpleJexprExpression.cs" />

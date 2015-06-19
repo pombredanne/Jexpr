@@ -3,7 +3,7 @@ using System.Dynamic;
 
 namespace Jexpr.Common
 {
-    public static class ObjectExtensions
+    internal static class ObjectExtensions
     {
         public static dynamic ToDynamic(this IDictionary<string, object> dict)
         {

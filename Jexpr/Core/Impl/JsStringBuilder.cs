@@ -4,7 +4,7 @@ using Jexpr.Models;
 
 namespace Jexpr.Core.Impl
 {
-    public class JsStringBuilder : IJsStringBuilder
+    internal class JsStringBuilder : IJsStringBuilder
     {
         public string BuildFrom(JexprExpression expression)
         {
@@ -120,7 +120,7 @@ namespace Jexpr.Core.Impl
                         {
                             IndexOfFilter definition = new IndexOfFilter
                             {
-                                ValueToSearch = jexprMacroExpression.Value,
+                                ValueToLookup = jexprMacroExpression.Value,
                                 Op = jexprFilter.Op,
                                 PropertyToVisit = jexprFilter.PropertyToVisit
                             };
