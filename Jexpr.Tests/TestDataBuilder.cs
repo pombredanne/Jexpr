@@ -260,6 +260,77 @@ namespace Jexpr.Tests
             return expressionMetadata;
         }
 
+        public static ExpressionMetadata GetMacroExprMetadata4ComplexScenarion3()
+        {
+            ExpressionMetadata expressionMetadata = new ExpressionMetadata
+            {
+                Items = new List<ExpressionGroup>
+                {
+                    new ExpressionGroup
+                    {
+                        Items = new List<JexprExpression>
+                        {
+                            new JexprMacroExpression
+                            {
+                                Key = "Basket.Products",
+                                MacroOp =
+                                    new SelectFilter
+                                    {
+                                        Filters = new List<JexprFilter>
+                                        {
+                                            new IndexOfFilter
+                                            {
+                                                PropertyToVisit = "Parameters.Brand",
+                                                Op = MacroOp.Contains,
+                                                ValueToLookup = new List<string> {"Nike"}
+                                            }
+                                        },
+                                        Op = MacroOp.Select,
+                                        AssignTo = "Basket.Products"
+                                    }
+                            }
+                        },
+
+                        Operator = ExpressionGroupOp.And
+                    }
+                },
+                ResultExpression = new List<ExpressionGroup>
+                {
+                    new ExpressionGroup
+                    {
+                        Items = new List<JexprExpression>
+                        {
+                            new JexprMacroExpression
+                            {
+                                Key = "Basket.Products",
+                                MacroOp = new SetResultFilter
+                                {
+                                    ResultProperties = new List<ResultProperty>
+                                    {
+                                        new ResultProperty {Name = "Discount"},
+                                        new ResultProperty {Name = "Basket", PropertyToPickUpFromParameters = "Basket"}
+                                    },
+                                    InnerFilter = new ApplyPercentToSumFilter
+                                    {
+                                        PropertyToVisit = "UnitPrice",
+                                        Percent = 20,
+                                        Op = MacroOp.Sum,
+                                        ResultProperty = "Discount",
+                                        MultiplierPropertToVisit = "Quantity"
+                                    },
+                                    Op = MacroOp.Assign
+                                }
+                            }
+                        }
+                    }
+                },
+                Operator = ExpressionGroupOp.Return,
+                ReturnType = ReturnTypes.JsonString
+            };
+
+            return expressionMetadata;
+        }
+
         public static ExpressionMetadata GetMacroExprMetadata4ComplexScenarion2()
         {
             ExpressionMetadata expressionMetadata = new ExpressionMetadata
@@ -317,6 +388,75 @@ namespace Jexpr.Tests
                                         Op = MacroOp.Sum,
                                         ResultProperty = "Discount",
                                         MultiplierPropertToVisit = "Quantity"
+                                    },
+                                    Op = MacroOp.Assign
+                                }
+                            }
+                        }
+                    }
+                },
+                Operator = ExpressionGroupOp.Return,
+                ReturnType = ReturnTypes.JsonString
+            };
+
+            return expressionMetadata;
+        }
+
+        public static ExpressionMetadata GetMacroExprMetadata4ComplexScenarion4()
+        {
+            ExpressionMetadata expressionMetadata = new ExpressionMetadata
+            {
+                Items = new List<ExpressionGroup>
+                {
+                    new ExpressionGroup
+                    {
+                        Items = new List<JexprExpression>
+                        {
+                            new JexprMacroExpression
+                            {
+                                Key = "Basket.Products",
+                                MacroOp =
+                                    new SelectFilter
+                                    {
+                                        Filters = new List<JexprFilter>
+                                        {
+                                            new IndexOfFilter
+                                            {
+                                                PropertyToVisit = "Parameters.Brand",
+                                                Op = MacroOp.Contains,
+                                                ValueToLookup = new List<string> {"Nike"}
+                                            }
+                                        },
+                                        Op = MacroOp.Select,
+                                        AssignTo = "Basket.Products"
+                                    }
+                            }
+                        },
+
+                        Operator = ExpressionGroupOp.And
+                    }
+                },
+                ResultExpression = new List<ExpressionGroup>
+                {
+                    new ExpressionGroup
+                    {
+                        Items = new List<JexprExpression>
+                        {
+                            new JexprMacroExpression
+                            {
+                                Key = "Basket.Products",
+                                MacroOp = new SetResultFilter
+                                {
+                                    ResultProperties = new List<ResultProperty>
+                                    {
+                                        new ResultProperty {Name = "Discount"},
+                                        new ResultProperty {Name = "Basket", PropertyToPickUpFromParameters = "Basket"}
+                                    },
+                                    InnerFilter = new SetTakeToResultFilter
+                                    {
+                                        PropertyToVisit = "UnitPrice",
+                                         ResultProperty = "Discount",
+                                        Op = MacroOp.SumOfMinXItem
                                     },
                                     Op = MacroOp.Assign
                                 }

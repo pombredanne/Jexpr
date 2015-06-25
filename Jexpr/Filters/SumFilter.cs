@@ -13,10 +13,10 @@
                                   (function () {{
                                         var _pTotal=0;
                                         _.chain({0}).each(function (item) {{
-                                            var _p1{1} = item.{1};
-                                            var _p2{2} = item.{2};
+                                            var _p{1} = item.{1};
+                                            var _p{2} = item.{2};
 
-                                            _pTotal += (_p1{1} * _p2{2});
+                                            _pTotal += (_p{1} * _p{2});
                                         }}).value();
             
                                         return _pTotal;
@@ -29,9 +29,9 @@
                                   (function () {{
                                         var _pTotal=0;
                                         _.chain({0}).each(function (item) {{
-                                            var _p1 = item.{1};
+                                            var _p{1} = item.{1};
 
-                                            _pTotal += _p1;
+                                            _pTotal += _p{1};
                                         }}).value();
             
                                         return _pTotal;

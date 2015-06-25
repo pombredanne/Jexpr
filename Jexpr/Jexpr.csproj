@@ -55,15 +55,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\EnumerableExtensions.cs" />
     <Compile Include="Common\EnumExtensions.cs" />
     <Compile Include="Common\ISerializer.cs" />
     <Compile Include="Common\JsonNetSerializer.cs" />
     <Compile Include="Common\ObjectExtensions.cs" />
+    <Compile Include="Common\SubSet.cs" />
     <Compile Include="Core\IJsExpressionConcatService.cs" />
     <Compile Include="Core\IJexprEngine.cs" />
     <Compile Include="Core\IJsStringBuilder.cs" />
-    <Compile Include="Core\Impl\DatetimeHelper.cs" />
-    <Compile Include="Core\Impl\IDatetimeHelper.cs" />
     <Compile Include="Core\Impl\ILogger.cs" />
     <Compile Include="Core\Impl\JexprEngine.cs" />
     <Compile Include="Core\Impl\JsStringBuilder.cs" />
@@ -85,6 +85,7 @@
     <Compile Include="Filters\ResultProperty.cs" />
     <Compile Include="Filters\SelectFilter.cs" />
     <Compile Include="Filters\SetResultFilter.cs" />
+    <Compile Include="Filters\SetTakeToResultFilter.cs" />
     <Compile Include="Filters\SumFilter.cs" />
     <Compile Include="Filters\TakeFilter.cs" />
     <Compile Include="MacroOp.cs" />

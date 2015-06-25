@@ -12,7 +12,8 @@
                                                 .take({2})
                                                 .sum()
                                                 .value() )",
-                parameterToChain, PropertyToVisit, Take, SortByOrder);
+                parameterToChain, PropertyToVisit, Take,
+                SortByOrder ? bool.TrueString.ToLower() : bool.FalseString.ToLower());
 
             return result;
         }
