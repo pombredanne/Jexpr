@@ -4,7 +4,7 @@
 
 **Jexpr** is an experimental expression engine that creates javascript code from custom definitions to evaluate expressions. It uses [Jint](https://github.com/sebastienros/jint "Javascript Interpreter for .NET") and [Lodash](https://github.com/lodash/lodash "A JavaScript utility library delivering consistency, modularity, performance, & extras.") internally.
 
-**Sammple generated js from following pseudo definition**
+**Sample generated js from following pseudo definition**
 
 ```sh
   WITH (`basket`, `profile`, `payment information`) do
