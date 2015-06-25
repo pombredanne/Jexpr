@@ -4,8 +4,12 @@
 
 **Jexpr** is an experimental expression engine that creates javascript code from custom definitions to evaluate expressions. It uses [Jint](https://github.com/sebastienros/jint "Javascript Interpreter for .NET") and [Lodash](https://github.com/lodash/lodash "A JavaScript utility library delivering consistency, modularity, performance, & extras.") internally.
 
-**PSEUDO EXPRESSION**
+**INTRODUCTION**
+- [Pseudo Expression](#pseudo-expression)
+- [Csharp Code Sample](#csharp-code-sample)
+- [Generated Js](#generated-js)
 
+## Pseudo Expression
 ```sh
   WITH (`basket`, `profile`, `payment information`) do
             `BoutiqueId` should be one of [12, 14]  
@@ -16,9 +20,7 @@
       APPLY 20% TO `Total Basket Price`
 ```
 
-
-**CHARP CODE**
-
+##Csharp Code Sample
 ```csharp
 ExpressionMetadata expressionMetadata = new ExpressionMetadata {
 	Items = new List < ExpressionGroup > {
@@ -101,7 +103,7 @@ ExpressionMetadata expressionMetadata = new ExpressionMetadata {
 };
 ```
 
-**GENERATED JS FUNCTION**
+##Generated Js
 ```js
 function ExpFunc(parametersJson) {
 
