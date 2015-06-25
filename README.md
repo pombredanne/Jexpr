@@ -11,7 +11,7 @@
             `BoutiqueId` should be one of [12, 14]  
       AND   `Brand` should be one of [Adidas]
       AND   `BankBin` should be one of [Bank1, Bank2, Bank3] 
-      AND   `Age` should greater than equal 20
+      AND   `Age` should greater than or equal 20
   RET   
       APPLY 20% TO `Total Basket Price`
 ```
