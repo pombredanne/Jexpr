@@ -110,12 +110,14 @@ function ExpFunc(parametersJson) {
     var p = JSON.parse(parametersJson);
     var result = {value: ''};
 
-    if (( ["Bank1", "Bank2", "Bank3"].indexOf(p.Parameters.BankBin) !== -1 ) && (p.Parameters.Age >= 20)) {
+    if (( ["Bank1", "Bank2", "Bank3"].indexOf(p.Parameters.BankBin) !== -1 ) 
+       && (p.Parameters.Age >= 20)) {
         (
             p.Basket.Products = (function () {
                 var _pFilterResult = _.chain(p.Basket.Products).filter(function (item) {
 
-                    if (( [12, 14].indexOf(item.Parameters.BoutiqueId) !== -1 ) && ( ["Adidas"].indexOf(item.Parameters.Brand) !== -1 )) {
+                    if (( [12, 14].indexOf(item.Parameters.BoutiqueId) !== -1 ) 
+                    && ( ["Adidas"].indexOf(item.Parameters.Brand) !== -1 )) {
                         return true;
                     }
 
