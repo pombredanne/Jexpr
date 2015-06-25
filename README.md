@@ -4,7 +4,7 @@
 
 **Jexpr** is an experimental expression engine that creates javascript code from custom definitions to evaluate expressions. It uses [Jint](https://github.com/sebastienros/jint "Javascript Interpreter for .NET") and [Lodash](https://github.com/lodash/lodash "A JavaScript utility library delivering consistency, modularity, performance, & extras.") internally.
 
-**Sample generated js from following pseudo definition**
+**PSEUDO EXPRESSION**
 
 ```sh
   WITH (`basket`, `profile`, `payment information`) do
@@ -15,6 +15,93 @@
   RET   
       APPLY 20% TO `Total Basket Price`
 ```
+
+
+**CHARP CODE**
+
+```csharp
+ExpressionMetadata expressionMetadata = new ExpressionMetadata {
+	Items = new List < ExpressionGroup > {
+		new ExpressionGroup {
+			Items = new List < JexprExpression > {
+				new JexprMacroExpression {
+					Key = "Products",
+					MacroOp = new SelectFilter {
+						Filters = new List < JexprFilter > {
+							new IndexOfFilter {
+								PropertyToVisit = "BoutiqueId",
+								Op = MacroOp.Contains,
+								ValueToLookup = new List < int > {
+									12, 14
+								}
+							},
+							new IndexOfFilter {
+								PropertyToVisit = "Brand",
+								Op = MacroOp.Contains,
+								ValueToLookup = new List < string > {
+									"Adidas"
+								}
+							}
+						},
+						Op = MacroOp.Select,
+						AssignTo = "Basket.Products"
+					}
+				},
+				new JexprMacroExpression {
+					Key = "BankBin",
+					Value = new List < string > {
+						"Garanti", "Teb", "Finans"
+					},
+					HasPriority = true,
+					MacroOp = new ExistsFilter {
+						PropertyToVisit = "BankBin", Op = MacroOp.Contains
+					}
+				},
+				new SimpleJexprExpression {
+					Key = "Age",
+					Value = 20,
+					HasPriority = true,
+					Operator = ExpressionOp.GreaterThenOrEqual
+				}
+
+			},
+
+			Operator = ExpressionGroupOp.And
+		}
+	},
+	ResultExpression = new List < ExpressionGroup > {
+		new ExpressionGroup {
+			Items = new List < JexprExpression > {
+				new JexprMacroExpression {
+					Key = "Products",
+					MacroOp = new SetResultFilter {
+						ResultProperties = new List < ResultProperty > {
+							new ResultProperty {
+								Name = "Discount"
+							},
+							new ResultProperty {
+								Name = "Basket", PropertyToPickUpFromParameters = "Basket"
+							}
+						},
+						InnerFilter = new ApplyPercentToSumFilter {
+							PropertyToVisit = "UnitPrice",
+							Percent = 20,
+							Op = MacroOp.Sum,
+							ResultProperty = "Discount",
+							MultiplierPropertToVisit = "Quantity"
+						},
+						Op = MacroOp.Assign
+					}
+				}
+			}
+		}
+	},
+	Operator = ExpressionGroupOp.Return,
+	ReturnType = ReturnTypes.JsonString
+};
+```
+
+**GENERATED JS FUNCTION**
 ```js
 function ExpFunc(parametersJson) {
 
