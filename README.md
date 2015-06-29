@@ -11,7 +11,7 @@
 
 ## Pseudo Expression
 ```sh
-  WITH (`basket`, `profile`, `payment information`) do
+  WITH (`basket`, `profile`, `payment information`) DO
             `BoutiqueId` should be one of [12, 14]  
       AND   `Brand` should be one of [Adidas]
       AND   `BankBin` should be one of [Bank1, Bank2, Bank3] 
