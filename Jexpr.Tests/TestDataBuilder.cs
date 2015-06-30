@@ -55,8 +55,7 @@ namespace Jexpr.Tests
                     }
                 },
 
-                Operator = ExpressionGroupOp.And,
-                ReturnType = ReturnTypes.Boolean
+                Operator = ExpressionGroupOp.And
             };
 
             return metadata;
@@ -72,8 +71,7 @@ namespace Jexpr.Tests
                         new MacroExpression
                         {
                             Key = "Basket.Products",
-                            MacroOperator =
-                                new TakeFilter {PropertyToVisit = "UnitPrice", Take = 2, Operator = FilterOperator.SumOfMinXItem}
+                            MacroOperator =new AssignTakeSumOfMinXItemToResultFilter {PropertyToVisit = "UnitPrice", Take = 2}
                         }
                     },
 
@@ -81,7 +79,7 @@ namespace Jexpr.Tests
                 }
             };
         }
-        public static ExpressionMetadata GetBasicExprDef(int num, ExpressionOp op, ReturnTypes returnType, string key)
+        public static ExpressionMetadata GetBasicExprDef(int num, ExpressionOp op, string key)
         {
             var expressionList = new List<JexprExpression>
             {
@@ -101,24 +99,22 @@ namespace Jexpr.Tests
                     }
                 },
 
-                Operator = ExpressionGroupOp.And,
-                ReturnType = returnType
+                Operator = ExpressionGroupOp.And
             };
 
             return expressionMetadata;
         }
-        public static ExpressionMetadata GetMacroExprDef4MinMax(int num, ExpressionOp op, ReturnTypes returnType, string key, FilterOperator filterOperator)
+        public static ExpressionMetadata GetMacroExprDef4MinMax(int num, ExpressionOp op, string key, bool max)
         {
-            AbstractFilter filter = null;
+            AbstractFilter filter;
 
-            switch (filterOperator)
+            if (max)
             {
-                case FilterOperator.Min:
-                    filter = new MinFilter { PropertyToVisit = "UnitPrice", Operator = filterOperator };
-                    break;
-                case FilterOperator.Max:
-                    filter = new MaxFilter { PropertyToVisit = "UnitPrice", Operator = filterOperator };
-                    break;
+                filter = new MaxFilter { PropertyToVisit = "UnitPrice" };
+            }
+            else
+            {
+                filter = new MinFilter { PropertyToVisit = "UnitPrice" };
             }
 
             ExpressionMetadata expressionMetadata = new ExpressionMetadata
@@ -136,8 +132,7 @@ namespace Jexpr.Tests
                     }
                 },
 
-                Operator = ExpressionGroupOp.And,
-                ReturnType = returnType
+                Operator = ExpressionGroupOp.And
             };
 
             return expressionMetadata;
@@ -155,15 +150,14 @@ namespace Jexpr.Tests
                             new MacroExpression
                             {
                                 Key = "Basket.Products",
-                                MacroOperator = new GroupByFilter{PropertyToVisit = "Parameters.BoutiqueId",Key = "BoutiqueId",GroupSet = "Products",Operator = FilterOperator.GroupBy}
+                                MacroOperator = new GroupByFilter{PropertyToVisit = "Parameters.BoutiqueId",Key = "BoutiqueId",GroupSet = "Products"}
                             }
                         },
 
                         Operator = ExpressionGroupOp.And
                     }
                 },
-                Operator = ExpressionGroupOp.Return,
-                ReturnType = ReturnTypes.JsonString
+                Operator = ExpressionGroupOp.Return
             };
 
             return expressionMetadata;
@@ -190,27 +184,22 @@ namespace Jexpr.Tests
                                             new IndexOfFilter
                                             {
                                                 PropertyToVisit = "Parameters.BoutiqueId",
-                                                Operator = FilterOperator.Contains,
                                                 ValueToLookup = new List<int> {12, 14}
                                             },
                                             new IndexOfFilter
                                             {
                                                 PropertyToVisit = "Parameters.Brand",
-                                                Operator = FilterOperator.Contains,
                                                 ValueToLookup = new List<string> {"Adidas"}
                                             }
                                         },
-                                        Operator = FilterOperator.Select,
                                         AssignTo = "Basket.Products"
                                     }
                             },
                             new MacroExpression
                             {
                                 Key = "Parameters.BankBin",
-                                Value = new List<string> {"Garanti", "Teb", "Finans"},
                                 HasPriority = true,
-                                MacroOperator =
-                                    new ExistsFilter {PropertyToVisit = "Parameters.BankBin", Operator = FilterOperator.Contains}
+                                MacroOperator =new ExistsFilter {PropertyToVisit = "Parameters.BankBin",  ValueToSearch = new List<string> {"Garanti", "Teb", "Finans"}}
                             },
                             new BasicExpression
                             {
@@ -245,18 +234,15 @@ namespace Jexpr.Tests
                                     {
                                         PropertyToVisit = "UnitPrice",
                                         Percent = 20,
-                                        Operator = FilterOperator.Sum,
                                         ResultProperty = "Discount",
                                         MultiplierPropertyToVisit = "Quantity"
-                                    },
-                                   Operator = FilterOperator.Assign
+                                    }
                                 }
                             }
                         }
                     }
                 },
-                Operator = ExpressionGroupOp.Return,
-                ReturnType = ReturnTypes.JsonString
+                Operator = ExpressionGroupOp.Return
             };
 
             return expressionMetadata;
@@ -275,19 +261,16 @@ namespace Jexpr.Tests
                             new MacroExpression
                             {
                                 Key = "Basket.Products",
-                                MacroOperator =
-                                    new SelectFilter
+                                MacroOperator = new SelectFilter
                                     {
                                         Filters = new List<AbstractFilter>
                                         {
                                             new IndexOfFilter
                                             {
                                                 PropertyToVisit = "Parameters.Brand",
-                                                Operator = FilterOperator.Contains,
                                                 ValueToLookup = new List<string> {"Nike"}
                                             }
                                         },
-                                        Operator = FilterOperator.Select,
                                         AssignTo = "Basket.Products"
                                     }
                             }
@@ -316,18 +299,15 @@ namespace Jexpr.Tests
                                     {
                                         PropertyToVisit = "UnitPrice",
                                         Percent = 20,
-                                        Operator = FilterOperator.Sum,
                                         ResultProperty = "Discount",
                                         MultiplierPropertyToVisit = "Quantity"
-                                    },
-                                    Operator = FilterOperator.Assign
+                                    }
                                 }
                             }
                         }
                     }
                 },
-                Operator = ExpressionGroupOp.Return,
-                ReturnType = ReturnTypes.JsonString
+                Operator = ExpressionGroupOp.Return
             };
 
             return expressionMetadata;
@@ -354,11 +334,9 @@ namespace Jexpr.Tests
                                             new IndexOfFilter
                                             {
                                                 PropertyToVisit = "Parameters.Brand",
-                                                Operator = FilterOperator.Contains,
                                                 ValueToLookup = new List<string> {"Adidas"}
                                             }
                                         },
-                                        Operator = FilterOperator.Select,
                                         AssignTo = "Basket.Products"
                                     }
                             }
@@ -387,18 +365,15 @@ namespace Jexpr.Tests
                                     {
                                         PropertyToVisit = "UnitPrice",
                                         Percent = 20,
-                                        Operator = FilterOperator.Sum,
                                         ResultProperty = "Discount",
                                         MultiplierPropertyToVisit = "Quantity"
                                     },
-                                    Operator = FilterOperator.Assign
                                 }
                             }
                         }
                     }
                 },
-                Operator = ExpressionGroupOp.Return,
-                ReturnType = ReturnTypes.JsonString
+                Operator = ExpressionGroupOp.Return
             };
 
             return expressionMetadata;
@@ -425,11 +400,9 @@ namespace Jexpr.Tests
                                             new IndexOfFilter
                                             {
                                                 PropertyToVisit = "Parameters.Brand",
-                                                Operator = FilterOperator.Contains,
                                                 ValueToLookup = new List<string> {"Nike"}
                                             }
                                         },
-                                        Operator = FilterOperator.Select,
                                         AssignTo = "Basket.Products"
                                     }
                             }
@@ -454,20 +427,17 @@ namespace Jexpr.Tests
                                         new ResultProperty {Name = "Discount"},
                                         new ResultProperty {Name = "Basket", PropertyToPickUpFromParameters = "Basket"}
                                     },
-                                    InnerFilter = new AssignTakeToResultFilter
+                                    InnerFilter = new AssignTakeSumOfMinXItemToResultFilter
                                     {
                                         PropertyToVisit = "UnitPrice",
                                          ResultProperty = "Discount",
-                                        Operator = FilterOperator.SumOfMinXItem
                                     },
-                                    Operator = FilterOperator.Assign
                                 }
                             }
                         }
                     }
                 },
-                Operator = ExpressionGroupOp.Return,
-                ReturnType = ReturnTypes.JsonString
+                Operator = ExpressionGroupOp.Return
             };
 
             return expressionMetadata;
@@ -495,11 +465,9 @@ namespace Jexpr.Tests
                                             new IndexOfFilter
                                             {
                                                 PropertyToVisit = "Parameters.Brand",
-                                                Operator = FilterOperator.Contains,
                                                 ValueToLookup = new List<string> {"Adidas"}
                                             }
                                         },
-                                        Operator = FilterOperator.Select,
                                         AssignTo = "Basket.Products"
                                     }
                             }
@@ -528,23 +496,20 @@ namespace Jexpr.Tests
                                     {
                                         PropertyToVisit = "UnitPrice",
                                         Amount = 100,
-                                        Operator = FilterOperator.Sum,
                                         ResultProperty = "Discount",
                                         MultiplierPropertyToVisit = "Quantity"
                                     },
-                                    Operator = FilterOperator.Assign
                                 }
                             }
                         }
                     }
                 },
-                Operator = ExpressionGroupOp.Return,
-                ReturnType = ReturnTypes.JsonString
+                Operator = ExpressionGroupOp.Return
             };
 
             return expressionMetadata;
-        } 
-        
+        }
+
         public static ExpressionMetadata GetMacroExprMetadata4ComplexScenario_Exact_Using_Parameter()
         {
             ExpressionMetadata expressionMetadata = new ExpressionMetadata
@@ -566,11 +531,9 @@ namespace Jexpr.Tests
                                             new IndexOfFilter
                                             {
                                                 PropertyToVisit = "Parameters.Brand",
-                                                Operator = FilterOperator.Contains,
                                                 ValueToLookup = new List<string> {"Adidas"}
                                             }
                                         },
-                                        Operator = FilterOperator.Select,
                                         AssignTo = "Basket.Products"
                                     }
                             }
@@ -599,24 +562,21 @@ namespace Jexpr.Tests
                                     {
                                         PropertyToVisit = "UnitPrice",
                                         ParameterName = "CodeDiscountAmount",
-                                        Operator = FilterOperator.Sum,
                                         ResultProperty = "Discount",
                                         MultiplierPropertyToVisit = "Quantity"
-                                    },
-                                    Operator = FilterOperator.Assign
+                                    }
                                 }
                             }
                         }
                     }
                 },
-                Operator = ExpressionGroupOp.Return,
-                ReturnType = ReturnTypes.JsonString
+                Operator = ExpressionGroupOp.Return
             };
 
             return expressionMetadata;
         }
 
-        public static ExpressionMetadata GetInExprDef(int testIntParam, ReturnTypes returnType, string boutiqueid)
+        public static ExpressionMetadata GetInExprDef(int testIntParam, string boutiqueid)
         {
             ExpressionMetadata expressionMetadata = new ExpressionMetadata
             {
@@ -629,16 +589,14 @@ namespace Jexpr.Tests
                             new MacroExpression
                             {
                                 Key = "Basket.Products",
-                                Value = new List<int> {testIntParam,12, 14},
-                                MacroOperator = new ExistsFilter{PropertyToVisit = "Parameters.BoutiqueId",Operator = FilterOperator.Contains}
+                                MacroOperator = new ExistsFilter {PropertyToVisit = "Parameters.BoutiqueId" ,ValueToSearch = new List<int> {testIntParam, 12, 14}}
                             }
                         },
 
                         Operator = ExpressionGroupOp.And
                     }
                 },
-                Operator = ExpressionGroupOp.Return,
-                ReturnType = returnType
+                Operator = ExpressionGroupOp.Return
             };
 
             return expressionMetadata;

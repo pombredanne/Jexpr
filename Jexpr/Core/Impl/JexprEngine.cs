@@ -27,7 +27,6 @@ namespace Jexpr.Core.Impl
         {
             _serializer = serializer;
             _logger = logger;
-            //_jintEngine = new Engine();
             ScriptsCache = scriptLoader.Load(_scriptPaths);
         }
 

@@ -101,7 +101,7 @@ namespace Jexpr.Tests
         [Test]
         public void Exists_Expression_Test()
         {
-            var expression = TestDataBuilder.GetInExprDef(TEST_INT_PARAM, ReturnTypes.Boolean, "BoutiqueId");
+            var expression = TestDataBuilder.GetInExprDef(TEST_INT_PARAM, "BoutiqueId");
 
             Basket basket = FixtureRepository.Build<Basket>().With(b => b.Products, FixtureRepository.CreateMany<Product>(1).ToList()).Create();
 
@@ -137,7 +137,7 @@ namespace Jexpr.Tests
 
             int min = (int)basket.Products.Select(item => item.UnitPrice).Min(arg => arg);
 
-            var expression = TestDataBuilder.GetMacroExprDef4MinMax(min, ExpressionOp.Equal, ReturnTypes.Number, "Basket.Products", FilterOperator.Min);
+            var expression = TestDataBuilder.GetMacroExprDef4MinMax(min, ExpressionOp.Equal, "Basket.Products", max: false);
 
             var parameters = new Dictionary<string, object>
             {
@@ -159,7 +159,7 @@ namespace Jexpr.Tests
 
             int max = (int)basket.Products.Select(item => item.UnitPrice).Max(arg => arg);
 
-            var expression = TestDataBuilder.GetMacroExprDef4MinMax(max, ExpressionOp.Equal, ReturnTypes.Number, "Basket.Products", FilterOperator.Max);
+            var expression = TestDataBuilder.GetMacroExprDef4MinMax(max, ExpressionOp.Equal, "Basket.Products", max: true);
 
             var parameters = new Dictionary<string, object>
             {
@@ -209,7 +209,7 @@ namespace Jexpr.Tests
 
         private JexprResult<T> GetExprEvalResult<T>(ExpressionOp op, object paramValue)
         {
-            var expression = TestDataBuilder.GetBasicExprDef(TEST_INT_PARAM, op, ReturnTypes.Boolean, "BoutiqueId");
+            var expression = TestDataBuilder.GetBasicExprDef(TEST_INT_PARAM, op, "BoutiqueId");
 
             var parameters = new Dictionary<string, object> { { "BoutiqueId", paramValue } };
 

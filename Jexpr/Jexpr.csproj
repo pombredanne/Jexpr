@@ -74,9 +74,12 @@
     <Compile Include="ExpressionGroup.cs" />
     <Compile Include="ExpressionGroupOp.cs" />
     <Compile Include="ExpressionOp.cs" />
-    <Compile Include="Filters\ApplyExactFilter.cs" />
+    <Compile Include="Filters\AssignExactToResultFilter.cs" />
+    <Compile Include="Filters\ReturnExactFilter.cs" />
     <Compile Include="Filters\ApplyExactToSumFilter.cs" />
     <Compile Include="Filters\ApplyExactToSumUsingParamtersFilter.cs" />
+    <Compile Include="Filters\AssignTakeSumOfMaxXItemToResultFilter.cs" />
+    <Compile Include="Filters\AssignTakeToResultFilter.cs" />
     <Compile Include="Filters\IHasResultProperty.cs" />
     <Compile Include="Filters\AbstractFilter.cs" />
     <Compile Include="Filters\ApplyPercentToSumFilter.cs" />
@@ -90,10 +93,11 @@
     <Compile Include="Filters\AssignExactTakeToResultFilter.cs" />
     <Compile Include="Filters\AssignToResultFilter.cs" />
     <Compile Include="Filters\AssignApplyArithmeticToSumToResultFilter.cs" />
-    <Compile Include="Filters\AssignTakeToResultFilter.cs" />
+    <Compile Include="Filters\AssignTakeSumOfMinXItemToResultFilter.cs" />
     <Compile Include="Filters\SumFilter.cs" />
-    <Compile Include="Filters\TakeFilter.cs" />
-    <Compile Include="FilterOperator.cs" />
+    <Compile Include="Filters\SumOfTakeXItemFilter.cs" />
+    <Compile Include="Filters\TakeSumOfMaxXItemFilter.cs" />
+    <Compile Include="Filters\TakeSumOfMinXItemFilter.cs" />
     <Compile Include="Models\JexprExpression.cs" />
     <Compile Include="Models\ExpressionMetadata.cs" />
     <Compile Include="Models\JexprResult.cs" />
@@ -101,7 +105,6 @@
     <Compile Include="Models\MacroExpression.cs" />
     <Compile Include="Models\BasicExpression.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReturnTypes.cs" />
     <Compile Include="Templates\JexprJsGeneratorTemplate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

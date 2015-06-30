@@ -2,7 +2,7 @@
 
 namespace Jexpr.Filters
 {
-    public class AssignTakeToResultFilter : TakeFilter, IHasResultProperty
+    public class AssignTakeToResultFilter : SumOfTakeXItemFilter, IHasResultProperty
     {
         public AssignTakeToResultFilter()
         {
