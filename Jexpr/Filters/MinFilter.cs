@@ -1,6 +1,6 @@
 ﻿namespace Jexpr.Filters
 {
-    public class MinFilter : JexprFilter
+    public class MinFilter : AbstractFilter
     {
         public override string ToJs(string parameterToChain)
         {

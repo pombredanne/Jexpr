@@ -1,6 +1,6 @@
 ﻿namespace Jexpr.Filters
 {
-    public class GroupByFilter : JexprFilter
+    public class GroupByFilter : AbstractFilter
     {
         public string Key { get; set; }
         public string GroupSet { get; set; }

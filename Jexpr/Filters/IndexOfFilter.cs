@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace Jexpr.Filters
 {
-    public class IndexOfFilter : JexprFilter
+    public class IndexOfFilter : AbstractFilter
     {
         public object ValueToLookup { get; set; }
 

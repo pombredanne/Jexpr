@@ -32,9 +32,9 @@ namespace Jexpr.Templates
         public virtual string TransformText()
         {
             this.Write("\r\nfunction ExpFunc(parametersJson) {\r\n\r\n\tvar p = JSON.parse(parametersJson);\r\n\tva" +
-                    "r result = { value:\'\' };\r\n\t");
+                    "r isMatch = false;\r\n\tvar result = { value:\'\' };\r\n\t");
             
-            #line 14 "D:\Trendyol\Trendyol\FrontEnd\Dev\API\PromotionApi\Jexpr\Templates\JexprJsGeneratorTemplate.tt"
+            #line 15 "D:\Trendyol\Trendyol\FrontEnd\Dev\API\PromotionApi\Jexpr\Templates\JexprJsGeneratorTemplate.tt"
 
 		IJsStringBuilder builder = new JsStringBuilder();
 		IJsExpressionConcatService concatService = new JsExpressionConcatService(builder);
@@ -44,7 +44,7 @@ namespace Jexpr.Templates
             #line hidden
             this.Write("\t");
             
-            #line 18 "D:\Trendyol\Trendyol\FrontEnd\Dev\API\PromotionApi\Jexpr\Templates\JexprJsGeneratorTemplate.tt"
+            #line 19 "D:\Trendyol\Trendyol\FrontEnd\Dev\API\PromotionApi\Jexpr\Templates\JexprJsGeneratorTemplate.tt"
 
 		var expressionGroup = this.ExpressionMetadata.Items.First();
 		//Priority = true
@@ -56,21 +56,21 @@ namespace Jexpr.Templates
             #line hidden
             this.Write("\r\n\t ");
             
-            #line 25 "D:\Trendyol\Trendyol\FrontEnd\Dev\API\PromotionApi\Jexpr\Templates\JexprJsGeneratorTemplate.tt"
+            #line 26 "D:\Trendyol\Trendyol\FrontEnd\Dev\API\PromotionApi\Jexpr\Templates\JexprJsGeneratorTemplate.tt"
  /* BODY START */ 
             
             #line default
             #line hidden
             this.Write("\tif (");
             
-            #line 26 "D:\Trendyol\Trendyol\FrontEnd\Dev\API\PromotionApi\Jexpr\Templates\JexprJsGeneratorTemplate.tt"
+            #line 27 "D:\Trendyol\Trendyol\FrontEnd\Dev\API\PromotionApi\Jexpr\Templates\JexprJsGeneratorTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(!string.IsNullOrEmpty(jshasPExprsBody) ? jshasPExprsBody :"true"));
             
             #line default
             #line hidden
             this.Write("){\r\n\t\t");
             
-            #line 27 "D:\Trendyol\Trendyol\FrontEnd\Dev\API\PromotionApi\Jexpr\Templates\JexprJsGeneratorTemplate.tt"
+            #line 28 "D:\Trendyol\Trendyol\FrontEnd\Dev\API\PromotionApi\Jexpr\Templates\JexprJsGeneratorTemplate.tt"
  
 		   var hasntPExprs = concatService.ConcatCompiledExpressions(expressionGroup.Items.Where(expression => !expression.HasPriority).ToList(), expressionGroup.Operator);
 		   var jshasntPExprsBody = concatService.ConcatJsExpressionBody(this.ExpressionMetadata.Operator, hasntPExprs);
@@ -80,63 +80,63 @@ namespace Jexpr.Templates
             #line hidden
             this.Write("\t\t ");
             
-            #line 31 "D:\Trendyol\Trendyol\FrontEnd\Dev\API\PromotionApi\Jexpr\Templates\JexprJsGeneratorTemplate.tt"
+            #line 32 "D:\Trendyol\Trendyol\FrontEnd\Dev\API\PromotionApi\Jexpr\Templates\JexprJsGeneratorTemplate.tt"
  if (this.ExpressionMetadata.ResultExpression == null){ 
             
             #line default
             #line hidden
             this.Write("\t\t result.value =");
             
-            #line 32 "D:\Trendyol\Trendyol\FrontEnd\Dev\API\PromotionApi\Jexpr\Templates\JexprJsGeneratorTemplate.tt"
+            #line 33 "D:\Trendyol\Trendyol\FrontEnd\Dev\API\PromotionApi\Jexpr\Templates\JexprJsGeneratorTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(jshasntPExprsBody));
             
             #line default
             #line hidden
             this.Write("\r\n\t\t ");
             
-            #line 33 "D:\Trendyol\Trendyol\FrontEnd\Dev\API\PromotionApi\Jexpr\Templates\JexprJsGeneratorTemplate.tt"
+            #line 34 "D:\Trendyol\Trendyol\FrontEnd\Dev\API\PromotionApi\Jexpr\Templates\JexprJsGeneratorTemplate.tt"
  }else{ 
             
             #line default
             #line hidden
             this.Write("\t\t ");
             
-            #line 34 "D:\Trendyol\Trendyol\FrontEnd\Dev\API\PromotionApi\Jexpr\Templates\JexprJsGeneratorTemplate.tt"
+            #line 35 "D:\Trendyol\Trendyol\FrontEnd\Dev\API\PromotionApi\Jexpr\Templates\JexprJsGeneratorTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(jshasntPExprsBody));
             
             #line default
             #line hidden
             this.Write("\r\n\t\t ");
             
-            #line 35 "D:\Trendyol\Trendyol\FrontEnd\Dev\API\PromotionApi\Jexpr\Templates\JexprJsGeneratorTemplate.tt"
+            #line 36 "D:\Trendyol\Trendyol\FrontEnd\Dev\API\PromotionApi\Jexpr\Templates\JexprJsGeneratorTemplate.tt"
  } 
             
             #line default
             #line hidden
             this.Write("\t}\r\n\t");
             
-            #line 37 "D:\Trendyol\Trendyol\FrontEnd\Dev\API\PromotionApi\Jexpr\Templates\JexprJsGeneratorTemplate.tt"
+            #line 38 "D:\Trendyol\Trendyol\FrontEnd\Dev\API\PromotionApi\Jexpr\Templates\JexprJsGeneratorTemplate.tt"
  /* BODY END */ 
             
             #line default
             #line hidden
             this.Write("\t\r\n\t");
             
-            #line 39 "D:\Trendyol\Trendyol\FrontEnd\Dev\API\PromotionApi\Jexpr\Templates\JexprJsGeneratorTemplate.tt"
+            #line 40 "D:\Trendyol\Trendyol\FrontEnd\Dev\API\PromotionApi\Jexpr\Templates\JexprJsGeneratorTemplate.tt"
  if (this.ExpressionMetadata.ResultExpression != null){ 
             
             #line default
             #line hidden
             this.Write("\t");
             
-            #line 40 "D:\Trendyol\Trendyol\FrontEnd\Dev\API\PromotionApi\Jexpr\Templates\JexprJsGeneratorTemplate.tt"
+            #line 41 "D:\Trendyol\Trendyol\FrontEnd\Dev\API\PromotionApi\Jexpr\Templates\JexprJsGeneratorTemplate.tt"
  /*RESULT EXPR START */ 
             
             #line default
             #line hidden
             this.Write("\r\n\t\t");
             
-            #line 42 "D:\Trendyol\Trendyol\FrontEnd\Dev\API\PromotionApi\Jexpr\Templates\JexprJsGeneratorTemplate.tt"
+            #line 43 "D:\Trendyol\Trendyol\FrontEnd\Dev\API\PromotionApi\Jexpr\Templates\JexprJsGeneratorTemplate.tt"
  
 		var resultExpGroup = this.ExpressionMetadata.ResultExpression.First();
 		var resultExp = resultExpGroup.Items.First();
@@ -147,21 +147,21 @@ namespace Jexpr.Templates
             #line hidden
             this.Write("\r\n\t\t");
             
-            #line 48 "D:\Trendyol\Trendyol\FrontEnd\Dev\API\PromotionApi\Jexpr\Templates\JexprJsGeneratorTemplate.tt"
+            #line 49 "D:\Trendyol\Trendyol\FrontEnd\Dev\API\PromotionApi\Jexpr\Templates\JexprJsGeneratorTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(resultExpJs));
             
             #line default
             #line hidden
             this.Write("\r\n\t");
             
-            #line 49 "D:\Trendyol\Trendyol\FrontEnd\Dev\API\PromotionApi\Jexpr\Templates\JexprJsGeneratorTemplate.tt"
+            #line 50 "D:\Trendyol\Trendyol\FrontEnd\Dev\API\PromotionApi\Jexpr\Templates\JexprJsGeneratorTemplate.tt"
  /*RESULT EXPR END */ 
             
             #line default
             #line hidden
             this.Write("\t");
             
-            #line 50 "D:\Trendyol\Trendyol\FrontEnd\Dev\API\PromotionApi\Jexpr\Templates\JexprJsGeneratorTemplate.tt"
+            #line 51 "D:\Trendyol\Trendyol\FrontEnd\Dev\API\PromotionApi\Jexpr\Templates\JexprJsGeneratorTemplate.tt"
  }
             
             #line default

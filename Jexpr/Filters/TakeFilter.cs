@@ -1,6 +1,6 @@
 ﻿namespace Jexpr.Filters
 {
-    public class TakeFilter : JexprFilter
+    public class TakeFilter : AbstractFilter
     {
         internal bool SortByOrder { get; set; }
         public int Take { get; set; }

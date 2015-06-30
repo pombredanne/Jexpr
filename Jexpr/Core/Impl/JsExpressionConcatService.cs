@@ -5,7 +5,7 @@ using Jexpr.Models;
 
 namespace Jexpr.Core.Impl
 {
-    internal class JsExpressionConcatService : IJsExpressionConcatService
+    internal sealed class JsExpressionConcatService : IJsExpressionConcatService
     {
         private readonly IJsStringBuilder _jsStringBuilder;
 

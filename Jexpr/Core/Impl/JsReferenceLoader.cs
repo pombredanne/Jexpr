@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Jexpr.Core.Impl
 {
-    internal class JsReferenceLoader : IScriptLoader
+    internal sealed class JsReferenceLoader : IScriptLoader
     {
         public string Load(Dictionary<string, string> pathList)
         {

@@ -10,6 +10,7 @@
 function ExpFunc(parametersJson) {
 
 	var p = JSON.parse(parametersJson);
+	var isMatch = false;
 	var result = { value:'' };
 	<#
 		IJsStringBuilder builder = new JsStringBuilder();

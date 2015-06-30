@@ -21,12 +21,13 @@ namespace Jexpr.Tests
             _engine = new JexprEngine();
         }
 
-        [Description(@"FOR basket, profile, payment inforrmation =>
-                             BoutiqueId should be one of [12, 14]  
-                       AND   Brand should be one of [Adidas]
-                       AND   BankBin should be one of [Garanti, Teb, Finans] 
-                       AND   Age should greater than equal 20
-                       RET   ( APPLY 20% to Total Basket Price)")]
+        [Description(@"WITH (`Basket`, `Profile`, `Payment Information`) DO
+                                  `BoutiqueId` should be one of [12, 14]  
+                            AND   `Brand` should be one of [Adidas]
+                            AND   `BankBin` should be one of [Bank1, Bank2, Bank3] 
+                            AND   `Age` should greater than or equal 20
+                        RET   
+                            APPLY 20% TO `Total Basket Price`")]
         [Test]
         public void ComplexScenario1_Test()
         {
@@ -61,9 +62,10 @@ namespace Jexpr.Tests
             result.Value.Discount.Should().BeGreaterThan(0m);
         }
 
-        [Description(@"FOR basket =>
-                             Brand should be one of [Adidas]
-                       RET   ( APPLY 20% to Total Basket Price)")]
+        [Description(@"WITH (`Basket`) DO
+                             `Brand` should be one of [Adidas]
+                       RET   
+                            APPLY 20% TO `Total Basket Price`")]
         [Test]
         public void ComplexScenario2_Test()
         {

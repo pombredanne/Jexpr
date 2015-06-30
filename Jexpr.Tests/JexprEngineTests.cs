@@ -83,7 +83,7 @@ namespace Jexpr.Tests
         [Test]
         public void GreaterThanEqual_Expression_Test()
         {
-            JexprResult<bool> result = GetExprEvalResult<bool>(ExpressionOp.GreaterThenOrEqual, TEST_INT_PARAM);
+            JexprResult<bool> result = GetExprEvalResult<bool>(ExpressionOp.GreaterThanOrEqual, TEST_INT_PARAM);
 
             result.Should().NotBeNull();
             Assert.IsTrue(result.Value);
@@ -137,7 +137,7 @@ namespace Jexpr.Tests
 
             int min = (int)basket.Products.Select(item => item.UnitPrice).Min(arg => arg);
 
-            var expression = TestDataBuilder.GetMacroExprDef4MinMax(min, ExpressionOp.Equal, ReturnTypes.Number, "Basket.Products", MacroOp.Min);
+            var expression = TestDataBuilder.GetMacroExprDef4MinMax(min, ExpressionOp.Equal, ReturnTypes.Number, "Basket.Products", FilterOperator.Min);
 
             var parameters = new Dictionary<string, object>
             {
@@ -159,7 +159,7 @@ namespace Jexpr.Tests
 
             int max = (int)basket.Products.Select(item => item.UnitPrice).Max(arg => arg);
 
-            var expression = TestDataBuilder.GetMacroExprDef4MinMax(max, ExpressionOp.Equal, ReturnTypes.Number, "Basket.Products", MacroOp.Max);
+            var expression = TestDataBuilder.GetMacroExprDef4MinMax(max, ExpressionOp.Equal, ReturnTypes.Number, "Basket.Products", FilterOperator.Max);
 
             var parameters = new Dictionary<string, object>
             {

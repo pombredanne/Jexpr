@@ -8,7 +8,7 @@ using Jint.Native;
 
 namespace Jexpr.Core.Impl
 {
-    public class JexprEngine : IJexprEngine
+    public sealed class JexprEngine : IJexprEngine
     {
         private readonly ISerializer _serializer;
         private readonly ILogger _logger;
@@ -38,8 +38,7 @@ namespace Jexpr.Core.Impl
 
         public JexprResult<T> Evaluate<T>(ExpressionMetadata metadata, Dictionary<string, object> paramerters = null)
         {
-            JexprJsGeneratorTemplate template = new JexprJsGeneratorTemplate(metadata);
-            string script = template.TransformText();
+            string script = Compile(metadata);
 
             var result = EvaluateImpl<T>(script, paramerters);
             result.Js = script;
@@ -50,6 +49,14 @@ namespace Jexpr.Core.Impl
         public JexprResult<T> Evaluate<T>(string script, Dictionary<string, object> paramerters = null)
         {
             return EvaluateImpl<T>(script, paramerters);
+        }
+
+        public string Compile(ExpressionMetadata metadata)
+        {
+            JexprJsGeneratorTemplate template = new JexprJsGeneratorTemplate(metadata);
+            string result = template.TransformText();
+
+            return result;
         }
 
         private JexprResult<T> EvaluateImpl<T>(string script, Dictionary<string, object> paramerters)

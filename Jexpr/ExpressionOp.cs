@@ -20,7 +20,7 @@ namespace Jexpr
         LowerThan,
 
         [EnumMember(Value = ">=")]
-        GreaterThenOrEqual,
+        GreaterThanOrEqual,
 
         [EnumMember(Value = "<=")]
         LowerThanEqual

@@ -1,13 +1,13 @@
 ﻿namespace Jexpr.Filters
 {
-    public class SumFilter : JexprFilter
+    public class SumFilter : AbstractFilter
     {
-        public string MultiplierPropertToVisit { get; set; }
+        public string MultiplierPropertyToVisit { get; set; }
         public override string ToJs(string parameterToChain)
         {
             string result;
 
-            if (!string.IsNullOrEmpty(MultiplierPropertToVisit))
+            if (!string.IsNullOrEmpty(MultiplierPropertyToVisit))
             {
                 result = string.Format(@"  
                                   (function () {{
@@ -21,7 +21,7 @@
             
                                         return _pTotal;
                                     }})()
-                                    ", parameterToChain, PropertyToVisit, MultiplierPropertToVisit);
+                                    ", parameterToChain, PropertyToVisit, MultiplierPropertyToVisit);
             }
             else
             {

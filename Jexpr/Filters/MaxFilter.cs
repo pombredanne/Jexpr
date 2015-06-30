@@ -1,6 +1,6 @@
 ﻿namespace Jexpr.Filters
 {
-    public class MaxFilter : JexprFilter
+    public class MaxFilter : AbstractFilter
     {
         public override string ToJs(string parameterToChain)
         {

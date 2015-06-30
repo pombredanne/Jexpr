@@ -4,17 +4,17 @@ using Jexpr.Models;
 
 namespace Jexpr.Core.Impl
 {
-    internal class JsStringBuilder : IJsStringBuilder
+    internal sealed class JsStringBuilder : IJsStringBuilder
     {
         public string BuildFrom(JexprExpression expression)
         {
-            SimpleJexprExpression simpleJexprExpression = expression as SimpleJexprExpression;
+            BasicExpression basicExpression = expression as BasicExpression;
 
             string op = string.Empty;
 
-            if (simpleJexprExpression != null)
+            if (basicExpression != null)
             {
-                op = simpleJexprExpression.Operator.ToName();
+                op = basicExpression.Operator.ToName();
             }
 
             var result = GenerateJsExprByType(expression, op);
@@ -26,19 +26,19 @@ namespace Jexpr.Core.Impl
         {
             string result;
 
-            JexprMacroExpression jexprMacroExpression = jexprExpression as JexprMacroExpression;
+            MacroExpression macroExpression = jexprExpression as MacroExpression;
 
-            if (jexprMacroExpression != null)
+            if (macroExpression != null)
             {
                 if (string.IsNullOrEmpty(op))
                 {
-                    result = string.Format("{0}", GenerateMacroJsExpr(jexprMacroExpression));
+                    result = string.Format("{0}", GenerateMacroJsExpr(macroExpression));
                 }
                 else
                 {
-                    result = jexprMacroExpression.Value != null
-                  ? string.Format("({0} {1} {2})", GenerateMacroJsExpr(jexprMacroExpression), op, jexprExpression.Value)
-                  : string.Format("{0}", GenerateMacroJsExpr(jexprMacroExpression));
+                    result = macroExpression.Value != null
+                  ? string.Format("({0} {1} {2})", GenerateMacroJsExpr(macroExpression), op, jexprExpression.Value)
+                  : string.Format("{0}", GenerateMacroJsExpr(macroExpression));
                 }
 
             }
@@ -57,19 +57,26 @@ namespace Jexpr.Core.Impl
             return result;
         }
 
-        private string GenerateMacroJsExpr(JexprMacroExpression jexprMacroExpression)
+        private string GenerateMacroJsExpr(MacroExpression macroExpression)
         {
             string result = null;
 
-            JexprFilter jexprFilter = jexprMacroExpression.MacroOp;
+            AbstractFilter abstractFilter = macroExpression.MacroOperator;
 
-            string parameterToChain = string.Format("p.{0}", jexprMacroExpression.Key);
+            string parameterToChain = string.Format("p.{0}", macroExpression.Key);
 
-            switch (jexprFilter.Op)
+            switch (abstractFilter.Operator)
             {
-                case MacroOp.SumOfMinXItem:
+                case FilterOperator.None:
                     {
-                        TakeFilter definition = jexprFilter as TakeFilter;
+                        result = abstractFilter.ToJs(parameterToChain);
+
+                        break;
+                    }
+
+                case FilterOperator.SumOfMinXItem:
+                    {
+                        TakeFilter definition = abstractFilter as TakeFilter;
 
                         if (definition != null)
                         {
@@ -80,9 +87,9 @@ namespace Jexpr.Core.Impl
                         break;
                     }
 
-                case MacroOp.SumOfMaxXItem:
+                case FilterOperator.SumOfMaxXItem:
                     {
-                        TakeFilter definition = jexprFilter as TakeFilter;
+                        TakeFilter definition = abstractFilter as TakeFilter;
 
                         if (definition != null)
                         {
@@ -92,9 +99,9 @@ namespace Jexpr.Core.Impl
 
                         break;
                     }
-                case MacroOp.Min:
+                case FilterOperator.Min:
                     {
-                        MinFilter definition = jexprFilter as MinFilter;
+                        MinFilter definition = abstractFilter as MinFilter;
 
                         if (definition != null)
                         {
@@ -103,9 +110,9 @@ namespace Jexpr.Core.Impl
 
                         break;
                     }
-                case MacroOp.Max:
+                case FilterOperator.Max:
                     {
-                        MaxFilter definition = jexprFilter as MaxFilter;
+                        MaxFilter definition = abstractFilter as MaxFilter;
 
                         if (definition != null)
                         {
@@ -114,26 +121,26 @@ namespace Jexpr.Core.Impl
 
                         break;
                     }
-                case MacroOp.Contains:
+                case FilterOperator.Contains:
                     {
-                        if (jexprMacroExpression.HasPriority)
+                        if (macroExpression.HasPriority)
                         {
                             IndexOfFilter definition = new IndexOfFilter
                             {
-                                ValueToLookup = jexprMacroExpression.Value,
-                                Op = jexprFilter.Op,
-                                PropertyToVisit = jexprFilter.PropertyToVisit
+                                ValueToLookup = macroExpression.Value,
+                                Operator = abstractFilter.Operator,
+                                PropertyToVisit = abstractFilter.PropertyToVisit
                             };
 
                             result = definition.ToJs(parameterToChain);
                         }
                         else
                         {
-                            ExistsFilter definition = jexprFilter as ExistsFilter;
+                            ExistsFilter definition = abstractFilter as ExistsFilter;
 
                             if (definition != null)
                             {
-                                definition.ValueToSearch = jexprMacroExpression.Value;
+                                definition.ValueToSearch = macroExpression.Value;
                                 result = definition.ToJs(parameterToChain);
                             }
                         }
@@ -141,9 +148,9 @@ namespace Jexpr.Core.Impl
 
                         break;
                     }
-                case MacroOp.GroupBy:
+                case FilterOperator.GroupBy:
                     {
-                        GroupByFilter definition = jexprFilter as GroupByFilter;
+                        GroupByFilter definition = abstractFilter as GroupByFilter;
 
                         if (definition != null)
                         {
@@ -152,9 +159,9 @@ namespace Jexpr.Core.Impl
 
                         break;
                     }
-                case MacroOp.Sum:
+                case FilterOperator.Sum:
                     {
-                        SumFilter definition = jexprFilter as SumFilter;
+                        SumFilter definition = abstractFilter as SumFilter;
 
                         if (definition != null)
                         {
@@ -163,9 +170,9 @@ namespace Jexpr.Core.Impl
                         break;
                     }
 
-                case MacroOp.Select:
+                case FilterOperator.Select:
                     {
-                        SelectFilter definition = jexprFilter as SelectFilter;
+                        SelectFilter definition = abstractFilter as SelectFilter;
 
                         if (definition != null)
                         {
@@ -173,9 +180,9 @@ namespace Jexpr.Core.Impl
                         }
                         break;
                     }
-                case MacroOp.Assign:
+                case FilterOperator.Assign:
                     {
-                        SetResultFilter definition = jexprFilter as SetResultFilter;
+                        AssignToResultFilter definition = abstractFilter as AssignToResultFilter;
 
                         if (definition != null)
                         {
@@ -183,6 +190,7 @@ namespace Jexpr.Core.Impl
                         }
                         break;
                     }
+
 
             }
 

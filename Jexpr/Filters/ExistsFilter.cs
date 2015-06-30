@@ -2,7 +2,7 @@
 
 namespace Jexpr.Filters
 {
-    public class ExistsFilter : JexprFilter
+    public class ExistsFilter : AbstractFilter
     {
 
         public object ValueToSearch { get; set; }

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Jexpr.Filters
+﻿namespace Jexpr.Filters
 {
     public class ApplyPercentToSumFilter : SumFilter, IHasResultProperty
     {
@@ -11,7 +9,7 @@ namespace Jexpr.Filters
         {
             var sumExpression = base.ToJs(parameterToChain);
 
-            var result = String.Format(@"( ({0}) * ({1} / 100) )", sumExpression, Percent);
+            var result = string.Format(@"( ({0}) * ({1} / 100) )", sumExpression, Percent);
 
             return result;
         }
