@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Jexpr.Filters
 {
@@ -40,14 +41,8 @@ namespace Jexpr.Filters
 
         private string GetJsFrom(List<AbstractFilter> filters)
         {
-            List<string> listerExps = new List<string>();
+            List<string> listerExps = filters.Select(filter => filter.ToJs(String.Format("item.{0}", filter.PropertyToVisit))).ToList();
 
-            foreach (var filter in filters)
-            {
-                listerExps.Add(filter.ToJs(String.Format("item.{0}", filter.PropertyToVisit)));
-            }
-
-            //HARDCODED AND
             return String.Join(" && ", listerExps);
         }
     }

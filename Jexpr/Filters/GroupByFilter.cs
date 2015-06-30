@@ -8,16 +8,15 @@
         {
             string result = string.Format(@"( _.chain({0})
                                                     .groupBy(function(item){{
-                                                          var split= '{1}'.split('.')
-                                                          return item[split[0]][split[1]]        
+                                                          var parts= '{1}'.split('.')
+                                                          return item[parts[0]][parts[1]]        
                                                     }})
                                                     .pairs()
                                                     .map(function (currentItem) {{
                                                         return _.object(_.zip(['{2}', '{3}'], currentItem))
                                                     }})
                                                     .value()
-                                                )",
-                parameterToChain, PropertyToVisit, Key, GroupSet);
+                                                )", parameterToChain, PropertyToVisit, Key, GroupSet);
 
             return result;
         }

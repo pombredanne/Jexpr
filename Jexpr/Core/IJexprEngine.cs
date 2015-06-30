@@ -7,6 +7,7 @@ namespace Jexpr.Core
     {
         JexprResult<T> Evaluate<T>(ExpressionMetadata metadata, Dictionary<string, object> paramerters = null);
         JexprResult<T> Evaluate<T>(string script, Dictionary<string, object> paramerters = null);
+        JexprResult<T> Evaluate<T>(string script, dynamic paramerters = null);
         string Compile(ExpressionMetadata metadata);
     }
 }

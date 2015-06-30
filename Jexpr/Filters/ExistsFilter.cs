@@ -4,7 +4,6 @@ namespace Jexpr.Filters
 {
     public class ExistsFilter : AbstractFilter
     {
-
         public object ValueToSearch { get; set; }
 
         public override string ToJs(string parameterToChain)

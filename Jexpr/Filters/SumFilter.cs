@@ -20,8 +20,7 @@
                                         }}).value();
             
                                         return _pTotal;
-                                    }})()
-                                    ", parameterToChain, PropertyToVisit, MultiplierPropertyToVisit);
+                                    }})()", parameterToChain, PropertyToVisit, MultiplierPropertyToVisit);
             }
             else
             {
@@ -35,9 +34,7 @@
                                         }}).value();
             
                                         return _pTotal;
-                                    }})()
-                                    ",
-                               parameterToChain, PropertyToVisit);
+                                    }})()", parameterToChain, PropertyToVisit);
             }
 
             return result;

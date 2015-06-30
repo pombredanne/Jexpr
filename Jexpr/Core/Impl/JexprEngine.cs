@@ -10,7 +10,7 @@ namespace Jexpr.Core.Impl
 {
     public sealed class JexprEngine : IJexprEngine
     {
-        private readonly ISerializer _serializer;
+        private readonly IInternalSerializer _internalSerializer;
         private readonly ILogger _logger;
         private Engine _jintEngine;
 
@@ -23,15 +23,15 @@ namespace Jexpr.Core.Impl
         };
 
 
-        internal JexprEngine(ISerializer serializer, IScriptLoader scriptLoader, ILogger logger)
+        internal JexprEngine(IInternalSerializer internalSerializer, IScriptLoader scriptLoader, ILogger logger)
         {
-            _serializer = serializer;
+            _internalSerializer = internalSerializer;
             _logger = logger;
             ScriptsCache = scriptLoader.Load(_scriptPaths);
         }
 
         public JexprEngine()
-            : this(new JsonNetSerializer(), new JsReferenceLoader(), new NullLogger())
+            : this(new InternalJsonNetSerializer(), new JsReferenceLoader(), new NullLogger())
         {
         }
 
@@ -48,6 +48,11 @@ namespace Jexpr.Core.Impl
         public JexprResult<T> Evaluate<T>(string script, Dictionary<string, object> paramerters = null)
         {
             return EvaluateImpl<T>(script, paramerters);
+        }
+
+        public JexprResult<T> Evaluate<T>(string script, dynamic paramerters = null)
+        {
+            return EvaluateImpl<T>(script, ((object)paramerters).ToDictionary());
         }
 
         public string Compile(ExpressionMetadata metadata)
@@ -72,7 +77,7 @@ namespace Jexpr.Core.Impl
             {
                 var func = _jintEngine.Execute(js);
                 jsValue = paramerters != null
-                    ? func.Invoke(FUNC_NAME, _serializer.Serialize(paramerters))
+                    ? func.Invoke(FUNC_NAME, _internalSerializer.Serialize(paramerters))
                     : func.Invoke(FUNC_NAME);
             }
             catch (Exception exception)
@@ -85,11 +90,11 @@ namespace Jexpr.Core.Impl
             {
                 if (typeof(T).IsPrimitive || typeof(T) == typeof(string))
                 {
-                    result = _serializer.Deserialize<JexprResult<T>>(jsValue.AsString());
+                    result = _internalSerializer.Deserialize<JexprResult<T>>(jsValue.AsString());
                 }
                 else
                 {
-                    result.Value = _serializer.Deserialize<T>(jsValue.AsString());
+                    result.Value = _internalSerializer.Deserialize<T>(jsValue.AsString());
                 }
             }
             catch (Exception exception)

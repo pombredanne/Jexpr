@@ -1,4 +1,5 @@
 using System;
+using Jexpr.Interface;
 
 namespace Jexpr.Filters
 {

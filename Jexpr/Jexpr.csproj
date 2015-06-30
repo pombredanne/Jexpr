@@ -55,10 +55,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\DynamicExtensions.cs" />
     <Compile Include="Common\EnumerableExtensions.cs" />
     <Compile Include="Common\EnumExtensions.cs" />
-    <Compile Include="Common\ISerializer.cs" />
-    <Compile Include="Common\JsonNetSerializer.cs" />
+    <Compile Include="Common\IInternalSerializer.cs" />
+    <Compile Include="Common\InternalJsonNetSerializer.cs" />
     <Compile Include="Common\DictionaryExtensions.cs" />
     <Compile Include="Common\SubSet.cs" />
     <Compile Include="Core\IJsExpressionConcatService.cs" />
@@ -80,7 +81,6 @@
     <Compile Include="Filters\ApplyExactToSumUsingParamtersFilter.cs" />
     <Compile Include="Filters\AssignTakeSumOfMaxXItemToResultFilter.cs" />
     <Compile Include="Filters\AssignTakeToResultFilter.cs" />
-    <Compile Include="Filters\IHasResultProperty.cs" />
     <Compile Include="Filters\AbstractFilter.cs" />
     <Compile Include="Filters\ApplyPercentToSumFilter.cs" />
     <Compile Include="Filters\ExistsFilter.cs" />
@@ -88,7 +88,6 @@
     <Compile Include="Filters\IndexOfFilter.cs" />
     <Compile Include="Filters\MaxFilter.cs" />
     <Compile Include="Filters\MinFilter.cs" />
-    <Compile Include="Filters\ResultProperty.cs" />
     <Compile Include="Filters\SelectFilter.cs" />
     <Compile Include="Filters\AssignExactTakeToResultFilter.cs" />
     <Compile Include="Filters\AssignToResultFilter.cs" />
@@ -98,12 +97,14 @@
     <Compile Include="Filters\SumOfTakeXItemFilter.cs" />
     <Compile Include="Filters\TakeSumOfMaxXItemFilter.cs" />
     <Compile Include="Filters\TakeSumOfMinXItemFilter.cs" />
+    <Compile Include="Interface\IHasResultProperty.cs" />
     <Compile Include="Models\JexprExpression.cs" />
     <Compile Include="Models\ExpressionMetadata.cs" />
     <Compile Include="Models\JexprResult.cs" />
     <Compile Include="Models\JsExpressionResult.cs" />
     <Compile Include="Models\MacroExpression.cs" />
     <Compile Include="Models\BasicExpression.cs" />
+    <Compile Include="Models\ResultProperty.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Templates\JexprJsGeneratorTemplate.cs">
       <AutoGen>True</AutoGen>

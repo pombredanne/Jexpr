@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Jexpr.Interface;
+using Jexpr.Models;
 
 namespace Jexpr.Filters
 {

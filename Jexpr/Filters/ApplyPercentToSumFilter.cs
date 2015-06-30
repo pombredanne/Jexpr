@@ -1,4 +1,6 @@
-﻿namespace Jexpr.Filters
+﻿using Jexpr.Interface;
+
+namespace Jexpr.Filters
 {
     public class ApplyPercentToSumFilter : SumFilter, IHasResultProperty
     {

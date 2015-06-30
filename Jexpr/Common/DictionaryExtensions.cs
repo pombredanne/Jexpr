@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Dynamic;
+using System.Reflection;
 
 namespace Jexpr.Common
 {
-    internal static class DictionaryExtensions
+    public static class DictionaryExtensions
     {
         public static dynamic ToDynamic(this IDictionary<string, object> dict)
         {
