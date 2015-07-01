@@ -22,85 +22,78 @@
 
 ##Csharp Code Sample
 ```csharp
-ExpressionMetadata expressionMetadata = new ExpressionMetadata {
-	Items = new List < ExpressionGroup > {
-		new ExpressionGroup {
-			Items = new List < JexprExpression > {
-				new JexprMacroExpression {
-					Key = "Products",
-					MacroOp = new SelectFilter {
-						Filters = new List < JexprFilter > {
-							new IndexOfFilter {
-								PropertyToVisit = "BoutiqueId",
-								Op = MacroOp.Contains,
-								ValueToLookup = new List < int > {
-									12, 14
-								}
-							},
-							new IndexOfFilter {
-								PropertyToVisit = "Brand",
-								Op = MacroOp.Contains,
-								ValueToLookup = new List < string > {
-									"Adidas"
-								}
-							}
-						},
-						Op = MacroOp.Select,
-						AssignTo = "Basket.Products"
-					}
-				},
-				new JexprMacroExpression {
-					Key = "BankBin",
-					Value = new List < string > {
-						"Garanti", "Teb", "Finans"
-					},
-					HasPriority = true,
-					MacroOp = new ExistsFilter {
-						PropertyToVisit = "BankBin", Op = MacroOp.Contains
-					}
-				},
-				new SimpleJexprExpression {
-					Key = "Age",
-					Value = 20,
-					HasPriority = true,
-					Operator = ExpressionOp.GreaterThenOrEqual
-				}
+ ExpressionMetadata expressionMetadata = new ExpressionMetadata {
+ 	Items = new List < ExpressionGroup > {
+ 		new ExpressionGroup {
+ 			Items = new List < JexprExpression > {
+ 				new MacroExpression {
+ 					Key = "Basket.Products",
+ 					MacroOperator = new SelectFilter {
+ 						Filters = new List < AbstractFilter > {
+ 							new IndexOfFilter {
+ 								PropertyToVisit = "Parameters.BoutiqueId",
+ 								ValueToLookup = new List < int > {
+ 									12, 14
+ 								}
+ 							},
+ 							new IndexOfFilter {
+ 								PropertyToVisit = "Parameters.Brand",
+ 								ValueToLookup = new List < string > {
+ 									"Adidas"
+ 								}
+ 							}
+ 						},
+ 						AssignTo = "Basket.Products"
+ 					}
+ 				},
+ 				new MacroExpression {
+ 					Key = "Parameters.BankBin",
+ 					HasPriority = true,
+ 					MacroOperator = new ExistsFilter {
+ 						PropertyToVisit = "Parameters.BankBin", ValueToSearch = new List < string > {
+ 							"Garanti", "Teb", "Finans"
+ 						}
+ 					}
+ 				},
+ 				new BasicExpression {
+ 					Key = "Parameters.Age",
+ 					Value = 20,
+ 					HasPriority = true,
+ 					Operator = ExpressionOp.GreaterThanOrEqual
+ 				}
 
-			},
+ 			},
 
-			Operator = ExpressionGroupOp.And
-		}
-	},
-	ResultExpression = new List < ExpressionGroup > {
-		new ExpressionGroup {
-			Items = new List < JexprExpression > {
-				new JexprMacroExpression {
-					Key = "Products",
-					MacroOp = new SetResultFilter {
-						ResultProperties = new List < ResultProperty > {
-							new ResultProperty {
-								Name = "Discount"
-							},
-							new ResultProperty {
-								Name = "Basket", PropertyToPickUpFromParameters = "Basket"
-							}
-						},
-						InnerFilter = new ApplyPercentToSumFilter {
-							PropertyToVisit = "UnitPrice",
-							Percent = 20,
-							Op = MacroOp.Sum,
-							ResultProperty = "Discount",
-							MultiplierPropertToVisit = "Quantity"
-						},
-						Op = MacroOp.Assign
-					}
-				}
-			}
-		}
-	},
-	Operator = ExpressionGroupOp.Return,
-	ReturnType = ReturnTypes.JsonString
-};
+ 			Operator = ExpressionGroupOp.And
+ 		}
+ 	},
+ 	ResultExpression = new List < ExpressionGroup > {
+ 		new ExpressionGroup {
+ 			Items = new List < JexprExpression > {
+ 				new MacroExpression {
+ 					Key = "Basket.Products",
+ 					MacroOperator = new AssignToResultFilter {
+ 						ResultProperties = new List < ResultProperty > {
+ 							new ResultProperty {
+ 								Name = "Discount"
+ 							},
+ 							new ResultProperty {
+ 								Name = "Basket", PropertyToPickUpFromParameters = "Basket"
+ 							}
+ 						},
+ 						InnerFilter = new ApplyPercentToSumFilter {
+ 							PropertyToVisit = "UnitPrice",
+ 							Percent = 20,
+ 							ResultProperty = "Discount",
+ 							MultiplierPropertyToVisit = "Quantity"
+ 						}
+ 					}
+ 				}
+ 			}
+ 		}
+ 	},
+ 	Operator = ExpressionGroupOp.Return
+ };
 ```
 
 ##Generated Js
