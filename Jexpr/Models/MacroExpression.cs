@@ -4,6 +4,6 @@ namespace Jexpr.Models
 {
     public class MacroExpression : JexprExpression
     {
-        public AbstractFilter MacroOperator { get; set; }
+        public AbstractFilter Filter { get; set; }
     }
 }

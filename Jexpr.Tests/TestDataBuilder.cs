@@ -71,7 +71,7 @@ namespace Jexpr.Tests
                         new MacroExpression
                         {
                             Key = "Basket.Products",
-                            MacroOperator =new AssignTakeSumOfMinXItemToResultFilter {PropertyToVisit = "UnitPrice", Take = 2}
+                            Filter =new AssignTakeSumOfMinXItemToResultFilter {PropertyToVisit = "UnitPrice", Take = 2}
                         }
                     },
 
@@ -125,7 +125,7 @@ namespace Jexpr.Tests
                     {
                         Items = new List<JexprExpression>
                         {
-                            new MacroExpression {Key = key, Value = num, MacroOperator = filter}
+                            new MacroExpression {Key = key, Value = num, Filter = filter}
                         },
 
                         Operator = ExpressionGroupOp.And
@@ -150,7 +150,7 @@ namespace Jexpr.Tests
                             new MacroExpression
                             {
                                 Key = "Basket.Products",
-                                MacroOperator = new GroupByFilter{PropertyToVisit = "Parameters.BoutiqueId",Key = "BoutiqueId",GroupSet = "Products"}
+                                Filter = new GroupByFilter{PropertyToVisit = "Parameters.BoutiqueId",Key = "BoutiqueId",GroupSet = "Products"}
                             }
                         },
 
@@ -176,7 +176,7 @@ namespace Jexpr.Tests
                             new MacroExpression
                             {
                                 Key = "Basket.Products",
-                                MacroOperator =
+                                Filter =
                                     new SelectFilter
                                     {
                                         Filters = new List<AbstractFilter>
@@ -191,15 +191,14 @@ namespace Jexpr.Tests
                                                 PropertyToVisit = "Parameters.Brand",
                                                 ValueToLookup = new List<string> {"Adidas"}
                                             }
-                                        },
-                                        AssignTo = "Basket.Products"
+                                        }
                                     }
                             },
                             new MacroExpression
                             {
                                 Key = "Parameters.BankBin",
                                 HasPriority = true,
-                                MacroOperator =new ExistsFilter {PropertyToVisit = "Parameters.BankBin",  ValueToSearch = new List<string> {"Garanti", "Teb", "Finans"}}
+                                Filter =new ExistsFilter {PropertyToVisit = "Parameters.BankBin",  ValueToLookup = new List<string> {"Garanti", "Teb", "Finans"}}
                             },
                             new BasicExpression
                             {
@@ -223,14 +222,14 @@ namespace Jexpr.Tests
                             new MacroExpression
                             {
                                 Key = "Basket.Products",
-                                MacroOperator = new AssignToResultFilter
+                                Filter = new AssignToResultFilter
                                 {
                                     ResultProperties = new List<ResultProperty>
                                     {
                                         new ResultProperty {Name = "Discount"},
                                         new ResultProperty {Name = "Basket", PropertyToPickUpFromParameters = "Basket"}
                                     },
-                                    InnerFilter = new ApplyPercentToSumFilter
+                                    Filter = new ApplyPercentToSumFilter
                                     {
                                         PropertyToVisit = "UnitPrice",
                                         Percent = 20,
@@ -261,7 +260,7 @@ namespace Jexpr.Tests
                             new MacroExpression
                             {
                                 Key = "Basket.Products",
-                                MacroOperator = new SelectFilter
+                                Filter = new SelectFilter
                                     {
                                         Filters = new List<AbstractFilter>
                                         {
@@ -270,8 +269,7 @@ namespace Jexpr.Tests
                                                 PropertyToVisit = "Parameters.Brand",
                                                 ValueToLookup = new List<string> {"Nike"}
                                             }
-                                        },
-                                        AssignTo = "Basket.Products"
+                                        }
                                     }
                             }
                         },
@@ -288,14 +286,14 @@ namespace Jexpr.Tests
                             new MacroExpression
                             {
                                 Key = "Basket.Products",
-                                MacroOperator = new AssignToResultFilter
+                                Filter = new AssignToResultFilter
                                 {
                                     ResultProperties = new List<ResultProperty>
                                     {
                                         new ResultProperty {Name = "Discount"},
                                         new ResultProperty {Name = "Basket", PropertyToPickUpFromParameters = "Basket"}
                                     },
-                                    InnerFilter = new ApplyPercentToSumFilter
+                                    Filter = new ApplyPercentToSumFilter
                                     {
                                         PropertyToVisit = "UnitPrice",
                                         Percent = 20,
@@ -326,7 +324,7 @@ namespace Jexpr.Tests
                             new MacroExpression
                             {
                                 Key = "Basket.Products",
-                                MacroOperator =
+                                Filter =
                                     new SelectFilter
                                     {
                                         Filters = new List<AbstractFilter>
@@ -336,8 +334,7 @@ namespace Jexpr.Tests
                                                 PropertyToVisit = "Parameters.Brand",
                                                 ValueToLookup = new List<string> {"Adidas"}
                                             }
-                                        },
-                                        AssignTo = "Basket.Products"
+                                        }
                                     }
                             }
                         },
@@ -354,14 +351,14 @@ namespace Jexpr.Tests
                             new MacroExpression
                             {
                                 Key = "Basket.Products",
-                                MacroOperator = new AssignToResultFilter
+                                Filter = new AssignToResultFilter
                                 {
                                     ResultProperties = new List<ResultProperty>
                                     {
                                         new ResultProperty {Name = "Discount"},
                                         new ResultProperty {Name = "Basket", PropertyToPickUpFromParameters = "Basket"}
                                     },
-                                    InnerFilter = new ApplyPercentToSumFilter
+                                    Filter = new ApplyPercentToSumFilter
                                     {
                                         PropertyToVisit = "UnitPrice",
                                         Percent = 20,
@@ -392,7 +389,7 @@ namespace Jexpr.Tests
                             new MacroExpression
                             {
                                 Key = "Basket.Products",
-                                MacroOperator =
+                                Filter =
                                     new SelectFilter
                                     {
                                         Filters = new List<AbstractFilter>
@@ -402,8 +399,7 @@ namespace Jexpr.Tests
                                                 PropertyToVisit = "Parameters.Brand",
                                                 ValueToLookup = new List<string> {"Nike"}
                                             }
-                                        },
-                                        AssignTo = "Basket.Products"
+                                        }
                                     }
                             }
                         },
@@ -420,14 +416,14 @@ namespace Jexpr.Tests
                             new MacroExpression
                             {
                                 Key = "Basket.Products",
-                                MacroOperator = new AssignToResultFilter
+                                Filter = new AssignToResultFilter
                                 {
                                     ResultProperties = new List<ResultProperty>
                                     {
                                         new ResultProperty {Name = "Discount"},
                                         new ResultProperty {Name = "Basket", PropertyToPickUpFromParameters = "Basket"}
                                     },
-                                    InnerFilter = new AssignTakeSumOfMinXItemToResultFilter
+                                    Filter = new AssignTakeSumOfMinXItemToResultFilter
                                     {
                                         PropertyToVisit = "UnitPrice",
                                          ResultProperty = "Discount",
@@ -457,7 +453,7 @@ namespace Jexpr.Tests
                             new MacroExpression
                             {
                                 Key = "Basket.Products",
-                                MacroOperator =
+                                Filter =
                                     new SelectFilter
                                     {
                                         Filters = new List<AbstractFilter>
@@ -467,8 +463,7 @@ namespace Jexpr.Tests
                                                 PropertyToVisit = "Parameters.Brand",
                                                 ValueToLookup = new List<string> {"Adidas"}
                                             }
-                                        },
-                                        AssignTo = "Basket.Products"
+                                        }
                                     }
                             }
                         },
@@ -485,14 +480,14 @@ namespace Jexpr.Tests
                             new MacroExpression
                             {
                                 Key = "Basket.Products",
-                                MacroOperator = new AssignToResultFilter
+                                Filter = new AssignToResultFilter
                                 {
                                     ResultProperties = new List<ResultProperty>
                                     {
                                         new ResultProperty {Name = "Discount"},
                                         new ResultProperty {Name = "Basket", PropertyToPickUpFromParameters = "Basket"}
                                     },
-                                    InnerFilter = new ApplyExactToSumFilter
+                                    Filter = new ApplyExactToSumFilter
                                     {
                                         PropertyToVisit = "UnitPrice",
                                         Amount = 100,
@@ -523,7 +518,7 @@ namespace Jexpr.Tests
                             new MacroExpression
                             {
                                 Key = "Basket.Products",
-                                MacroOperator =
+                                Filter =
                                     new SelectFilter
                                     {
                                         Filters = new List<AbstractFilter>
@@ -533,8 +528,7 @@ namespace Jexpr.Tests
                                                 PropertyToVisit = "Parameters.Brand",
                                                 ValueToLookup = new List<string> {"Adidas"}
                                             }
-                                        },
-                                        AssignTo = "Basket.Products"
+                                        }
                                     }
                             }
                         },
@@ -551,14 +545,14 @@ namespace Jexpr.Tests
                             new MacroExpression
                             {
                                 Key = "Basket.Products",
-                                MacroOperator = new AssignToResultFilter
+                                Filter = new AssignToResultFilter
                                 {
                                     ResultProperties = new List<ResultProperty>
                                     {
                                         new ResultProperty {Name = "Discount"},
                                         new ResultProperty {Name = "Basket", PropertyToPickUpFromParameters = "Basket"}
                                     },
-                                    InnerFilter = new ApplyExactToSumUsingParamtersFilter
+                                    Filter = new ApplyExactToSumUsingParamtersFilter
                                     {
                                         PropertyToVisit = "UnitPrice",
                                         ParameterName = "CodeDiscountAmount",
@@ -589,7 +583,7 @@ namespace Jexpr.Tests
                             new MacroExpression
                             {
                                 Key = "Basket.Products",
-                                MacroOperator = new ExistsFilter {PropertyToVisit = "Parameters.BoutiqueId" ,ValueToSearch = new List<int> {testIntParam, 12, 14}}
+                                Filter = new ExistsFilter {PropertyToVisit = "Parameters.BoutiqueId" ,ValueToLookup = new List<int> {testIntParam, 12, 14}}
                             }
                         },
 

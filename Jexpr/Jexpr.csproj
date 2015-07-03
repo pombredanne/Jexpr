@@ -75,7 +75,9 @@
     <Compile Include="ExpressionGroup.cs" />
     <Compile Include="ExpressionGroupOp.cs" />
     <Compile Include="ExpressionOp.cs" />
+    <Compile Include="Filters\AssignConditionalToResultFilter.cs" />
     <Compile Include="Filters\AssignExactToResultFilter.cs" />
+    <Compile Include="Filters\EqualFilter.cs" />
     <Compile Include="Filters\ReturnExactFilter.cs" />
     <Compile Include="Filters\ApplyExactToSumFilter.cs" />
     <Compile Include="Filters\ApplyExactToSumUsingParamtersFilter.cs" />
@@ -88,6 +90,7 @@
     <Compile Include="Filters\IndexOfFilter.cs" />
     <Compile Include="Filters\MaxFilter.cs" />
     <Compile Include="Filters\MinFilter.cs" />
+    <Compile Include="Filters\ReturnExactUsingParamtersFilter.cs" />
     <Compile Include="Filters\SelectFilter.cs" />
     <Compile Include="Filters\AssignExactTakeToResultFilter.cs" />
     <Compile Include="Filters\AssignToResultFilter.cs" />

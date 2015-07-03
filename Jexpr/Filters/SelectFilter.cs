@@ -15,7 +15,7 @@ namespace Jexpr.Filters
         {
             var innerFilterJsResult = GetJsFrom(Filters);
 
-            string assignToParameter = !string.IsNullOrEmpty(AssignTo) ? string.Format("p.{0} =", AssignTo) : String.Empty;
+            string assignToParameter = !string.IsNullOrEmpty(AssignTo) ? string.Format("p.{0} =", AssignTo) : String.Format("{0} =", parameterToChain);
 
             string result = string.Format(@"(  
                                     {2} (function () {{

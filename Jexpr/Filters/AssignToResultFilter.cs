@@ -9,7 +9,7 @@ namespace Jexpr.Filters
     public class AssignToResultFilter : AbstractFilter
     {
         public List<ResultProperty> ResultProperties { get; set; }
-        public AbstractFilter InnerFilter { get; set; }
+        public AbstractFilter Filter { get; set; }
         public override string ToJs(string parameterToChain)
         {
 
@@ -23,13 +23,13 @@ namespace Jexpr.Filters
                 }
                 else
                 {
-                    IHasResultProperty hasResultProperty = InnerFilter as IHasResultProperty;
+                    IHasResultProperty hasResultProperty = Filter as IHasResultProperty;
 
                     if (hasResultProperty != null)
                     {
                         if (resultProperty.Name == hasResultProperty.ResultProperty)
                         {
-                            builder.AppendFormat("result.{0} =  {1} {2}", hasResultProperty.ResultProperty, InnerFilter.ToJs(parameterToChain), Environment.NewLine);
+                            builder.AppendFormat("result.{0} =  {1} {2}", hasResultProperty.ResultProperty, Filter.ToJs(parameterToChain), Environment.NewLine);
                         }
                     }
                 }

@@ -59,11 +59,10 @@ namespace Jexpr.Core.Impl
 
         private string GenerateMacroJsExpr(MacroExpression macroExpression)
         {
-            AbstractFilter abstractFilter = macroExpression.MacroOperator;
+            AbstractFilter abstractFilter = macroExpression.Filter;
 
             string parameterToChain = string.Format("p.{0}", macroExpression.Key);
-
-
+            
             var result = abstractFilter.ToJs(parameterToChain);
 
             return result;

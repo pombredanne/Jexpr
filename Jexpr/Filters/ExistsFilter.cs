@@ -4,7 +4,7 @@ namespace Jexpr.Filters
 {
     public class ExistsFilter : AbstractFilter
     {
-        public object ValueToSearch { get; set; }
+        public object ValueToLookup { get; set; }
 
         public override string ToJs(string parameterToChain)
         {
@@ -25,7 +25,7 @@ namespace Jexpr.Filters
                                             return _pFound;
                                         }})()
                                     )",
-                parameterToChain, PropertyToVisit, JsonConvert.SerializeObject(ValueToSearch));
+                parameterToChain, PropertyToVisit, JsonConvert.SerializeObject(ValueToLookup));
 
             return result;
         }

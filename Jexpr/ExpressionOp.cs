@@ -23,6 +23,12 @@ namespace Jexpr
         GreaterThanOrEqual,
 
         [EnumMember(Value = "<=")]
-        LowerThanEqual
+        LowerThanEqual,
+
+        [EnumMember(Value = "&&")]
+        And,
+
+        [EnumMember(Value = "||")]
+        Or
     }
 }

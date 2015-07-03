@@ -8,7 +8,9 @@ namespace Jexpr.Filters
 
         public override string ToJs(string parameterToChain)
         {
-            string result = string.Format(@"( {0}.indexOf({1}) !== -1 )", JsonConvert.SerializeObject(ValueToLookup), parameterToChain);
+            string parameter = !string.IsNullOrEmpty(parameterToChain) && (parameterToChain != "p.") ? parameterToChain : string.Format("p.{0}", PropertyToVisit);
+
+            string result = string.Format(@"( {0}.indexOf({1}) !== -1 )", JsonConvert.SerializeObject(ValueToLookup), parameter);
 
             return result;
         }

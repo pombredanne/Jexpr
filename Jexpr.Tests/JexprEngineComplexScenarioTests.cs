@@ -87,6 +87,8 @@ namespace Jexpr.Tests
                 {"Parameters", new Dictionary<string, object> {{"BankBin", "Garanti"}, {"Age", 20}}}
             };
 
+            var serializeObject = JsonConvert.SerializeObject(parameters);
+
             JexprResult<TestApplyResult> result = _engine.Evaluate<TestApplyResult>(metadata, parameters);
             result.Should().NotBeNull();
             result.Value.Should().NotBeNull();
