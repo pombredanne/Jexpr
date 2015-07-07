@@ -199,3 +199,13 @@ function ExpFunc(parametersJson) {
     return JSON.stringify(result);
 }
 ```
+
+##Bugs
+If you encounter a bug, performance issue, or malfunction, please add an [Issue](https://github.com/ziyasal/jexpr/issues) with steps on how to reproduce the problem.
+
+##TODO
+- Add more tests
+- Add more documentation
+
+##License
+Code and documentation are available according to the *MIT* License (see [LICENSE](https://github.com/ziyasal/jexpr/blob/master/LICENSE)).
