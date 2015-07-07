@@ -37,9 +37,11 @@ ExpressionMetadata expressionMetadata = new ExpressionMetadata
                     {
                             Conditions = new List<AbstractFilter>
                             {
-                                new ConditionFilter("Parameters.BoutiqueId", ConditionOperator.Contains, 
+                                new ConditionFilter("Parameters.BoutiqueId", 
+                                    ConditionOperator.Contains, 
                                     new List<int> {12, 14}),
-                                new ConditionFilter("Parameters.Brand", ConditionOperator.Contains, 
+                                new ConditionFilter("Parameters.Brand", 
+                                    ConditionOperator.Contains, 
                                     new List<string> {"Adidas"})
                             }
                         }
@@ -48,7 +50,8 @@ ExpressionMetadata expressionMetadata = new ExpressionMetadata
                 {
                     Key = "Parameters.BankBin",
                     HasPriority = true,
-                    Filter =new ConditionFilter("Parameters.BankBin", ConditionOperator.SubSet,
+                    Filter =new ConditionFilter("Parameters.BankBin", 
+                            ConditionOperator.SubSet,
                             new List<string> {"Garanti", "Teb", "Finans"} )
                 },
                 new BasicExpression
@@ -78,9 +81,11 @@ ExpressionMetadata expressionMetadata = new ExpressionMetadata
                         ResultSet = new List<ResultProperty>
                         {
                             new ResultProperty {Name = "Discount"},
-                            new ResultProperty {Name = "Basket", PickUpFromParameters = "Basket"}
+                            new ResultProperty {Name = "Basket", 
+                                PickUpFromParameters = "Basket"}
                         },
-                        Filter = new ApplyToSumFilter("UnitPrice", "Discount", 20, ApplyOperator.Percent)
+                        Filter = new ApplyToSumFilter("UnitPrice", "Discount", 20, 
+                                 ApplyOperator.Percent)
                     }
                 }
             }
