@@ -24,9 +24,9 @@
 ```csharp
 ExpressionMetadata expressionMetadata = new ExpressionMetadata
 {
-    Items = new List<OperationExpression>
+    Items = new List<ExpressionGroup>
     {
-        new OperationExpression
+        new ExpressionGroup
         {
             Criteria = new List<AbstractExpression>
             {
@@ -38,10 +38,12 @@ ExpressionMetadata expressionMetadata = new ExpressionMetadata
                         {
                             Conditions = new List<AbstractFilter>
                             {
-                                new ConditionFilter("Parameters.BoutiqueId", ConditionOperator.Contains, 
-                                                    new List<int> {12, 14}),
-                                new ConditionFilter("Parameters.Brand", ConditionOperator.Contains, 
-                                                    new List<string> {"Adidas"})
+                                new ConditionFilter("Parameters.BoutiqueId", 
+                                    ConditionOperator.Contains, 
+                                    new List<int> {12, 14}),
+                                new ConditionFilter("Parameters.Brand", 
+                                    ConditionOperator.Contains, 
+                                    new List<string> {"Adidas"})
                             }
                         }
                 },
@@ -49,8 +51,9 @@ ExpressionMetadata expressionMetadata = new ExpressionMetadata
                 {
                     Key = "Parameters.BankBin",
                     HasPriority = true,
-                    Filter =new ConditionFilter("Parameters.BankBin", ConditionOperator.SubSet, 
-                                                new List<string> {"Garanti", "Teb", "Finans"} )
+                    Filter =new ConditionFilter("Parameters.BankBin", 
+                                ConditionOperator.SubSet, 
+                                new List<string> {"Garanti", "Teb", "Finans"} )
                 },
                 new BasicExpression
                 {
@@ -65,9 +68,9 @@ ExpressionMetadata expressionMetadata = new ExpressionMetadata
             Operator = OperationOperator.And
         }
     },
-    ResultExpression = new List<OperationExpression>
+    ResultExpression = new List<ExpressionGroup>
     {
-        new OperationExpression
+        new ExpressionGroup
         {
             Criteria = new List<AbstractExpression>
             {
@@ -79,7 +82,8 @@ ExpressionMetadata expressionMetadata = new ExpressionMetadata
                         ResultSet = new List<ResultProperty>
                         {
                             new ResultProperty {Name = "Discount"},
-                            new ResultProperty {Name = "Basket", PickUpFromParameters = "Basket"}
+                            new ResultProperty {Name = "Basket", 
+                                PickUpFromParameters = "Basket"}
                         },
                         Filter = new ApplyToSumFilter("Discount", 20 , ApplyOperator.Percent)
                         {
