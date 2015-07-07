@@ -105,14 +105,27 @@ function ExpFunc(parametersJson) {
     var p = JSON.parse(parametersJson);
     var result = {value: ''};
 
-    if (( ["Bank1", "Bank2", "Bank3"].indexOf(p.Parameters.BankBin) !== -1 ) 
-       && (p.Parameters.Age >= 20)) {
+    if ((
+            (function () {
+                var _pFound = false;
+                _.chain(p.Parameters.BankBin).pluck('Parameters.BankBin').each(function (key) {
+                    if (["Garanti", "Teb", "Finans"].indexOf(key) !== -1) {
+                        _pFound = true;
+                        return true;
+                    }
+
+                    return false;
+
+                }).value();
+
+                return _pFound;
+            })()
+        ) && (p.Parameters.Age >= 20)) {
         (
             p.Basket.Products = (function () {
                 var _pFilterResult = _.chain(p.Basket.Products).filter(function (item) {
 
-                    if (( [12, 14].indexOf(item.Parameters.BoutiqueId) !== -1 ) 
-                    && ( ["Adidas"].indexOf(item.Parameters.Brand) !== -1 )) {
+                    if (( [12, 14].indexOf(item.Parameters.BoutiqueId) !== -1 ) && ( ["Adidas"].indexOf(item.Parameters.Brand) !== -1 )) {
                         return true;
                     }
 
@@ -125,21 +138,13 @@ function ExpFunc(parametersJson) {
         )
     }
 
-    result.Discount = ( (
-        (function () {
-            var _pTotal = 0;
-            _.chain(p.Basket.Products).each(function (item) {
-                var _pUnitPrice = item.UnitPrice;
-                var _pQuantity = item.Quantity;
 
-                _pTotal += (_pUnitPrice * _pQuantity);
-            }).value();
-
-            return _pTotal;
-        })()
-    ) * (20 / 100) )
-    
+    result.Discount = ( (( _.chain(p.Basket.Products)
+        .pluck('TotalPrice')
+        .sum()
+        .value() )) * (20 / 100) )
     result.Basket = p.Basket
+
 
     return JSON.stringify(result);
 }
