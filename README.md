@@ -6,6 +6,7 @@
 
 **INTRODUCTION**
 - [Pseudo Expression](#pseudo-expression)
+- [Sample Parameters](#sample-parameters)
 - [Csharp Code Sample](#csharp-code-sample)
 - [Generated Js](#generated-js)
 
@@ -31,6 +32,44 @@
         END
       END
   END
+```
+
+## Sample Parameters
+```json
+{
+  "Basket": {
+    "Products": [
+      {
+        "UnitPrice": 166,
+        "Quantity": 151,
+        "Parameters": {
+          "BoutiqueId": 12,
+          "Brand": "Adidas"
+        }
+      },
+      {
+        "UnitPrice": 239,
+        "Quantity": 58,
+        "Parameters": {
+          "BoutiqueId": 12,
+          "Brand": "Nike"
+        }
+      },
+      {
+        "UnitPrice": 139,
+        "Quantity": 207,
+        "Parameters": {
+          "BoutiqueId": 18,
+          "Brand": "Nike"
+        }
+      }
+    ]
+  },
+  "Parameters": {
+    "BankBin": "Bank1",
+    "Age": 20
+  }
+}
 ```
 
 ##Csharp Code Sample
