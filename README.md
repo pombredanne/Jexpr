@@ -104,7 +104,7 @@ ExpressionMetadata expressionMetadata = new ExpressionMetadata
                     HasPriority = true,
                     Filter =new ConditionFilter("Parameters.BankBin", 
                             ConditionOperator.SubSet,
-                            new List<string> {"Garanti", "Teb", "Finans"} )
+                            new List<string> {"Bank1", "Bank2", "Bank3"} )
                 },
                 new BasicExpression
                 {
