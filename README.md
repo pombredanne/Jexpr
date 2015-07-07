@@ -30,30 +30,26 @@ ExpressionMetadata expressionMetadata = new ExpressionMetadata
         {
             Criteria = new List<AbstractExpression>
             {
-                new Jexpr.Models.OperationExpression
+                new OperationExpression
                 {
                     Key = "Basket.Products",
-                    Filter =
-                        new SelectFilter
-                        {
+                    Filter = new SelectFilter
+                    {
                             Conditions = new List<AbstractFilter>
                             {
-                                new ConditionFilter("Parameters.BoutiqueId", 
-                                    ConditionOperator.Contains, 
+                                new ConditionFilter("Parameters.BoutiqueId", ConditionOperator.Contains, 
                                     new List<int> {12, 14}),
-                                new ConditionFilter("Parameters.Brand", 
-                                    ConditionOperator.Contains, 
+                                new ConditionFilter("Parameters.Brand", ConditionOperator.Contains, 
                                     new List<string> {"Adidas"})
                             }
                         }
                 },
-                new Jexpr.Models.OperationExpression
+                new OperationExpression
                 {
                     Key = "Parameters.BankBin",
                     HasPriority = true,
-                    Filter =new ConditionFilter("Parameters.BankBin", 
-                                ConditionOperator.SubSet, 
-                                new List<string> {"Garanti", "Teb", "Finans"} )
+                    Filter =new ConditionFilter("Parameters.BankBin", ConditionOperator.SubSet,
+                            new List<string> {"Garanti", "Teb", "Finans"} )
                 },
                 new BasicExpression
                 {
@@ -74,21 +70,17 @@ ExpressionMetadata expressionMetadata = new ExpressionMetadata
         {
             Criteria = new List<AbstractExpression>
             {
-                new Jexpr.Models.OperationExpression
+                new OperationExpression
                 {
                     Key = "Basket.Products",
-                    Filter = new AssignToResultFilter
+                    Filter = new AssignToResultFilter()
                     {
                         ResultSet = new List<ResultProperty>
                         {
                             new ResultProperty {Name = "Discount"},
-                            new ResultProperty {Name = "Basket", 
-                                PickUpFromParameters = "Basket"}
+                            new ResultProperty {Name = "Basket", PickUpFromParameters = "Basket"}
                         },
-                        Filter = new ApplyToSumFilter("Discount", 20 , ApplyOperator.Percent)
-                        {
-                            PropertyToVisit = "UnitPrice"
-                        }
+                        Filter = new ApplyToSumFilter("UnitPrice", "Discount", 20, ApplyOperator.Percent)
                     }
                 }
             }
