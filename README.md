@@ -125,7 +125,8 @@ function ExpFunc(parametersJson) {
             p.Basket.Products = (function () {
                 var _pFilterResult = _.chain(p.Basket.Products).filter(function (item) {
 
-                    if (( [12, 14].indexOf(item.Parameters.BoutiqueId) !== -1 ) && ( ["Adidas"].indexOf(item.Parameters.Brand) !== -1 )) {
+                    if (( [12, 14].indexOf(item.Parameters.BoutiqueId) !== -1 ) 
+                      && ( ["Adidas"].indexOf(item.Parameters.Brand) !== -1 )) {
                         return true;
                     }
 
