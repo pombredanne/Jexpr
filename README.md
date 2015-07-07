@@ -22,78 +22,76 @@
 
 ##Csharp Code Sample
 ```csharp
- ExpressionMetadata expressionMetadata = new ExpressionMetadata {
- 	Items = new List < ExpressionGroup > {
- 		new ExpressionGroup {
- 			Items = new List < JexprExpression > {
- 				new MacroExpression {
- 					Key = "Basket.Products",
- 					MacroOperator = new SelectFilter {
- 						Filters = new List < AbstractFilter > {
- 							new IndexOfFilter {
- 								PropertyToVisit = "Parameters.BoutiqueId",
- 								ValueToLookup = new List < int > {
- 									12, 14
- 								}
- 							},
- 							new IndexOfFilter {
- 								PropertyToVisit = "Parameters.Brand",
- 								ValueToLookup = new List < string > {
- 									"Adidas"
- 								}
- 							}
- 						},
- 						AssignTo = "Basket.Products"
- 					}
- 				},
- 				new MacroExpression {
- 					Key = "Parameters.BankBin",
- 					HasPriority = true,
- 					MacroOperator = new ExistsFilter {
- 						PropertyToVisit = "Parameters.BankBin", ValueToSearch = new List < string > {
- 							"Garanti", "Teb", "Finans"
- 						}
- 					}
- 				},
- 				new BasicExpression {
- 					Key = "Parameters.Age",
- 					Value = 20,
- 					HasPriority = true,
- 					Operator = ExpressionOp.GreaterThanOrEqual
- 				}
+ExpressionMetadata expressionMetadata = new ExpressionMetadata
+{
+    Items = new List<OperationExpression>
+    {
+        new OperationExpression
+        {
+            Criteria = new List<AbstractExpression>
+            {
+                new Jexpr.Models.OperationExpression
+                {
+                    Key = "Basket.Products",
+                    Filter =
+                        new SelectFilter
+                        {
+                            Conditions = new List<AbstractFilter>
+                            {
+                                new ConditionFilter("Parameters.BoutiqueId", ConditionOperator.Contains, 
+                                                    new List<int> {12, 14}),
+                                new ConditionFilter("Parameters.Brand", ConditionOperator.Contains, 
+                                                    new List<string> {"Adidas"})
+                            }
+                        }
+                },
+                new Jexpr.Models.OperationExpression
+                {
+                    Key = "Parameters.BankBin",
+                    HasPriority = true,
+                    Filter =new ConditionFilter("Parameters.BankBin", ConditionOperator.SubSet, 
+                                                new List<string> {"Garanti", "Teb", "Finans"} )
+                },
+                new BasicExpression
+                {
+                    Key = "Parameters.Age",
+                    Value = 20,
+                    HasPriority = true,
+                    Operator = ConditionOperator.GreaterThanOrEqual
+                }
 
- 			},
+            },
 
- 			Operator = ExpressionGroupOp.And
- 		}
- 	},
- 	ResultExpression = new List < ExpressionGroup > {
- 		new ExpressionGroup {
- 			Items = new List < JexprExpression > {
- 				new MacroExpression {
- 					Key = "Basket.Products",
- 					MacroOperator = new AssignToResultFilter {
- 						ResultProperties = new List < ResultProperty > {
- 							new ResultProperty {
- 								Name = "Discount"
- 							},
- 							new ResultProperty {
- 								Name = "Basket", PropertyToPickUpFromParameters = "Basket"
- 							}
- 						},
- 						InnerFilter = new ApplyPercentToSumFilter {
- 							PropertyToVisit = "UnitPrice",
- 							Percent = 20,
- 							ResultProperty = "Discount",
- 							MultiplierPropertyToVisit = "Quantity"
- 						}
- 					}
- 				}
- 			}
- 		}
- 	},
- 	Operator = ExpressionGroupOp.Return
- };
+            Operator = OperationOperator.And
+        }
+    },
+    ResultExpression = new List<OperationExpression>
+    {
+        new OperationExpression
+        {
+            Criteria = new List<AbstractExpression>
+            {
+                new Jexpr.Models.OperationExpression
+                {
+                    Key = "Basket.Products",
+                    Filter = new AssignToResultFilter
+                    {
+                        ResultSet = new List<ResultProperty>
+                        {
+                            new ResultProperty {Name = "Discount"},
+                            new ResultProperty {Name = "Basket", PickUpFromParameters = "Basket"}
+                        },
+                        Filter = new ApplyToSumFilter("Discount", 20 , ApplyOperator.Percent)
+                        {
+                            PropertyToVisit = "UnitPrice"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    Operator = OperationOperator.None
+};
 ```
 
 ##Generated Js
