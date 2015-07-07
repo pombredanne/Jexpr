@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Jexpr.Filters;
 using Jexpr.Models;
 using Jexpr.Operators;
@@ -72,11 +73,7 @@ namespace Jexpr.Tests
                         new OperationExpression
                         {
                             Key = "Basket.Products",
-                            Filter =
-                                new AssignSumOfXItemToResultFilter(SortDirection.Descending, take: 2)
-                                {
-                                    PropertyToVisit = "UnitPrice"
-                                }
+                            Filter = new AssignSumOfXItemToResultFilter("UnitPrice", SortDirection.Descending, 2, String.Empty)
                         }
                     },
 
@@ -111,7 +108,7 @@ namespace Jexpr.Tests
         }
         public static ExpressionMetadata GetMacroExprDef4MinMax(int num, ConditionOperator op, string key, SortDirection sortDirection)
         {
-            AbstractFilter filter = sortDirection ==SortDirection.Ascending ? new FunctionFilter("UnitPrice", FunctionOperator.Max) : new FunctionFilter("UnitPrice", FunctionOperator.Min);
+            AbstractFilter filter = sortDirection == SortDirection.Ascending ? new FunctionFilter("UnitPrice", FunctionOperator.Max) : new FunctionFilter("UnitPrice", FunctionOperator.Min);
 
             ExpressionMetadata expressionMetadata = new ExpressionMetadata
             {
@@ -121,7 +118,7 @@ namespace Jexpr.Tests
                     {
                         Criteria = new List<AbstractExpression>
                         {
-                            new Jexpr.Models.OperationExpression {Key = key, Value = num, Filter = filter}
+                            new OperationExpression {Key = key, Value = num, Filter = filter}
                         },
 
                         Operator = OperationOperator.And
@@ -143,10 +140,10 @@ namespace Jexpr.Tests
                     {
                         Criteria = new List<AbstractExpression>
                         {
-                            new Jexpr.Models.OperationExpression
+                            new OperationExpression
                             {
                                 Key = "Basket.Products",
-                                Filter = new GroupByFilter{PropertyToVisit = "Parameters.BoutiqueId",Key = "BoutiqueId",GroupSet = "Products"}
+                                Filter = new GroupByFilter (propertyToVisit: "Parameters.BoutiqueId", key: "BoutiqueId", groupSet: "Products")
                             }
                         },
 
@@ -169,12 +166,11 @@ namespace Jexpr.Tests
                     {
                         Criteria = new List<AbstractExpression>
                         {
-                            new Jexpr.Models.OperationExpression
+                            new OperationExpression
                             {
                                 Key = "Basket.Products",
-                                Filter =
-                                    new SelectFilter
-                                    {
+                                Filter = new SelectFilter
+                                {
                                         Conditions = new List<AbstractFilter>
                                         {
                                             new ConditionFilter("Parameters.BoutiqueId", ConditionOperator.Contains, new List<int> {12, 14}),
@@ -182,7 +178,7 @@ namespace Jexpr.Tests
                                         }
                                     }
                             },
-                            new Jexpr.Models.OperationExpression
+                            new OperationExpression
                             {
                                 Key = "Parameters.BankBin",
                                 HasPriority = true,
@@ -207,20 +203,17 @@ namespace Jexpr.Tests
                     {
                         Criteria = new List<AbstractExpression>
                         {
-                            new Jexpr.Models.OperationExpression
+                            new OperationExpression
                             {
                                 Key = "Basket.Products",
-                                Filter = new AssignToResultFilter
+                                Filter = new AssignToResultFilter()
                                 {
                                     ResultSet = new List<ResultProperty>
                                     {
                                         new ResultProperty {Name = "Discount"},
                                         new ResultProperty {Name = "Basket", PickUpFromParameters = "Basket"}
                                     },
-                                    Filter = new ApplyToSumFilter("Discount", 20 , ApplyOperator.Percent)
-                                    {
-                                        PropertyToVisit = "UnitPrice"
-                                    }
+                                    Filter = new ApplyToSumFilter("UnitPrice", "Discount", 20, ApplyOperator.Percent)
                                 }
                             }
                         }
@@ -242,16 +235,17 @@ namespace Jexpr.Tests
                     {
                         Criteria = new List<AbstractExpression>
                         {
-                            new Jexpr.Models.OperationExpression
+                            new OperationExpression
                             {
                                 Key = "Basket.Products",
                                 Filter = new SelectFilter
+                                {
+                                    Conditions = new List<AbstractFilter>
                                     {
-                                        Conditions = new List<AbstractFilter>
-                                        {
-                                            new ConditionFilter("Parameters.Brand", ConditionOperator.Contains, new List<string> {"Nike"})
-                                        }
+                                        new ConditionFilter("Parameters.Brand", ConditionOperator.Contains,
+                                            new List<string> {"Nike"})
                                     }
+                                }
                             }
                         },
 
@@ -264,7 +258,7 @@ namespace Jexpr.Tests
                     {
                         Criteria = new List<AbstractExpression>
                         {
-                            new Jexpr.Models.OperationExpression
+                            new OperationExpression
                             {
                                 Key = "Basket.Products",
                                 Filter = new AssignToResultFilter
@@ -274,10 +268,7 @@ namespace Jexpr.Tests
                                         new ResultProperty {Name = "Discount"},
                                         new ResultProperty {Name = "Basket", PickUpFromParameters = "Basket"}
                                     },
-                                    Filter = new ApplyToSumFilter("Discount", 20 , ApplyOperator.Percent)
-                                    {
-                                        PropertyToVisit = "UnitPrice"
-                                    }
+                                    Filter = new ApplyToSumFilter("UnitPrice", "Discount", 20, ApplyOperator.Percent)
                                 }
                             }
                         }
@@ -299,11 +290,10 @@ namespace Jexpr.Tests
                     {
                         Criteria = new List<AbstractExpression>
                         {
-                            new Jexpr.Models.OperationExpression
+                            new OperationExpression
                             {
                                 Key = "Basket.Products",
-                                Filter =
-                                    new SelectFilter
+                                Filter = new SelectFilter
                                     {
                                         Conditions = new List<AbstractFilter>
                                         {
@@ -322,7 +312,7 @@ namespace Jexpr.Tests
                     {
                         Criteria = new List<AbstractExpression>
                         {
-                            new Jexpr.Models.OperationExpression
+                            new OperationExpression
                             {
                                 Key = "Basket.Products",
                                 Filter = new AssignToResultFilter
@@ -332,10 +322,7 @@ namespace Jexpr.Tests
                                         new ResultProperty {Name = "Discount"},
                                         new ResultProperty {Name = "Basket", PickUpFromParameters = "Basket"}
                                     },
-                                    Filter = new ApplyToSumFilter("Discount", 20 , ApplyOperator.Percent)
-                                    {
-                                        PropertyToVisit = "UnitPrice"
-                                    },
+                                    Filter = new ApplyToSumFilter("UnitPrice", "Discount", 20, ApplyOperator.Percent)
                                 }
                             }
                         }
@@ -357,7 +344,7 @@ namespace Jexpr.Tests
                     {
                         Criteria = new List<AbstractExpression>
                         {
-                            new Jexpr.Models.OperationExpression
+                            new OperationExpression
                             {
                                 Key = "Basket.Products",
                                 Filter =
@@ -380,7 +367,7 @@ namespace Jexpr.Tests
                     {
                         Criteria = new List<AbstractExpression>
                         {
-                            new Jexpr.Models.OperationExpression
+                            new OperationExpression
                             {
                                 Key = "Basket.Products",
                                 Filter = new AssignToResultFilter
@@ -390,11 +377,7 @@ namespace Jexpr.Tests
                                         new ResultProperty {Name = "Discount"},
                                         new ResultProperty {Name = "Basket", PickUpFromParameters = "Basket"}
                                     },
-                                    Filter = new AssignSumOfXItemToResultFilter(SortDirection.Descending, take:1)
-                                    {
-                                        PropertyToVisit = "UnitPrice",
-                                         ResultProperty = "Discount",
-                                    },
+                                    Filter = new AssignSumOfXItemToResultFilter("UnitPrice",SortDirection.Descending, 1, "Discount")
                                 }
                             }
                         }
@@ -417,11 +400,10 @@ namespace Jexpr.Tests
                     {
                         Criteria = new List<AbstractExpression>
                         {
-                            new Jexpr.Models.OperationExpression
+                            new OperationExpression
                             {
                                 Key = "Basket.Products",
-                                Filter =
-                                    new SelectFilter
+                                Filter = new SelectFilter
                                     {
                                         Conditions = new List<AbstractFilter>
                                         {
@@ -440,7 +422,7 @@ namespace Jexpr.Tests
                     {
                         Criteria = new List<AbstractExpression>
                         {
-                            new Jexpr.Models.OperationExpression
+                            new OperationExpression
                             {
                                 Key = "Basket.Products",
                                 Filter = new AssignToResultFilter
@@ -450,7 +432,7 @@ namespace Jexpr.Tests
                                         new ResultProperty {Name = "Discount"},
                                         new ResultProperty {Name = "Basket", PickUpFromParameters = "Basket"}
                                     },
-                                    Filter = new ApplyToSumFilter("Discount", 100, ApplyOperator.Exact){PropertyToVisit = "UnitPrice"}
+                                    Filter = new ApplyToSumFilter("UnitPrice", "Discount", 100, ApplyOperator.Exact)
                                 }
                             }
                         }
@@ -472,17 +454,17 @@ namespace Jexpr.Tests
                     {
                         Criteria = new List<AbstractExpression>
                         {
-                            new Jexpr.Models.OperationExpression
+                            new OperationExpression
                             {
                                 Key = "Basket.Products",
-                                Filter =
-                                    new SelectFilter
+                                Filter = new SelectFilter
+                                {
+                                    Conditions = new List<AbstractFilter>
                                     {
-                                        Conditions = new List<AbstractFilter>
-                                        {
-                                              new ConditionFilter("Parameters.Brand", ConditionOperator.Contains, new List<string> {"Adidas"})
-                                        }
+                                        new ConditionFilter("Parameters.Brand", ConditionOperator.Contains,
+                                            new List<string> {"Adidas"})
                                     }
+                                }
                             }
                         },
 
@@ -495,7 +477,7 @@ namespace Jexpr.Tests
                     {
                         Criteria = new List<AbstractExpression>
                         {
-                            new Jexpr.Models.OperationExpression
+                            new OperationExpression
                             {
                                 Key = "Basket.Products",
                                 Filter = new AssignToResultFilter
@@ -505,12 +487,7 @@ namespace Jexpr.Tests
                                         new ResultProperty {Name = "Discount"},
                                         new ResultProperty {Name = "Basket", PickUpFromParameters = "Basket"}
                                     },
-                                    Filter = new ApplyExactToSumUsingParamtersFilter
-                                    {
-                                        PropertyToVisit = "UnitPrice",
-                                        ParameterName = "CodeDiscountAmount",
-                                        ResultProperty = "Discount"
-                                    }
+                                    Filter = new ApplyExactToSumUsingParamtersFilter("UnitPrice", "CodeDiscountAmount", "Discount")
                                 }
                             }
                         }
@@ -532,7 +509,7 @@ namespace Jexpr.Tests
                     {
                         Criteria = new List<AbstractExpression>
                         {
-                            new Jexpr.Models.OperationExpression
+                            new OperationExpression
                             {
                                 Key = "Basket.Products",
                                 Filter = new ConditionFilter("Parameters.BoutiqueId", ConditionOperator.SubSet, new List<int> {testIntParam, 12, 14})

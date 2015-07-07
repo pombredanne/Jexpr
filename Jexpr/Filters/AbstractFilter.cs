@@ -7,7 +7,12 @@ namespace Jexpr.Filters
     /// </summary>
     public abstract class AbstractFilter
     {
-        public string PropertyToVisit { get; set; }
+        protected AbstractFilter(string propertyToVisit)
+        {
+            PropertyToVisit = propertyToVisit;
+        }
+
+        protected internal string PropertyToVisit { get; private set; }
         public List<AbstractFilter> Conditions { get; set; }
 
         public abstract string ToJs(string parameterToChain);

@@ -15,7 +15,8 @@ namespace Jexpr.Filters
         private readonly ConditionOperator _op;
         private readonly string _defaultAssigner;
 
-        public ApplyConditionToSumThenAssignToResultFilter(object value, string assignee, string assigner, ConditionOperator op, string defaultAssigner = "[]")
+        public ApplyConditionToSumThenAssignToResultFilter(string propertyToVisit, object value, string assignee, string assigner, ConditionOperator op, string defaultAssigner = "[]")
+            : base(propertyToVisit)
         {
             _value = value;
             _assignee = assignee;

@@ -13,6 +13,11 @@ namespace Jexpr.Filters
     {
         public List<ResultProperty> ResultSet { get; set; }
         public AbstractFilter Filter { get; set; }
+
+        public AssignToResultFilter(string propertyToVisit="") : base(propertyToVisit)
+        {
+        }
+
         public override string ToJs(string parameterToChain)
         {
 

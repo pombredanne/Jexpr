@@ -7,7 +7,8 @@
     {
         private readonly string _multiplier;
 
-        public SumWithMultiplyFilter(string multiplier)
+        public SumWithMultiplyFilter(string propertyToVisit, string multiplier)
+            : base(propertyToVisit)
         {
             _multiplier = multiplier;
         }

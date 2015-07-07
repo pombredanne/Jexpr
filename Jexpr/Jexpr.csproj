@@ -75,7 +75,6 @@
     <Compile Include="Core\IScriptLoader.cs" />
     <Compile Include="Filters\FunctionFilter.cs" />
     <Compile Include="Filters\SumWithMultiplyFilter.cs" />
-    <Compile Include="ExpressionGroup.cs" />
     <Compile Include="Filters\AssignConditionalToResultFilter.cs" />
     <Compile Include="Filters\AssignExactToResultFilter.cs" />
     <Compile Include="Filters\ConditionFilter.cs" />
@@ -93,6 +92,7 @@
     <Compile Include="Filters\SumOfTakeXItemFilter.cs" />
     <Compile Include="Interface\IHasResultProperty.cs" />
     <Compile Include="Models\AbstractExpression.cs" />
+    <Compile Include="Models\ExpressionGroup.cs" />
     <Compile Include="Models\ExpressionMetadata.cs" />
     <Compile Include="Models\JexprResult.cs" />
     <Compile Include="Models\JsExpressionResult.cs" />

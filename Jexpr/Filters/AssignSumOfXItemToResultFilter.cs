@@ -9,11 +9,13 @@ namespace Jexpr.Filters
     /// </summary>
     public class AssignSumOfXItemToResultFilter : SumOfXItemFilter, IHasResultProperty
     {
-        public AssignSumOfXItemToResultFilter(SortDirection sortDirection, int take = 0)
-            : base(sortDirection, take)
+        public AssignSumOfXItemToResultFilter(string propertyToVisit, SortDirection sortDirection, int take, string resultProperty)
+            : base(propertyToVisit, sortDirection, take)
         {
+            ResultProperty = resultProperty;
         }
-        public string ResultProperty { get; set; }
+
+        public string ResultProperty { get; internal protected set; }
 
         public override string ToJs(string parameterToChain)
         {

@@ -5,8 +5,17 @@
     /// </summary>
     public class GroupByFilter : AbstractFilter
     {
-        public string Key { get; set; }
-        public string GroupSet { get; set; }
+        private readonly string _key;
+        private readonly string _groupSet;
+
+        public GroupByFilter(string propertyToVisit, string key, string groupSet)
+            : base(propertyToVisit)
+        {
+            _key = key;
+            _groupSet = groupSet;
+        }
+
+
         public override string ToJs(string parameterToChain)
         {
             string result = string.Format(@"( _.chain({0})
@@ -19,7 +28,7 @@
                                                         return _.object(_.zip(['{2}', '{3}'], currentItem))
                                                     }})
                                                     .value()
-                                                )", parameterToChain, PropertyToVisit, Key, GroupSet);
+                                                )", parameterToChain, PropertyToVisit, _key, _groupSet);
 
             return result;
         }

@@ -8,7 +8,14 @@ namespace Jexpr.Filters
     /// </summary>
     public class AssignConditionalExactFilter : AbstractFilter, IHasResultProperty
     {
-        public decimal Value { get; set; }
+        private readonly decimal _exactValue;
+
+        public AssignConditionalExactFilter(decimal exactValue, string resultProperty, string propertyToVisit = "") : base(propertyToVisit)
+        {
+            _exactValue = exactValue;
+            ResultProperty = resultProperty;
+        }
+
         public override string ToJs(string parameterToChain)
         {
             var result = String.Format(@"( (function(){{
@@ -17,11 +24,11 @@ namespace Jexpr.Filters
                                                 }} else {{
                                                    return 0;
                                                 }}
-                                            }})() )", parameterToChain, Value);
+                                            }})() )", parameterToChain, _exactValue);
 
             return result;
         }
 
-        public string ResultProperty { get; set; }
+        public string ResultProperty { get; internal protected set; }
     }
 }

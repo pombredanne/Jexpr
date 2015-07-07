@@ -8,8 +8,16 @@ namespace Jexpr.Filters
     /// </summary>
     public class AssignConditionalExactUsingParamtersFilter : AbstractFilter, IHasResultProperty
     {
-        public string ParameterName { get; set; }
-        public string ResultProperty { get; set; }
+        private readonly string _parameterName;
+
+        public AssignConditionalExactUsingParamtersFilter(string parameterName, string resultProperty, string propertyToVisit = "")
+            : base(propertyToVisit)
+        {
+            _parameterName = parameterName;
+            ResultProperty = resultProperty;
+        }
+
+        public string ResultProperty { get; protected internal set; }
 
         public override string ToJs(string parameterToChain)
         {
@@ -19,7 +27,7 @@ namespace Jexpr.Filters
                                                 }} else {{ 
                                                     return 0; 
                                                 }}
-                                            }})() )", parameterToChain, ParameterName);
+                                            }})() )", parameterToChain, _parameterName);
 
             return result;
         }

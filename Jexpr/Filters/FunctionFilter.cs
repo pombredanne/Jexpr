@@ -8,19 +8,18 @@ namespace Jexpr.Filters
     /// </summary>
     public class FunctionFilter : AbstractFilter
     {
-        public FunctionFilter(string propertyToVisit, FunctionOperator op)
-        {
-            PropertyToVisit = propertyToVisit;
-            Operator = op;
-        }
+        private readonly FunctionOperator _operator;
 
-        public FunctionOperator Operator { get; private set; }
+        public FunctionFilter(string propertyToVisit, FunctionOperator @operator) : base(propertyToVisit)
+        {
+            _operator = @operator;
+        }
 
         public override string ToJs(string parameterToChain)
         {
             string result = String.Empty;
 
-            switch (Operator)
+            switch (_operator)
             {
                 case FunctionOperator.Min:
                     result = string.Format(@"( _.chain({0})

@@ -8,6 +8,11 @@ namespace Jexpr.Filters
     /// </summary>
     public class AssignExactToResultFilter : AssignConditionalExactFilter, IHasResultProperty
     {
+        public AssignExactToResultFilter(string propertyToVisit,decimal exactValue, string resultProperty)
+            : base(exactValue, resultProperty, propertyToVisit)
+        {
+        }
+
         public override string ToJs(string parameterToChain)
         {
             var baseJs = base.ToJs(parameterToChain);

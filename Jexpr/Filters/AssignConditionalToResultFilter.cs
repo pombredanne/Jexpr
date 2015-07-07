@@ -11,7 +11,8 @@ namespace Jexpr.Filters
     /// </summary>
     public class AssignConditionalToResultFilter : AbstractFilter
     {
-        public AssignConditionalToResultFilter()
+        public AssignConditionalToResultFilter(string propertyToVisit="")
+            : base(propertyToVisit)
         {
             DefaultAssigner = "[]";
         }

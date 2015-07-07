@@ -13,11 +13,10 @@ namespace Jexpr.Filters
         private readonly ConditionOperator _operator;
         private readonly object _value;
 
-        public ConditionFilter(string propertyToVisit, ConditionOperator @operator, object value)
+        public ConditionFilter(string propertyToVisit, ConditionOperator @operator, object value) : base(propertyToVisit)
         {
             _operator = @operator;
             _value = value;
-            PropertyToVisit = propertyToVisit;
         }
 
         public override string ToJs(string parameterToChain)

@@ -12,14 +12,15 @@ namespace Jexpr.Filters
         private readonly decimal _value;
         private readonly ApplyOperator _applyOperator;
 
-        public ApplyToSumFilter(string resultProperty, decimal value, ApplyOperator applyOperator)
+        public ApplyToSumFilter(string propertyToVisit, string resultProperty, decimal value, ApplyOperator applyOperator)
+            : base(propertyToVisit)
         {
             _value = value;
             _applyOperator = applyOperator;
             ResultProperty = resultProperty;
         }
 
-        public string ResultProperty { get; protected set; }
+        public string ResultProperty { get; internal protected set; }
 
         public override string ToJs(string parameterToChain)
         {
