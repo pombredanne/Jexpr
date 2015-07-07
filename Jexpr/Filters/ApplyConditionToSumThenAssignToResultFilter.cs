@@ -4,6 +4,9 @@ using Jexpr.Operators;
 
 namespace Jexpr.Filters
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class ApplyConditionToSumThenAssignToResultFilter : SumFilter
     {
         private readonly object _value;

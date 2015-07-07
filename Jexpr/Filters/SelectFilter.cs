@@ -4,6 +4,9 @@ using System.Linq;
 
 namespace Jexpr.Filters
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class SelectFilter : AbstractFilter
     {
         public object ValueToSearch { get; set; }
@@ -40,7 +43,7 @@ namespace Jexpr.Filters
 
         private string GetJsFrom(List<AbstractFilter> filters)
         {
-            List<string> listerExps = filters.Select(filter => filter.ToJs(String.Format("item.{0}", filter.Property))).ToList();
+            List<string> listerExps = filters.Select(filter => filter.ToJs(String.Format("item.{0}", filter.PropertyToVisit))).ToList();
 
             return String.Join(" && ", listerExps);
         }

@@ -1,5 +1,8 @@
 ﻿namespace Jexpr.Filters
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class SumFilter : AbstractFilter
     {
         public override string ToJs(string parameterToChain)
@@ -8,7 +11,7 @@
                                                 .pluck('{1}')
                                                 .sum()
                                                 .value() )",
-                parameterToChain, Property);
+                parameterToChain, PropertyToVisit);
 
             return result;
         }

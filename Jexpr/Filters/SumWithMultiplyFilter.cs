@@ -1,5 +1,8 @@
 ﻿namespace Jexpr.Filters
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class SumWithMultiplyFilter : AbstractFilter
     {
         private readonly string _multiplier;
@@ -26,7 +29,7 @@
                                         }}).value();
             
                                         return _pTotal;
-                                    }})()", parameterToChain, Property, _multiplier);
+                                    }})()", parameterToChain, PropertyToVisit, _multiplier);
             }
 
             return result;

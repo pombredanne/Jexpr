@@ -6,6 +6,9 @@ using Jexpr.Models;
 
 namespace Jexpr.Filters
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class AssignToResultFilter : AbstractFilter
     {
         public List<ResultProperty> ResultSet { get; set; }

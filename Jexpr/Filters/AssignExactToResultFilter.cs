@@ -6,7 +6,7 @@ namespace Jexpr.Filters
     /// <summary>
     /// Assign exact value to result
     /// </summary>
-    public class AssignExactToResultFilter : ReturnExactFilter, IHasResultProperty
+    public class AssignExactToResultFilter : AssignConditionalExactFilter, IHasResultProperty
     {
         public override string ToJs(string parameterToChain)
         {

@@ -13,9 +13,9 @@ namespace Jexpr.Tests
         {
             ExpressionMetadata metadata = new ExpressionMetadata
             {
-                Items = new List<OperationExpression>
+                Items = new List<ExpressionGroup>
                 {
-                    new OperationExpression
+                    new ExpressionGroup
                     {
                         Criteria = new List<AbstractExpression>
                         {
@@ -61,18 +61,22 @@ namespace Jexpr.Tests
 
             return metadata;
         }
-        public static List<OperationExpression> GetResultExpression(int num)
+        public static List<ExpressionGroup> GetResultExpression(int num)
         {
-            return new List<OperationExpression>
+            return new List<ExpressionGroup>
             {
-                new OperationExpression
+                new ExpressionGroup
                 {
                     Criteria = new List<AbstractExpression>
                     {
-                        new Jexpr.Models.OperationExpression
+                        new OperationExpression
                         {
                             Key = "Basket.Products",
-                            Filter =new AssignTakeSumOfMinXItemToResultFilter {Property = "UnitPrice", Take = 2}
+                            Filter =
+                                new AssignSumOfXItemToResultFilter(SortDirection.Descending, take: 2)
+                                {
+                                    PropertyToVisit = "UnitPrice"
+                                }
                         }
                     },
 
@@ -90,9 +94,9 @@ namespace Jexpr.Tests
 
             ExpressionMetadata expressionMetadata = new ExpressionMetadata
             {
-                Items = new List<OperationExpression>
+                Items = new List<ExpressionGroup>
                 {
-                    new OperationExpression
+                    new ExpressionGroup
                     {
                         Criteria = expressionList,
 
@@ -105,24 +109,15 @@ namespace Jexpr.Tests
 
             return expressionMetadata;
         }
-        public static ExpressionMetadata GetMacroExprDef4MinMax(int num, ConditionOperator op, string key, bool max)
+        public static ExpressionMetadata GetMacroExprDef4MinMax(int num, ConditionOperator op, string key, SortDirection sortDirection)
         {
-            AbstractFilter filter;
-
-            if (max)
-            {
-                filter = new FunctionFilter("UnitPrice", FunctionOperator.Max);
-            }
-            else
-            {
-                filter = new FunctionFilter("UnitPrice", FunctionOperator.Min);
-            }
+            AbstractFilter filter = sortDirection ==SortDirection.Ascending ? new FunctionFilter("UnitPrice", FunctionOperator.Max) : new FunctionFilter("UnitPrice", FunctionOperator.Min);
 
             ExpressionMetadata expressionMetadata = new ExpressionMetadata
             {
-                Items = new List<OperationExpression>
+                Items = new List<ExpressionGroup>
                 {
-                    new OperationExpression
+                    new ExpressionGroup
                     {
                         Criteria = new List<AbstractExpression>
                         {
@@ -142,16 +137,16 @@ namespace Jexpr.Tests
         {
             ExpressionMetadata expressionMetadata = new ExpressionMetadata
             {
-                Items = new List<OperationExpression>
+                Items = new List<ExpressionGroup>
                 {
-                    new OperationExpression
+                    new ExpressionGroup
                     {
                         Criteria = new List<AbstractExpression>
                         {
                             new Jexpr.Models.OperationExpression
                             {
                                 Key = "Basket.Products",
-                                Filter = new GroupByFilter{Property = "Parameters.BoutiqueId",Key = "BoutiqueId",GroupSet = "Products"}
+                                Filter = new GroupByFilter{PropertyToVisit = "Parameters.BoutiqueId",Key = "BoutiqueId",GroupSet = "Products"}
                             }
                         },
 
@@ -168,9 +163,9 @@ namespace Jexpr.Tests
         {
             ExpressionMetadata expressionMetadata = new ExpressionMetadata
             {
-                Items = new List<OperationExpression>
+                Items = new List<ExpressionGroup>
                 {
-                    new OperationExpression
+                    new ExpressionGroup
                     {
                         Criteria = new List<AbstractExpression>
                         {
@@ -206,9 +201,9 @@ namespace Jexpr.Tests
                         Operator = OperationOperator.And
                     }
                 },
-                ResultExpression = new List<OperationExpression>
+                ResultExpression = new List<ExpressionGroup>
                 {
-                    new OperationExpression
+                    new ExpressionGroup
                     {
                         Criteria = new List<AbstractExpression>
                         {
@@ -224,7 +219,7 @@ namespace Jexpr.Tests
                                     },
                                     Filter = new ApplyToSumFilter("Discount", 20 , ApplyOperator.Percent)
                                     {
-                                        Property = "UnitPrice"
+                                        PropertyToVisit = "UnitPrice"
                                     }
                                 }
                             }
@@ -241,9 +236,9 @@ namespace Jexpr.Tests
         {
             ExpressionMetadata expressionMetadata = new ExpressionMetadata
             {
-                Items = new List<OperationExpression>
+                Items = new List<ExpressionGroup>
                 {
-                    new OperationExpression
+                    new ExpressionGroup
                     {
                         Criteria = new List<AbstractExpression>
                         {
@@ -263,9 +258,9 @@ namespace Jexpr.Tests
                         Operator = OperationOperator.And
                     }
                 },
-                ResultExpression = new List<OperationExpression>
+                ResultExpression = new List<ExpressionGroup>
                 {
-                    new OperationExpression
+                    new ExpressionGroup
                     {
                         Criteria = new List<AbstractExpression>
                         {
@@ -281,7 +276,7 @@ namespace Jexpr.Tests
                                     },
                                     Filter = new ApplyToSumFilter("Discount", 20 , ApplyOperator.Percent)
                                     {
-                                        Property = "UnitPrice"
+                                        PropertyToVisit = "UnitPrice"
                                     }
                                 }
                             }
@@ -298,9 +293,9 @@ namespace Jexpr.Tests
         {
             ExpressionMetadata expressionMetadata = new ExpressionMetadata
             {
-                Items = new List<OperationExpression>
+                Items = new List<ExpressionGroup>
                 {
-                    new OperationExpression
+                    new ExpressionGroup
                     {
                         Criteria = new List<AbstractExpression>
                         {
@@ -321,9 +316,9 @@ namespace Jexpr.Tests
                         Operator = OperationOperator.And
                     }
                 },
-                ResultExpression = new List<OperationExpression>
+                ResultExpression = new List<ExpressionGroup>
                 {
-                    new OperationExpression
+                    new ExpressionGroup
                     {
                         Criteria = new List<AbstractExpression>
                         {
@@ -339,7 +334,7 @@ namespace Jexpr.Tests
                                     },
                                     Filter = new ApplyToSumFilter("Discount", 20 , ApplyOperator.Percent)
                                     {
-                                        Property = "UnitPrice"
+                                        PropertyToVisit = "UnitPrice"
                                     },
                                 }
                             }
@@ -356,9 +351,9 @@ namespace Jexpr.Tests
         {
             ExpressionMetadata expressionMetadata = new ExpressionMetadata
             {
-                Items = new List<OperationExpression>
+                Items = new List<ExpressionGroup>
                 {
-                    new OperationExpression
+                    new ExpressionGroup
                     {
                         Criteria = new List<AbstractExpression>
                         {
@@ -379,9 +374,9 @@ namespace Jexpr.Tests
                         Operator = OperationOperator.And
                     }
                 },
-                ResultExpression = new List<OperationExpression>
+                ResultExpression = new List<ExpressionGroup>
                 {
-                    new OperationExpression
+                    new ExpressionGroup
                     {
                         Criteria = new List<AbstractExpression>
                         {
@@ -395,9 +390,9 @@ namespace Jexpr.Tests
                                         new ResultProperty {Name = "Discount"},
                                         new ResultProperty {Name = "Basket", PickUpFromParameters = "Basket"}
                                     },
-                                    Filter = new AssignTakeSumOfMinXItemToResultFilter
+                                    Filter = new AssignSumOfXItemToResultFilter(SortDirection.Descending, take:1)
                                     {
-                                        Property = "UnitPrice",
+                                        PropertyToVisit = "UnitPrice",
                                          ResultProperty = "Discount",
                                     },
                                 }
@@ -416,9 +411,9 @@ namespace Jexpr.Tests
         {
             ExpressionMetadata expressionMetadata = new ExpressionMetadata
             {
-                Items = new List<OperationExpression>
+                Items = new List<ExpressionGroup>
                 {
-                    new OperationExpression
+                    new ExpressionGroup
                     {
                         Criteria = new List<AbstractExpression>
                         {
@@ -439,9 +434,9 @@ namespace Jexpr.Tests
                         Operator = OperationOperator.And
                     }
                 },
-                ResultExpression = new List<OperationExpression>
+                ResultExpression = new List<ExpressionGroup>
                 {
-                    new OperationExpression
+                    new ExpressionGroup
                     {
                         Criteria = new List<AbstractExpression>
                         {
@@ -455,7 +450,7 @@ namespace Jexpr.Tests
                                         new ResultProperty {Name = "Discount"},
                                         new ResultProperty {Name = "Basket", PickUpFromParameters = "Basket"}
                                     },
-                                    Filter = new ApplyToSumFilter("Discount", 100, ApplyOperator.Exact){Property = "UnitPrice"}
+                                    Filter = new ApplyToSumFilter("Discount", 100, ApplyOperator.Exact){PropertyToVisit = "UnitPrice"}
                                 }
                             }
                         }
@@ -471,9 +466,9 @@ namespace Jexpr.Tests
         {
             ExpressionMetadata expressionMetadata = new ExpressionMetadata
             {
-                Items = new List<OperationExpression>
+                Items = new List<ExpressionGroup>
                 {
-                    new OperationExpression
+                    new ExpressionGroup
                     {
                         Criteria = new List<AbstractExpression>
                         {
@@ -494,9 +489,9 @@ namespace Jexpr.Tests
                         Operator = OperationOperator.And
                     }
                 },
-                ResultExpression = new List<OperationExpression>
+                ResultExpression = new List<ExpressionGroup>
                 {
-                    new OperationExpression
+                    new ExpressionGroup
                     {
                         Criteria = new List<AbstractExpression>
                         {
@@ -512,7 +507,7 @@ namespace Jexpr.Tests
                                     },
                                     Filter = new ApplyExactToSumUsingParamtersFilter
                                     {
-                                        Property = "UnitPrice",
+                                        PropertyToVisit = "UnitPrice",
                                         ParameterName = "CodeDiscountAmount",
                                         ResultProperty = "Discount"
                                     }
@@ -531,9 +526,9 @@ namespace Jexpr.Tests
         {
             ExpressionMetadata expressionMetadata = new ExpressionMetadata
             {
-                Items = new List<OperationExpression>
+                Items = new List<ExpressionGroup>
                 {
-                    new OperationExpression
+                    new ExpressionGroup
                     {
                         Criteria = new List<AbstractExpression>
                         {

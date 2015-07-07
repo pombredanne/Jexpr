@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using Jexpr.Models;
+using Jexpr.Operators;
 
 namespace Jexpr
 {
     public class ExpressionGroup
     {
-        public List<JexprExpression> Items { get; set; }
+        public List<AbstractExpression> Criteria { get; set; }
 
-        public ExpressionGroupOp Operator { get; set; }
+        public OperationOperator Operator { get; set; }
     }
 }

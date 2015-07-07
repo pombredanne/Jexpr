@@ -3,11 +3,14 @@ using Jexpr.Operators;
 
 namespace Jexpr.Filters
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class FunctionFilter : AbstractFilter
     {
-        public FunctionFilter(string property, FunctionOperator op)
+        public FunctionFilter(string propertyToVisit, FunctionOperator op)
         {
-            Property = property;
+            PropertyToVisit = propertyToVisit;
             Operator = op;
         }
 
@@ -24,7 +27,7 @@ namespace Jexpr.Filters
                                                 .pluck('{1}')
                                                 .sortByOrder(false)
                                                 .min()
-                                                .value() )", parameterToChain, Property);
+                                                .value() )", parameterToChain, PropertyToVisit);
                     break;
                 case FunctionOperator.Max:
                     result = string.Format(@"( _.chain({0})
@@ -32,7 +35,7 @@ namespace Jexpr.Filters
                                                 .sortByOrder()
                                                 .max()
                                                 .value() )",
-                parameterToChain, Property);
+                parameterToChain, PropertyToVisit);
                     break;
             }
 

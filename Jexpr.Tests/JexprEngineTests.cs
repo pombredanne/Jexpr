@@ -138,7 +138,7 @@ namespace Jexpr.Tests
 
             int min = (int)testBasket.Products.Select(item => item.UnitPrice).Min(arg => arg);
 
-            var expression = TestDataBuilder.GetMacroExprDef4MinMax(min, ConditionOperator.Equal, "Basket.Products", max: false);
+            var expression = TestDataBuilder.GetMacroExprDef4MinMax(min, ConditionOperator.Equal, "Basket.Products", SortDirection.Descending);
 
             var parameters = new Dictionary<string, object>
             {
@@ -160,7 +160,7 @@ namespace Jexpr.Tests
 
             int max = (int)testBasket.Products.Select(item => item.UnitPrice).Max(arg => arg);
 
-            var expression = TestDataBuilder.GetMacroExprDef4MinMax(max, ConditionOperator.Equal, "Basket.Products", max: true);
+            var expression = TestDataBuilder.GetMacroExprDef4MinMax(max, ConditionOperator.Equal, "Basket.Products", SortDirection.Ascending);
 
             var parameters = new Dictionary<string, object>
             {

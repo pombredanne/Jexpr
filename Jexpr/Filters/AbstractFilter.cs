@@ -2,9 +2,12 @@
 
 namespace Jexpr.Filters
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public abstract class AbstractFilter
     {
-        public string Property { get; set; }
+        public string PropertyToVisit { get; set; }
         public List<AbstractFilter> Conditions { get; set; }
 
         public abstract string ToJs(string parameterToChain);

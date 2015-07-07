@@ -42,11 +42,11 @@ namespace Jexpr.Core.Impl
             return result.ToString();
         }
 
-        public List<string> ConcatCompiledExpressions(List<OperationExpression> groups)
+        public List<string> ConcatCompiledExpressions(List<ExpressionGroup> groups)
         {
             List<string> result = new List<string>();
 
-            foreach (OperationExpression expressionGroup in groups)
+            foreach (ExpressionGroup expressionGroup in groups)
             {
                 List<string> groupExpressionList = expressionGroup.Criteria
                     .Select(basicExpression => _jsStringBuilder.BuildFrom(basicExpression))

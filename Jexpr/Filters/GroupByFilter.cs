@@ -1,5 +1,8 @@
 ﻿namespace Jexpr.Filters
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class GroupByFilter : AbstractFilter
     {
         public string Key { get; set; }
@@ -16,7 +19,7 @@
                                                         return _.object(_.zip(['{2}', '{3}'], currentItem))
                                                     }})
                                                     .value()
-                                                )", parameterToChain, Property, Key, GroupSet);
+                                                )", parameterToChain, PropertyToVisit, Key, GroupSet);
 
             return result;
         }

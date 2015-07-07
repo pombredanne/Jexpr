@@ -3,6 +3,9 @@ using Jexpr.Interface;
 
 namespace Jexpr.Filters
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class ApplyExactToSumUsingParamtersFilter : SumFilter, IHasResultProperty
     {
         public string ParameterName { get; set; }

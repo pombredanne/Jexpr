@@ -5,25 +5,30 @@ using Newtonsoft.Json;
 
 namespace Jexpr.Filters
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class ConditionFilter : AbstractFilter
     {
-        public ConditionFilter(string property, ConditionOperator op, object value)
-        {
-            Property = property;
-            Operator = op;
-            Value = value;
-        }
+        private readonly ConditionOperator _operator;
+        private readonly object _value;
 
-        public ConditionOperator Operator { get; private set; }
-        public object Value { get; private set; }
+        public ConditionFilter(string propertyToVisit, ConditionOperator @operator, object value)
+        {
+            _operator = @operator;
+            _value = value;
+            PropertyToVisit = propertyToVisit;
+        }
 
         public override string ToJs(string parameterToChain)
         {
             string result;
 
-            if (Operator == ConditionOperator.SubSet)
+            switch (_operator)
             {
-                result = string.Format(@"(  
+                case ConditionOperator.SubSet:
+                    {
+                        result = string.Format(@"(  
                                     (function () {{
                                             var _pFound=false;
                                             _.chain({0}).pluck('{1}').each(function (key) {{
@@ -39,21 +44,35 @@ namespace Jexpr.Filters
                                             return _pFound;
                                         }})()
                                     )",
-                    parameterToChain, Property, JsonConvert.SerializeObject(Value));
-            }
-            else if (Operator == ConditionOperator.Contains)
-            {
-                string parameter = !string.IsNullOrEmpty(parameterToChain) && (parameterToChain != "p.") ? parameterToChain : string.Format("p.{0}", Property);
+                          parameterToChain, PropertyToVisit, JsonConvert.SerializeObject(_value));
+                        break;
+                    }
+                case ConditionOperator.Contains:
+                    {
+                        string parameter = !string.IsNullOrEmpty(parameterToChain) && (parameterToChain != "p.")
+                         ? parameterToChain
+                         : string.Format("p.{0}", PropertyToVisit);
 
-                result = string.Format(@"( {0}.indexOf({1}) !== -1 )", JsonConvert.SerializeObject(Value), parameter);
-            }
-            else if (Operator == ConditionOperator.Mod)
-            {
-                result = string.Format(@"( (p.{1} % {0}) === 0 )", Value.ToString().ToLower(), Property);
-            }
-            else
-            {
-                result = string.Format(@"( {0} {1} p.{2} )", Value.ToString().ToLower(), Operator.ToName(), Property);
+                        result = string.Format(@"( {0}.indexOf({1}) !== -1 )", JsonConvert.SerializeObject(_value), parameter);
+                        break;
+                    }
+                case ConditionOperator.Mod:
+                    {
+                        if (!_value.IsNumeric())
+                        {
+                            throw new InvalidOperationException("Value must be number for evaluate MODULUS operation.");
+                        }
+
+                        result = string.Format(@"( (p.{1} % {0}) === 0 )", _value.ToString().ToLower(), PropertyToVisit);
+                        break;
+                    }
+                default:
+                    {
+                        string tmpValue = _value is bool ? _value.ToString().ToLower() : _value.ToString();
+
+                        result = string.Format(@"( {0} {1} p.{2} )", tmpValue, _operator.ToName(), PropertyToVisit);
+                        break;
+                    }
             }
 
             return result;
