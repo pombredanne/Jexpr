@@ -6,7 +6,7 @@ namespace Jexpr.Core.Impl
 {
     internal sealed class JsStringBuilder : IJsStringBuilder
     {
-        public string BuildFrom(JexprExpression expression)
+        public string BuildFrom(AbstractExpression expression)
         {
             BasicExpression basicExpression = expression as BasicExpression;
 
@@ -22,46 +22,46 @@ namespace Jexpr.Core.Impl
             return result;
         }
 
-        private string GenerateJsExprByType(JexprExpression jexprExpression, string op)
+        private string GenerateJsExprByType(AbstractExpression abstractExpression, string op)
         {
             string result;
 
-            MacroExpression macroExpression = jexprExpression as MacroExpression;
+            Models.OperationExpression operationExpression = abstractExpression as Models.OperationExpression;
 
-            if (macroExpression != null)
+            if (operationExpression != null)
             {
                 if (string.IsNullOrEmpty(op))
                 {
-                    result = string.Format("{0}", GenerateMacroJsExpr(macroExpression));
+                    result = string.Format("{0}", GenerateMacroJsExpr(operationExpression));
                 }
                 else
                 {
-                    result = macroExpression.Value != null
-                  ? string.Format("({0} {1} {2})", GenerateMacroJsExpr(macroExpression), op, jexprExpression.Value)
-                  : string.Format("{0}", GenerateMacroJsExpr(macroExpression));
+                    result = operationExpression.Value != null
+                  ? string.Format("({0} {1} {2})", GenerateMacroJsExpr(operationExpression), op, abstractExpression.Value)
+                  : string.Format("{0}", GenerateMacroJsExpr(operationExpression));
                 }
 
             }
             else
             {
-                if (jexprExpression.Value is string)
+                if (abstractExpression.Value is string)
                 {
-                    result = string.Format("({0} {1} '{2}')", string.Format("p.{0}", jexprExpression.Key), op, jexprExpression.Value);
+                    result = string.Format("({0} {1} '{2}')", string.Format("p.{0}", abstractExpression.Key), op, abstractExpression.Value);
                 }
                 else
                 {
-                    result = string.Format("({0} {1} {2})", string.Format("p.{0}", jexprExpression.Key), op, jexprExpression.Value);
+                    result = string.Format("({0} {1} {2})", string.Format("p.{0}", abstractExpression.Key), op, abstractExpression.Value);
                 }
             }
 
             return result;
         }
 
-        private string GenerateMacroJsExpr(MacroExpression macroExpression)
+        private string GenerateMacroJsExpr(Models.OperationExpression operationExpression)
         {
-            AbstractFilter abstractFilter = macroExpression.Filter;
+            AbstractFilter abstractFilter = operationExpression.Filter;
 
-            string parameterToChain = string.Format("p.{0}", macroExpression.Key);
+            string parameterToChain = string.Format("p.{0}", operationExpression.Key);
             
             var result = abstractFilter.ToJs(parameterToChain);
 

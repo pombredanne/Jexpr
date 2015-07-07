@@ -4,6 +4,6 @@ namespace Jexpr.Tests.Models
     {
         public decimal Discount { get; set; }
         public int PromotionId{ get; set; }
-        public Basket Basket{ get; set; }
+        public TestBasket TestBasket{ get; set; }
     }
 }

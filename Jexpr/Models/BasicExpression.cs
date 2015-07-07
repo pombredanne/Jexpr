@@ -1,7 +1,9 @@
-﻿namespace Jexpr.Models
+﻿using Jexpr.Operators;
+
+namespace Jexpr.Models
 {
-    public class BasicExpression : JexprExpression
+    public class BasicExpression : AbstractExpression
     {
-        public ExpressionOp Operator { get; set; }
+        public ConditionOperator Operator { get; set; }
     }
 }

@@ -8,18 +8,18 @@ namespace Jexpr.Filters
 {
     public class AssignToResultFilter : AbstractFilter
     {
-        public List<ResultProperty> ResultProperties { get; set; }
+        public List<ResultProperty> ResultSet { get; set; }
         public AbstractFilter Filter { get; set; }
         public override string ToJs(string parameterToChain)
         {
 
             StringBuilder builder = new StringBuilder();
 
-            foreach (ResultProperty resultProperty in ResultProperties)
+            foreach (ResultProperty resultProperty in ResultSet)
             {
-                if (!string.IsNullOrEmpty(resultProperty.PropertyToPickUpFromParameters))
+                if (!string.IsNullOrEmpty(resultProperty.PickUpFromParameters))
                 {
-                    builder.AppendFormat("result.{0} = p.{1} {2}", resultProperty.Name, resultProperty.PropertyToPickUpFromParameters, Environment.NewLine);
+                    builder.AppendFormat("result.{0} = p.{1} {2}", resultProperty.Name, resultProperty.PickUpFromParameters, Environment.NewLine);
                 }
                 else
                 {

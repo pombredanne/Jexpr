@@ -16,7 +16,7 @@
                                                         return _.object(_.zip(['{2}', '{3}'], currentItem))
                                                     }})
                                                     .value()
-                                                )", parameterToChain, PropertyToVisit, Key, GroupSet);
+                                                )", parameterToChain, Property, Key, GroupSet);
 
             return result;
         }

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text;
 using Jexpr.Models;
+using Jexpr.Operators;
 
 namespace Jexpr.Core.Impl
 {
@@ -15,23 +16,23 @@ namespace Jexpr.Core.Impl
         }
 
 
-        public string ConcatJsExpressionBody(ExpressionGroupOp op, List<string> expressions)
+        public string ConcatJsExpressionBody(OperationOperator op, List<string> expressions)
         {
             StringBuilder result = new StringBuilder();
 
             switch (op)
             {
-                case ExpressionGroupOp.And:
+                case OperationOperator.And:
                     {
                         result.Append(string.Join(" && ", expressions));
                         break;
                     }
-                case ExpressionGroupOp.Or:
+                case OperationOperator.Or:
                     {
                         result.Append(string.Join(" || ", expressions));
                         break;
                     }
-                case ExpressionGroupOp.Return:
+                case OperationOperator.None:
                     {
                         result.Append(string.Join("", expressions));
                         break;
@@ -41,24 +42,24 @@ namespace Jexpr.Core.Impl
             return result.ToString();
         }
 
-        public List<string> ConcatCompiledExpressions(List<ExpressionGroup> groups)
+        public List<string> ConcatCompiledExpressions(List<OperationExpression> groups)
         {
             List<string> result = new List<string>();
 
-            foreach (ExpressionGroup expressionGroup in groups)
+            foreach (OperationExpression expressionGroup in groups)
             {
-                List<string> groupExpressionList = expressionGroup.Items
+                List<string> groupExpressionList = expressionGroup.Criteria
                     .Select(basicExpression => _jsStringBuilder.BuildFrom(basicExpression))
                     .ToList();
 
                 switch (expressionGroup.Operator)
                 {
-                    case ExpressionGroupOp.And:
+                    case OperationOperator.And:
                         {
                             result.Add(string.Join(" && ", groupExpressionList));
                             break;
                         }
-                    case ExpressionGroupOp.Or:
+                    case OperationOperator.Or:
                         {
                             result.Add(string.Join(" || ", groupExpressionList));
                             break;
@@ -71,7 +72,7 @@ namespace Jexpr.Core.Impl
             return result;
         }
 
-        public List<string> ConcatCompiledExpressions(List<JexprExpression> expressions, ExpressionGroupOp expressionGroupOp)
+        public List<string> ConcatCompiledExpressions(List<AbstractExpression> expressions, OperationOperator operationOperator)
         {
             List<string> result = new List<string>();
 
@@ -79,14 +80,14 @@ namespace Jexpr.Core.Impl
                     .Select(basicExpression => _jsStringBuilder.BuildFrom(basicExpression))
                     .ToList();
 
-            switch (expressionGroupOp)
+            switch (operationOperator)
             {
-                case ExpressionGroupOp.And:
+                case OperationOperator.And:
                     {
                         result.Add(string.Join(" && ", groupExpressionList));
                         break;
                     }
-                case ExpressionGroupOp.Or:
+                case OperationOperator.Or:
                     {
                         result.Add(string.Join(" || ", groupExpressionList));
                         break;

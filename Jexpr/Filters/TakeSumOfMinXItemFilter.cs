@@ -1,6 +1,6 @@
 namespace Jexpr.Filters
 {
-    public class TakeSumOfMinXItemFilter : SumOfTakeXItemFilter
+    public class TakeSumOfMinXItemFilter : SumOfXItemFilter
     {
         public TakeSumOfMinXItemFilter()
         {

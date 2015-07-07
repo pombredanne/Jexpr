@@ -48,7 +48,7 @@ namespace Jexpr.Templates
 
 		var expressionGroup = this.ExpressionMetadata.Items.First();
 		//Priority = true
-		var hasPExprs = concatService.ConcatCompiledExpressions(expressionGroup.Items.Where(expression => expression.HasPriority).ToList(), expressionGroup.Operator);
+		var hasPExprs = concatService.ConcatCompiledExpressions(expressionGroup.Criteria.Where(expression => expression.HasPriority).ToList(), expressionGroup.Operator);
 		var jshasPExprsBody = concatService.ConcatJsExpressionBody(this.ExpressionMetadata.Operator, hasPExprs);
 	 
             
@@ -72,7 +72,7 @@ namespace Jexpr.Templates
             
             #line 27 "D:\Trendyol\Trendyol\FrontEnd\Dev\API\PromotionApi\Jexpr\Templates\JexprJsGeneratorTemplate.tt"
  
-		   var hasntPExprs = concatService.ConcatCompiledExpressions(expressionGroup.Items.Where(expression => !expression.HasPriority).ToList(), expressionGroup.Operator);
+		   var hasntPExprs = concatService.ConcatCompiledExpressions(expressionGroup.Criteria.Where(expression => !expression.HasPriority).ToList(), expressionGroup.Operator);
 		   var jshasntPExprsBody = concatService.ConcatJsExpressionBody(this.ExpressionMetadata.Operator, hasntPExprs);
 		 
             
@@ -139,7 +139,7 @@ namespace Jexpr.Templates
             #line 42 "D:\Trendyol\Trendyol\FrontEnd\Dev\API\PromotionApi\Jexpr\Templates\JexprJsGeneratorTemplate.tt"
  
 		var resultExpGroup = this.ExpressionMetadata.ResultExpression.First();
-		var resultExp = resultExpGroup.Items.First();
+		var resultExp = resultExpGroup.Criteria.First();
 		string resultExpJs = builder.BuildFrom(resultExp);
 		 
             

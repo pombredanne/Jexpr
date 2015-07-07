@@ -6,14 +6,13 @@ namespace Jexpr.Filters
 {
     public class SelectFilter : AbstractFilter
     {
-        public List<AbstractFilter> Filters { get; set; }
         public object ValueToSearch { get; set; }
 
         public string AssignTo { get; set; }
 
         public override string ToJs(string parameterToChain)
         {
-            var innerFilterJsResult = GetJsFrom(Filters);
+            var innerFilterJsResult = GetJsFrom(Conditions);
 
             string assignToParameter = !string.IsNullOrEmpty(AssignTo) ? string.Format("p.{0} =", AssignTo) : String.Format("{0} =", parameterToChain);
 
@@ -22,7 +21,7 @@ namespace Jexpr.Filters
                                             var _pFilterResult= _.chain({0}).filter(function (item) {{
 
                                               if({1}){{
-                                                    return true;
+                                                 return true;
                                               }}
                                               
                                               return false;
@@ -41,7 +40,7 @@ namespace Jexpr.Filters
 
         private string GetJsFrom(List<AbstractFilter> filters)
         {
-            List<string> listerExps = filters.Select(filter => filter.ToJs(String.Format("item.{0}", filter.PropertyToVisit))).ToList();
+            List<string> listerExps = filters.Select(filter => filter.ToJs(String.Format("item.{0}", filter.Property))).ToList();
 
             return String.Join(" && ", listerExps);
         }

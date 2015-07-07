@@ -5,6 +5,7 @@ using FluentAssertions;
 using Jexpr.Core;
 using Jexpr.Core.Impl;
 using Jexpr.Models;
+using Jexpr.Operators;
 using Jexpr.Templates;
 using Jexpr.Tests.Models;
 using Newtonsoft.Json;
@@ -47,7 +48,7 @@ namespace Jexpr.Tests
         [Test]
         public void Equal_Expression_Test()
         {
-            JexprResult<bool> result = GetExprEvalResult<bool>(ExpressionOp.Equal, TEST_INT_PARAM);
+            JexprResult<bool> result = GetExprEvalResult<bool>(ConditionOperator.Equal, TEST_INT_PARAM);
 
             result.Should().NotBeNull();
             Assert.IsTrue(result.Value);
@@ -56,7 +57,7 @@ namespace Jexpr.Tests
         [Test]
         public void NotEqual_Expression_Test()
         {
-            JexprResult<bool> result = GetExprEvalResult<bool>(ExpressionOp.NotEqual, TEST_INT_PARAM + 1);
+            JexprResult<bool> result = GetExprEvalResult<bool>(ConditionOperator.NotEqual, TEST_INT_PARAM + 1);
 
             result.Should().NotBeNull();
             Assert.IsTrue(result.Value);
@@ -65,7 +66,7 @@ namespace Jexpr.Tests
         [Test]
         public void GreaterThan_Expression_Test()
         {
-            JexprResult<bool> result = GetExprEvalResult<bool>(ExpressionOp.GreaterThan, TEST_INT_PARAM + 1);
+            JexprResult<bool> result = GetExprEvalResult<bool>(ConditionOperator.GreaterThan, TEST_INT_PARAM + 1);
 
             result.Should().NotBeNull();
             Assert.IsTrue(result.Value);
@@ -74,7 +75,7 @@ namespace Jexpr.Tests
         [Test]
         public void LowerThan_Expression_Test()
         {
-            JexprResult<bool> result = GetExprEvalResult<bool>(ExpressionOp.LowerThan, TEST_INT_PARAM - 1);
+            JexprResult<bool> result = GetExprEvalResult<bool>(ConditionOperator.LowerThan, TEST_INT_PARAM - 1);
 
             result.Should().NotBeNull();
             Assert.IsTrue(result.Value);
@@ -83,7 +84,7 @@ namespace Jexpr.Tests
         [Test]
         public void GreaterThanEqual_Expression_Test()
         {
-            JexprResult<bool> result = GetExprEvalResult<bool>(ExpressionOp.GreaterThanOrEqual, TEST_INT_PARAM);
+            JexprResult<bool> result = GetExprEvalResult<bool>(ConditionOperator.GreaterThanOrEqual, TEST_INT_PARAM);
 
             result.Should().NotBeNull();
             Assert.IsTrue(result.Value);
@@ -92,7 +93,7 @@ namespace Jexpr.Tests
         [Test]
         public void LowerThanEqual_Expression_Test()
         {
-            JexprResult<bool> result = GetExprEvalResult<bool>(ExpressionOp.LowerThanEqual, TEST_INT_PARAM);
+            JexprResult<bool> result = GetExprEvalResult<bool>(ConditionOperator.LowerThanEqual, TEST_INT_PARAM);
 
             result.Should().NotBeNull();
             Assert.IsTrue(result.Value);
@@ -103,13 +104,13 @@ namespace Jexpr.Tests
         {
             var expression = TestDataBuilder.GetInExprDef(TEST_INT_PARAM, "BoutiqueId");
 
-            Basket basket = FixtureRepository.Build<Basket>().With(b => b.Products, FixtureRepository.CreateMany<Product>(1).ToList()).Create();
+            TestBasket testBasket = FixtureRepository.Build<TestBasket>().With(b => b.Products, FixtureRepository.CreateMany<TestProduct>(1).ToList()).Create();
 
-            basket.Products[0].Parameters.Add("BoutiqueId", TEST_INT_PARAM);
+            testBasket.Products[0].Parameters.Add("BoutiqueId", TEST_INT_PARAM);
 
             var parameters = new Dictionary<string, object>
             {
-                {"Basket", basket},
+                {"Basket", testBasket},
                 {
                     "Parameters",
                     new Dictionary<string, object>
@@ -133,15 +134,15 @@ namespace Jexpr.Tests
         [Test]
         public void Min_Expression_Test()
         {
-            Basket basket = FixtureRepository.Create<Basket>();
+            TestBasket testBasket = FixtureRepository.Create<TestBasket>();
 
-            int min = (int)basket.Products.Select(item => item.UnitPrice).Min(arg => arg);
+            int min = (int)testBasket.Products.Select(item => item.UnitPrice).Min(arg => arg);
 
-            var expression = TestDataBuilder.GetMacroExprDef4MinMax(min, ExpressionOp.Equal, "Basket.Products", max: false);
+            var expression = TestDataBuilder.GetMacroExprDef4MinMax(min, ConditionOperator.Equal, "Basket.Products", max: false);
 
             var parameters = new Dictionary<string, object>
             {
-                {"Basket", basket}
+                {"Basket", testBasket}
             };
 
             string json = JsonConvert.SerializeObject(parameters);
@@ -155,15 +156,15 @@ namespace Jexpr.Tests
         [Test]
         public void Max_Expression_Test()
         {
-            Basket basket = FixtureRepository.Create<Basket>();
+            TestBasket testBasket = FixtureRepository.Create<TestBasket>();
 
-            int max = (int)basket.Products.Select(item => item.UnitPrice).Max(arg => arg);
+            int max = (int)testBasket.Products.Select(item => item.UnitPrice).Max(arg => arg);
 
-            var expression = TestDataBuilder.GetMacroExprDef4MinMax(max, ExpressionOp.Equal, "Basket.Products", max: true);
+            var expression = TestDataBuilder.GetMacroExprDef4MinMax(max, ConditionOperator.Equal, "Basket.Products", max: true);
 
             var parameters = new Dictionary<string, object>
             {
-                {"Basket", basket}
+                {"Basket", testBasket}
             };
 
             string json = JsonConvert.SerializeObject(parameters);
@@ -177,21 +178,21 @@ namespace Jexpr.Tests
         [Test]
         public void Engine_Eval_Js_Expression_Test()
         {
-            Basket basket = FixtureRepository.Create<Basket>();
+            TestBasket testBasket = FixtureRepository.Create<TestBasket>();
 
-            basket.Products[0].Parameters.Add("BoutiqueId", 12);
-            basket.Products[1].Parameters.Add("BoutiqueId", 12);
-            basket.Products[2].Parameters.Add("BoutiqueId", 18);
+            testBasket.Products[0].Parameters.Add("BoutiqueId", 12);
+            testBasket.Products[1].Parameters.Add("BoutiqueId", 12);
+            testBasket.Products[2].Parameters.Add("BoutiqueId", 18);
 
-            basket.Products[0].Parameters.Add("Brand", "Adidas");
-            basket.Products[1].Parameters.Add("Brand", "Nike");
-            basket.Products[2].Parameters.Add("Brand", "Nike");
+            testBasket.Products[0].Parameters.Add("Brand", "Adidas");
+            testBasket.Products[1].Parameters.Add("Brand", "Nike");
+            testBasket.Products[2].Parameters.Add("Brand", "Nike");
 
             var metadata = TestDataBuilder.GetMacroExprMetadata4ComplexScenarion1();
 
             var parameters = new Dictionary<string, object>
             {
-                {"Basket", basket},
+                {"Basket", testBasket},
                 {"Parameters", new Dictionary<string, object> {{"BankBin", "Garanti"}, {"Age", 20}}}
             };
 
@@ -207,7 +208,7 @@ namespace Jexpr.Tests
             result.Value.Discount.Should().BeGreaterThan(0m);
         }
 
-        private JexprResult<T> GetExprEvalResult<T>(ExpressionOp op, object paramValue)
+        private JexprResult<T> GetExprEvalResult<T>(ConditionOperator op, object paramValue)
         {
             var expression = TestDataBuilder.GetBasicExprDef(TEST_INT_PARAM, op, "BoutiqueId");
 

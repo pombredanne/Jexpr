@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Jexpr.Filters;
 using Jexpr.Models;
+using Jexpr.Operators;
 using Jexpr.Tests.Models;
 using Ploeh.AutoFixture;
 
@@ -12,76 +13,76 @@ namespace Jexpr.Tests
         {
             ExpressionMetadata metadata = new ExpressionMetadata
             {
-                Items = new List<ExpressionGroup>
+                Items = new List<OperationExpression>
                 {
-                    new ExpressionGroup
+                    new OperationExpression
                     {
-                        Items = new List<JexprExpression>
+                        Criteria = new List<AbstractExpression>
                         {
                             new BasicExpression
                             {
                                 Key = "BoutiqueId",
                                 Value = 258,
-                                Operator = ExpressionOp.Equal
+                                Operator = ConditionOperator.Equal
                             }
                             ,
                             new BasicExpression
                             {
                                 Key = "BasketTotal",
                                 Value = 200,
-                                Operator = ExpressionOp.Equal
+                                Operator = ConditionOperator.Equal
                             },
                             new BasicExpression
                             {
                                 Key = "CodeCampaign",
                                 Value = 63,
-                                Operator = ExpressionOp.LowerThan
+                                Operator = ConditionOperator.LowerThan
                             },
                             new BasicExpression
                             {
                                 Key = "BankBin",
                                 Value = "Garanti",
-                                Operator = ExpressionOp.Equal
+                                Operator = ConditionOperator.Equal
                             },
                             new BasicExpression
                             {
                                 Key = "SavedCreditCard",
                                 Value = 1,
-                                Operator = ExpressionOp.Equal
+                                Operator = ConditionOperator.Equal
                             }
                         },
 
-                        Operator = ExpressionGroupOp.And
+                        Operator = OperationOperator.And
                     }
                 },
 
-                Operator = ExpressionGroupOp.And
+                Operator = OperationOperator.And
             };
 
             return metadata;
         }
-        public static List<ExpressionGroup> GetResultExpression(int num)
+        public static List<OperationExpression> GetResultExpression(int num)
         {
-            return new List<ExpressionGroup>
+            return new List<OperationExpression>
             {
-                new ExpressionGroup
+                new OperationExpression
                 {
-                    Items = new List<JexprExpression>
+                    Criteria = new List<AbstractExpression>
                     {
-                        new MacroExpression
+                        new Jexpr.Models.OperationExpression
                         {
                             Key = "Basket.Products",
-                            Filter =new AssignTakeSumOfMinXItemToResultFilter {PropertyToVisit = "UnitPrice", Take = 2}
+                            Filter =new AssignTakeSumOfMinXItemToResultFilter {Property = "UnitPrice", Take = 2}
                         }
                     },
 
-                    Operator = ExpressionGroupOp.And
+                    Operator = OperationOperator.And
                 }
             };
         }
-        public static ExpressionMetadata GetBasicExprDef(int num, ExpressionOp op, string key)
+        public static ExpressionMetadata GetBasicExprDef(int num, ConditionOperator op, string key)
         {
-            var expressionList = new List<JexprExpression>
+            var expressionList = new List<AbstractExpression>
             {
                 new BasicExpression{Key = key,Value = num,Operator = op}
             };
@@ -89,50 +90,50 @@ namespace Jexpr.Tests
 
             ExpressionMetadata expressionMetadata = new ExpressionMetadata
             {
-                Items = new List<ExpressionGroup>
+                Items = new List<OperationExpression>
                 {
-                    new ExpressionGroup
+                    new OperationExpression
                     {
-                        Items = expressionList,
+                        Criteria = expressionList,
 
-                        Operator = ExpressionGroupOp.And
+                        Operator = OperationOperator.And
                     }
                 },
 
-                Operator = ExpressionGroupOp.And
+                Operator = OperationOperator.And
             };
 
             return expressionMetadata;
         }
-        public static ExpressionMetadata GetMacroExprDef4MinMax(int num, ExpressionOp op, string key, bool max)
+        public static ExpressionMetadata GetMacroExprDef4MinMax(int num, ConditionOperator op, string key, bool max)
         {
             AbstractFilter filter;
 
             if (max)
             {
-                filter = new MaxFilter { PropertyToVisit = "UnitPrice" };
+                filter = new FunctionFilter("UnitPrice", FunctionOperator.Max);
             }
             else
             {
-                filter = new MinFilter { PropertyToVisit = "UnitPrice" };
+                filter = new FunctionFilter("UnitPrice", FunctionOperator.Min);
             }
 
             ExpressionMetadata expressionMetadata = new ExpressionMetadata
             {
-                Items = new List<ExpressionGroup>
+                Items = new List<OperationExpression>
                 {
-                    new ExpressionGroup
+                    new OperationExpression
                     {
-                        Items = new List<JexprExpression>
+                        Criteria = new List<AbstractExpression>
                         {
-                            new MacroExpression {Key = key, Value = num, Filter = filter}
+                            new Jexpr.Models.OperationExpression {Key = key, Value = num, Filter = filter}
                         },
 
-                        Operator = ExpressionGroupOp.And
+                        Operator = OperationOperator.And
                     }
                 },
 
-                Operator = ExpressionGroupOp.And
+                Operator = OperationOperator.And
             };
 
             return expressionMetadata;
@@ -141,23 +142,23 @@ namespace Jexpr.Tests
         {
             ExpressionMetadata expressionMetadata = new ExpressionMetadata
             {
-                Items = new List<ExpressionGroup>
+                Items = new List<OperationExpression>
                 {
-                    new ExpressionGroup
+                    new OperationExpression
                     {
-                        Items = new List<JexprExpression>
+                        Criteria = new List<AbstractExpression>
                         {
-                            new MacroExpression
+                            new Jexpr.Models.OperationExpression
                             {
                                 Key = "Basket.Products",
-                                Filter = new GroupByFilter{PropertyToVisit = "Parameters.BoutiqueId",Key = "BoutiqueId",GroupSet = "Products"}
+                                Filter = new GroupByFilter{Property = "Parameters.BoutiqueId",Key = "BoutiqueId",GroupSet = "Products"}
                             }
                         },
 
-                        Operator = ExpressionGroupOp.And
+                        Operator = OperationOperator.And
                     }
                 },
-                Operator = ExpressionGroupOp.Return
+                Operator = OperationOperator.None
             };
 
             return expressionMetadata;
@@ -167,81 +168,70 @@ namespace Jexpr.Tests
         {
             ExpressionMetadata expressionMetadata = new ExpressionMetadata
             {
-                Items = new List<ExpressionGroup>
+                Items = new List<OperationExpression>
                 {
-                    new ExpressionGroup
+                    new OperationExpression
                     {
-                        Items = new List<JexprExpression>
+                        Criteria = new List<AbstractExpression>
                         {
-                            new MacroExpression
+                            new Jexpr.Models.OperationExpression
                             {
                                 Key = "Basket.Products",
                                 Filter =
                                     new SelectFilter
                                     {
-                                        Filters = new List<AbstractFilter>
+                                        Conditions = new List<AbstractFilter>
                                         {
-                                            new IndexOfFilter
-                                            {
-                                                PropertyToVisit = "Parameters.BoutiqueId",
-                                                ValueToLookup = new List<int> {12, 14}
-                                            },
-                                            new IndexOfFilter
-                                            {
-                                                PropertyToVisit = "Parameters.Brand",
-                                                ValueToLookup = new List<string> {"Adidas"}
-                                            }
+                                            new ConditionFilter("Parameters.BoutiqueId", ConditionOperator.Contains, new List<int> {12, 14}),
+                                            new ConditionFilter("Parameters.Brand", ConditionOperator.Contains, new List<string> {"Adidas"})
                                         }
                                     }
                             },
-                            new MacroExpression
+                            new Jexpr.Models.OperationExpression
                             {
                                 Key = "Parameters.BankBin",
                                 HasPriority = true,
-                                Filter =new ExistsFilter {PropertyToVisit = "Parameters.BankBin",  ValueToLookup = new List<string> {"Garanti", "Teb", "Finans"}}
+                                Filter =new ConditionFilter("Parameters.BankBin", ConditionOperator.SubSet, new List<string> {"Garanti", "Teb", "Finans"} )
                             },
                             new BasicExpression
                             {
                                 Key = "Parameters.Age",
                                 Value = 20,
                                 HasPriority = true,
-                                Operator = ExpressionOp.GreaterThanOrEqual
+                                Operator = ConditionOperator.GreaterThanOrEqual
                             }
 
                         },
 
-                        Operator = ExpressionGroupOp.And
+                        Operator = OperationOperator.And
                     }
                 },
-                ResultExpression = new List<ExpressionGroup>
+                ResultExpression = new List<OperationExpression>
                 {
-                    new ExpressionGroup
+                    new OperationExpression
                     {
-                        Items = new List<JexprExpression>
+                        Criteria = new List<AbstractExpression>
                         {
-                            new MacroExpression
+                            new Jexpr.Models.OperationExpression
                             {
                                 Key = "Basket.Products",
                                 Filter = new AssignToResultFilter
                                 {
-                                    ResultProperties = new List<ResultProperty>
+                                    ResultSet = new List<ResultProperty>
                                     {
                                         new ResultProperty {Name = "Discount"},
-                                        new ResultProperty {Name = "Basket", PropertyToPickUpFromParameters = "Basket"}
+                                        new ResultProperty {Name = "Basket", PickUpFromParameters = "Basket"}
                                     },
-                                    Filter = new ApplyPercentToSumFilter
+                                    Filter = new ApplyToSumFilter("Discount", 20 , ApplyOperator.Percent)
                                     {
-                                        PropertyToVisit = "UnitPrice",
-                                        Percent = 20,
-                                        ResultProperty = "Discount",
-                                        MultiplierPropertyToVisit = "Quantity"
+                                        Property = "UnitPrice"
                                     }
                                 }
                             }
                         }
                     }
                 },
-                Operator = ExpressionGroupOp.Return
+                Operator = OperationOperator.None
             };
 
             return expressionMetadata;
@@ -251,61 +241,54 @@ namespace Jexpr.Tests
         {
             ExpressionMetadata expressionMetadata = new ExpressionMetadata
             {
-                Items = new List<ExpressionGroup>
+                Items = new List<OperationExpression>
                 {
-                    new ExpressionGroup
+                    new OperationExpression
                     {
-                        Items = new List<JexprExpression>
+                        Criteria = new List<AbstractExpression>
                         {
-                            new MacroExpression
+                            new Jexpr.Models.OperationExpression
                             {
                                 Key = "Basket.Products",
                                 Filter = new SelectFilter
                                     {
-                                        Filters = new List<AbstractFilter>
+                                        Conditions = new List<AbstractFilter>
                                         {
-                                            new IndexOfFilter
-                                            {
-                                                PropertyToVisit = "Parameters.Brand",
-                                                ValueToLookup = new List<string> {"Nike"}
-                                            }
+                                            new ConditionFilter("Parameters.Brand", ConditionOperator.Contains, new List<string> {"Nike"})
                                         }
                                     }
                             }
                         },
 
-                        Operator = ExpressionGroupOp.And
+                        Operator = OperationOperator.And
                     }
                 },
-                ResultExpression = new List<ExpressionGroup>
+                ResultExpression = new List<OperationExpression>
                 {
-                    new ExpressionGroup
+                    new OperationExpression
                     {
-                        Items = new List<JexprExpression>
+                        Criteria = new List<AbstractExpression>
                         {
-                            new MacroExpression
+                            new Jexpr.Models.OperationExpression
                             {
                                 Key = "Basket.Products",
                                 Filter = new AssignToResultFilter
                                 {
-                                    ResultProperties = new List<ResultProperty>
+                                    ResultSet = new List<ResultProperty>
                                     {
                                         new ResultProperty {Name = "Discount"},
-                                        new ResultProperty {Name = "Basket", PropertyToPickUpFromParameters = "Basket"}
+                                        new ResultProperty {Name = "Basket", PickUpFromParameters = "Basket"}
                                     },
-                                    Filter = new ApplyPercentToSumFilter
+                                    Filter = new ApplyToSumFilter("Discount", 20 , ApplyOperator.Percent)
                                     {
-                                        PropertyToVisit = "UnitPrice",
-                                        Percent = 20,
-                                        ResultProperty = "Discount",
-                                        MultiplierPropertyToVisit = "Quantity"
+                                        Property = "UnitPrice"
                                     }
                                 }
                             }
                         }
                     }
                 },
-                Operator = ExpressionGroupOp.Return
+                Operator = OperationOperator.None
             };
 
             return expressionMetadata;
@@ -315,62 +298,55 @@ namespace Jexpr.Tests
         {
             ExpressionMetadata expressionMetadata = new ExpressionMetadata
             {
-                Items = new List<ExpressionGroup>
+                Items = new List<OperationExpression>
                 {
-                    new ExpressionGroup
+                    new OperationExpression
                     {
-                        Items = new List<JexprExpression>
+                        Criteria = new List<AbstractExpression>
                         {
-                            new MacroExpression
+                            new Jexpr.Models.OperationExpression
                             {
                                 Key = "Basket.Products",
                                 Filter =
                                     new SelectFilter
                                     {
-                                        Filters = new List<AbstractFilter>
+                                        Conditions = new List<AbstractFilter>
                                         {
-                                            new IndexOfFilter
-                                            {
-                                                PropertyToVisit = "Parameters.Brand",
-                                                ValueToLookup = new List<string> {"Adidas"}
-                                            }
+                                            new ConditionFilter("Parameters.Brand", ConditionOperator.Contains, new List<string> {"Adidas"})
                                         }
                                     }
                             }
                         },
 
-                        Operator = ExpressionGroupOp.And
+                        Operator = OperationOperator.And
                     }
                 },
-                ResultExpression = new List<ExpressionGroup>
+                ResultExpression = new List<OperationExpression>
                 {
-                    new ExpressionGroup
+                    new OperationExpression
                     {
-                        Items = new List<JexprExpression>
+                        Criteria = new List<AbstractExpression>
                         {
-                            new MacroExpression
+                            new Jexpr.Models.OperationExpression
                             {
                                 Key = "Basket.Products",
                                 Filter = new AssignToResultFilter
                                 {
-                                    ResultProperties = new List<ResultProperty>
+                                    ResultSet = new List<ResultProperty>
                                     {
                                         new ResultProperty {Name = "Discount"},
-                                        new ResultProperty {Name = "Basket", PropertyToPickUpFromParameters = "Basket"}
+                                        new ResultProperty {Name = "Basket", PickUpFromParameters = "Basket"}
                                     },
-                                    Filter = new ApplyPercentToSumFilter
+                                    Filter = new ApplyToSumFilter("Discount", 20 , ApplyOperator.Percent)
                                     {
-                                        PropertyToVisit = "UnitPrice",
-                                        Percent = 20,
-                                        ResultProperty = "Discount",
-                                        MultiplierPropertyToVisit = "Quantity"
+                                        Property = "UnitPrice"
                                     },
                                 }
                             }
                         }
                     }
                 },
-                Operator = ExpressionGroupOp.Return
+                Operator = OperationOperator.None
             };
 
             return expressionMetadata;
@@ -380,52 +356,48 @@ namespace Jexpr.Tests
         {
             ExpressionMetadata expressionMetadata = new ExpressionMetadata
             {
-                Items = new List<ExpressionGroup>
+                Items = new List<OperationExpression>
                 {
-                    new ExpressionGroup
+                    new OperationExpression
                     {
-                        Items = new List<JexprExpression>
+                        Criteria = new List<AbstractExpression>
                         {
-                            new MacroExpression
+                            new Jexpr.Models.OperationExpression
                             {
                                 Key = "Basket.Products",
                                 Filter =
                                     new SelectFilter
                                     {
-                                        Filters = new List<AbstractFilter>
+                                        Conditions = new List<AbstractFilter>
                                         {
-                                            new IndexOfFilter
-                                            {
-                                                PropertyToVisit = "Parameters.Brand",
-                                                ValueToLookup = new List<string> {"Nike"}
-                                            }
+                                            new ConditionFilter("Parameters.Brand", ConditionOperator.Contains, new List<string> {"Nike"})
                                         }
                                     }
                             }
                         },
 
-                        Operator = ExpressionGroupOp.And
+                        Operator = OperationOperator.And
                     }
                 },
-                ResultExpression = new List<ExpressionGroup>
+                ResultExpression = new List<OperationExpression>
                 {
-                    new ExpressionGroup
+                    new OperationExpression
                     {
-                        Items = new List<JexprExpression>
+                        Criteria = new List<AbstractExpression>
                         {
-                            new MacroExpression
+                            new Jexpr.Models.OperationExpression
                             {
                                 Key = "Basket.Products",
                                 Filter = new AssignToResultFilter
                                 {
-                                    ResultProperties = new List<ResultProperty>
+                                    ResultSet = new List<ResultProperty>
                                     {
                                         new ResultProperty {Name = "Discount"},
-                                        new ResultProperty {Name = "Basket", PropertyToPickUpFromParameters = "Basket"}
+                                        new ResultProperty {Name = "Basket", PickUpFromParameters = "Basket"}
                                     },
                                     Filter = new AssignTakeSumOfMinXItemToResultFilter
                                     {
-                                        PropertyToVisit = "UnitPrice",
+                                        Property = "UnitPrice",
                                          ResultProperty = "Discount",
                                     },
                                 }
@@ -433,7 +405,7 @@ namespace Jexpr.Tests
                         }
                     }
                 },
-                Operator = ExpressionGroupOp.Return
+                Operator = OperationOperator.None
             };
 
             return expressionMetadata;
@@ -444,62 +416,52 @@ namespace Jexpr.Tests
         {
             ExpressionMetadata expressionMetadata = new ExpressionMetadata
             {
-                Items = new List<ExpressionGroup>
+                Items = new List<OperationExpression>
                 {
-                    new ExpressionGroup
+                    new OperationExpression
                     {
-                        Items = new List<JexprExpression>
+                        Criteria = new List<AbstractExpression>
                         {
-                            new MacroExpression
+                            new Jexpr.Models.OperationExpression
                             {
                                 Key = "Basket.Products",
                                 Filter =
                                     new SelectFilter
                                     {
-                                        Filters = new List<AbstractFilter>
+                                        Conditions = new List<AbstractFilter>
                                         {
-                                            new IndexOfFilter
-                                            {
-                                                PropertyToVisit = "Parameters.Brand",
-                                                ValueToLookup = new List<string> {"Adidas"}
-                                            }
+                                            new ConditionFilter("Parameters.Brand", ConditionOperator.Contains, new List<string> {"Adidas"})
                                         }
                                     }
                             }
                         },
 
-                        Operator = ExpressionGroupOp.And
+                        Operator = OperationOperator.And
                     }
                 },
-                ResultExpression = new List<ExpressionGroup>
+                ResultExpression = new List<OperationExpression>
                 {
-                    new ExpressionGroup
+                    new OperationExpression
                     {
-                        Items = new List<JexprExpression>
+                        Criteria = new List<AbstractExpression>
                         {
-                            new MacroExpression
+                            new Jexpr.Models.OperationExpression
                             {
                                 Key = "Basket.Products",
                                 Filter = new AssignToResultFilter
                                 {
-                                    ResultProperties = new List<ResultProperty>
+                                    ResultSet = new List<ResultProperty>
                                     {
                                         new ResultProperty {Name = "Discount"},
-                                        new ResultProperty {Name = "Basket", PropertyToPickUpFromParameters = "Basket"}
+                                        new ResultProperty {Name = "Basket", PickUpFromParameters = "Basket"}
                                     },
-                                    Filter = new ApplyExactToSumFilter
-                                    {
-                                        PropertyToVisit = "UnitPrice",
-                                        Amount = 100,
-                                        ResultProperty = "Discount",
-                                        MultiplierPropertyToVisit = "Quantity"
-                                    },
+                                    Filter = new ApplyToSumFilter("Discount", 100, ApplyOperator.Exact){Property = "UnitPrice"}
                                 }
                             }
                         }
                     }
                 },
-                Operator = ExpressionGroupOp.Return
+                Operator = OperationOperator.None
             };
 
             return expressionMetadata;
@@ -509,62 +471,57 @@ namespace Jexpr.Tests
         {
             ExpressionMetadata expressionMetadata = new ExpressionMetadata
             {
-                Items = new List<ExpressionGroup>
+                Items = new List<OperationExpression>
                 {
-                    new ExpressionGroup
+                    new OperationExpression
                     {
-                        Items = new List<JexprExpression>
+                        Criteria = new List<AbstractExpression>
                         {
-                            new MacroExpression
+                            new Jexpr.Models.OperationExpression
                             {
                                 Key = "Basket.Products",
                                 Filter =
                                     new SelectFilter
                                     {
-                                        Filters = new List<AbstractFilter>
+                                        Conditions = new List<AbstractFilter>
                                         {
-                                            new IndexOfFilter
-                                            {
-                                                PropertyToVisit = "Parameters.Brand",
-                                                ValueToLookup = new List<string> {"Adidas"}
-                                            }
+                                              new ConditionFilter("Parameters.Brand", ConditionOperator.Contains, new List<string> {"Adidas"})
                                         }
                                     }
                             }
                         },
 
-                        Operator = ExpressionGroupOp.And
+                        Operator = OperationOperator.And
                     }
                 },
-                ResultExpression = new List<ExpressionGroup>
+                ResultExpression = new List<OperationExpression>
                 {
-                    new ExpressionGroup
+                    new OperationExpression
                     {
-                        Items = new List<JexprExpression>
+                        Criteria = new List<AbstractExpression>
                         {
-                            new MacroExpression
+                            new Jexpr.Models.OperationExpression
                             {
                                 Key = "Basket.Products",
                                 Filter = new AssignToResultFilter
                                 {
-                                    ResultProperties = new List<ResultProperty>
+                                    ResultSet = new List<ResultProperty>
                                     {
                                         new ResultProperty {Name = "Discount"},
-                                        new ResultProperty {Name = "Basket", PropertyToPickUpFromParameters = "Basket"}
+                                        new ResultProperty {Name = "Basket", PickUpFromParameters = "Basket"}
                                     },
                                     Filter = new ApplyExactToSumUsingParamtersFilter
                                     {
-                                        PropertyToVisit = "UnitPrice",
+                                        Property = "UnitPrice",
                                         ParameterName = "CodeDiscountAmount",
-                                        ResultProperty = "Discount",
-                                        MultiplierPropertyToVisit = "Quantity"
+                                        ResultProperty = "Discount"
                                     }
                                 }
                             }
                         }
                     }
                 },
-                Operator = ExpressionGroupOp.Return
+                Operator = OperationOperator.None
             };
 
             return expressionMetadata;
@@ -574,23 +531,23 @@ namespace Jexpr.Tests
         {
             ExpressionMetadata expressionMetadata = new ExpressionMetadata
             {
-                Items = new List<ExpressionGroup>
+                Items = new List<OperationExpression>
                 {
-                    new ExpressionGroup
+                    new OperationExpression
                     {
-                        Items = new List<JexprExpression>
+                        Criteria = new List<AbstractExpression>
                         {
-                            new MacroExpression
+                            new Jexpr.Models.OperationExpression
                             {
                                 Key = "Basket.Products",
-                                Filter = new ExistsFilter {PropertyToVisit = "Parameters.BoutiqueId" ,ValueToLookup = new List<int> {testIntParam, 12, 14}}
+                                Filter = new ConditionFilter("Parameters.BoutiqueId", ConditionOperator.SubSet, new List<int> {testIntParam, 12, 14})
                             }
                         },
 
-                        Operator = ExpressionGroupOp.And
+                        Operator = OperationOperator.And
                     }
                 },
-                Operator = ExpressionGroupOp.Return
+                Operator = OperationOperator.None
             };
 
             return expressionMetadata;
@@ -601,24 +558,24 @@ namespace Jexpr.Tests
         {
             IFixture fixture = new Fixture();
 
-            Basket basket = fixture.Create<Basket>();
+            TestBasket testBasket = fixture.Create<TestBasket>();
 
-            basket.Products[0].Parameters.Add("BoutiqueId", 12);
-            basket.Products[1].Parameters.Add("BoutiqueId", 12);
-            basket.Products[2].Parameters.Add("BoutiqueId", 18);
+            testBasket.Products[0].Parameters.Add("BoutiqueId", 12);
+            testBasket.Products[1].Parameters.Add("BoutiqueId", 12);
+            testBasket.Products[2].Parameters.Add("BoutiqueId", 18);
 
-            basket.Products[0].Parameters.Add("Id", 1);
-            basket.Products[1].Parameters.Add("Id", 2);
-            basket.Products[2].Parameters.Add("Id", 3);
+            testBasket.Products[0].Parameters.Add("Id", 1);
+            testBasket.Products[1].Parameters.Add("Id", 2);
+            testBasket.Products[2].Parameters.Add("Id", 3);
 
-            basket.Products[0].Parameters.Add("Brand", "Nike");
-            basket.Products[1].Parameters.Add("Brand", "Adidas");
-            basket.Products[2].Parameters.Add("Brand", "Adidas");
+            testBasket.Products[0].Parameters.Add("Brand", "Nike");
+            testBasket.Products[1].Parameters.Add("Brand", "Adidas");
+            testBasket.Products[2].Parameters.Add("Brand", "Adidas");
 
 
             Dictionary<string, object> parameters = new Dictionary<string, object>
             {
-                {"Basket", basket},
+                {"Basket", testBasket},
                 {"Parameters", new Dictionary<string, object> {{"BankBin", "Garanti"}, {"Age", 20}}}
             };
 

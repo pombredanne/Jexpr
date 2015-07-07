@@ -2,6 +2,6 @@
 {
     public interface IHasResultProperty
     {
-        string ResultProperty { get; set; }
+        string ResultProperty { get; }
     }
 }

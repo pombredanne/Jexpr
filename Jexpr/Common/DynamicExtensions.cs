@@ -5,12 +5,12 @@ namespace Jexpr.Common
 {
     public static class DynamicExtensions
     {
-        public static Dictionary<string, object> ToDictionary(this object @object)
+        public static Dictionary<string, object> ToDictionary(this object obj)
         {
-            var type = @object.GetType();
+            var type = obj.GetType();
             var props = type.GetProperties();
 
-            return props.ToDictionary(property => property.Name, property => property.GetValue(@object, null));
+            return props.ToDictionary(property => property.Name, property => property.GetValue(obj, null));
         }
     }
 }

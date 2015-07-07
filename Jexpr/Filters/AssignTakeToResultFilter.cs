@@ -3,7 +3,7 @@ using Jexpr.Interface;
 
 namespace Jexpr.Filters
 {
-    public class AssignTakeToResultFilter : SumOfTakeXItemFilter, IHasResultProperty
+    public class AssignTakeToResultFilter : SumOfXItemFilter, IHasResultProperty
     {
         public AssignTakeToResultFilter()
         {

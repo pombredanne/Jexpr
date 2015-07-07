@@ -1,6 +1,6 @@
 ﻿namespace Jexpr.Filters
 {
-    public class SumOfTakeXItemFilter : AbstractFilter
+    public class SumOfXItemFilter : AbstractFilter
     {
         internal bool SortByOrder { get; set; }
         public int Take { get; set; }
@@ -8,12 +8,12 @@
         {
             string result = string.Format(@"( _.chain({0})
                                                 .pluck('{1}')
-                                                .sortByOrder({3})
-                                                .take({2})
+                                                .sortByOrder({2})
+                                                .take({3})
                                                 .sum()
                                                 .value() )",
-                parameterToChain, PropertyToVisit, Take,
-                SortByOrder ? bool.TrueString.ToLower() : bool.FalseString.ToLower());
+                parameterToChain, Property,
+                SortByOrder ? bool.TrueString.ToLower() : bool.FalseString.ToLower(), Take);
 
             return result;
         }

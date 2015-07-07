@@ -34,7 +34,6 @@ namespace Jexpr.Core.Impl
             : this(new InternalJsonNetSerializer(), new JsReferenceLoader(), new NullLogger())
         {
         }
-
         public JexprResult<T> Evaluate<T>(ExpressionMetadata metadata, Dictionary<string, object> paramerters = null)
         {
             string script = Compile(metadata);

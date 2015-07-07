@@ -2,29 +2,29 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Jexpr.Common;
+using Jexpr.Operators;
 
 namespace Jexpr.Filters
 {
     public class AssignConditionalToResultFilter : AbstractFilter
     {
-        public List<AbstractFilter> Filters { get; set; }
         public AssignConditionalToResultFilter()
         {
             DefaultAssignValue = "[]";
         }
-        public ExpressionOp ExpressionOp { get; set; }
+        public ConditionOperator ConditionOperator { get; set; }
         public bool Value { get; set; }
         public string Assignee { get; set; }
-        public string AssignValue { get; set; }
+        public string Assigner { get; set; }
         public string DefaultAssignValue { get; set; }
         public override string ToJs(string parameterToChain)
         {
-            List<string> innerFiltersExps = Filters.Select(filter => filter.ToJs(parameterToChain)).ToList();
+            List<string> innerFiltersExps = Conditions.Select(filter => filter.ToJs(parameterToChain)).ToList();
 
-            string body = String.Join(String.Format(" {0} ", ExpressionOp.ToName()), innerFiltersExps);
+            string body = String.Join(String.Format(" {0} ", ConditionOperator.ToName()), innerFiltersExps);
 
             string assignToParameter = !string.IsNullOrEmpty(Assignee)
-                ? string.Format("p.{0} = p.{1}", Assignee, AssignValue)
+                ? string.Format("p.{0} = p.{1}", Assignee, Assigner)
                 : string.Empty;
 
             var result = string.Format(@"

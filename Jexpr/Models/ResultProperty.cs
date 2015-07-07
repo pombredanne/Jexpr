@@ -3,6 +3,6 @@
     public class ResultProperty
     {
         public string Name { get; set; }
-        public string PropertyToPickUpFromParameters { get; set; }
+        public string PickUpFromParameters { get; set; }
     }
 }

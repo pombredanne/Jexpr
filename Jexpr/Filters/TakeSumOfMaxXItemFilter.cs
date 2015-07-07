@@ -1,6 +1,6 @@
 ﻿namespace Jexpr.Filters
 {
-    public class TakeSumOfMaxXItemFilter : SumOfTakeXItemFilter
+    public class TakeSumOfMaxXItemFilter : SumOfXItemFilter
     {
         public TakeSumOfMaxXItemFilter()
         {

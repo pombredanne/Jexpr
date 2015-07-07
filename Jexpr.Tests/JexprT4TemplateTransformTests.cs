@@ -14,15 +14,15 @@ namespace Jexpr.Tests
         [Test]
         public void Transform_Test()
         {
-            Basket basket = FixtureRepository.Create<Basket>();
+            TestBasket testBasket = FixtureRepository.Create<TestBasket>();
 
-            basket.Products[0].Parameters.Add("BoutiqueId", 12);
-            basket.Products[1].Parameters.Add("BoutiqueId", 12);
-            basket.Products[2].Parameters.Add("BoutiqueId", 18);
+            testBasket.Products[0].Parameters.Add("BoutiqueId", 12);
+            testBasket.Products[1].Parameters.Add("BoutiqueId", 12);
+            testBasket.Products[2].Parameters.Add("BoutiqueId", 18);
 
-            basket.Products[0].Parameters.Add("Brand", "Adidas");
-            basket.Products[1].Parameters.Add("Brand", "Nike");
-            basket.Products[2].Parameters.Add("Brand", "Nike");
+            testBasket.Products[0].Parameters.Add("Brand", "Adidas");
+            testBasket.Products[1].Parameters.Add("Brand", "Nike");
+            testBasket.Products[2].Parameters.Add("Brand", "Nike");
 
 
 
@@ -30,7 +30,7 @@ namespace Jexpr.Tests
 
             var parameters = new Dictionary<string, object>
             {
-                {"Basket", basket},
+                {"Basket", testBasket},
                 {
                     "Parameters",
                     new Dictionary<string, object>

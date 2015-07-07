@@ -31,21 +31,21 @@ namespace Jexpr.Tests
         [Test]
         public void ComplexScenario1_Test()
         {
-            Basket basket = FixtureRepository.Create<Basket>();
+            TestBasket testBasket = FixtureRepository.Create<TestBasket>();
 
-            basket.Products[0].Parameters.Add("BoutiqueId", 12);
-            basket.Products[1].Parameters.Add("BoutiqueId", 12);
-            basket.Products[2].Parameters.Add("BoutiqueId", 18);
+            testBasket.Products[0].Parameters.Add("BoutiqueId", 12);
+            testBasket.Products[1].Parameters.Add("BoutiqueId", 12);
+            testBasket.Products[2].Parameters.Add("BoutiqueId", 18);
 
-            basket.Products[0].Parameters.Add("Brand", "Adidas");
-            basket.Products[1].Parameters.Add("Brand", "Nike");
-            basket.Products[2].Parameters.Add("Brand", "Nike");
+            testBasket.Products[0].Parameters.Add("Brand", "Adidas");
+            testBasket.Products[1].Parameters.Add("Brand", "Nike");
+            testBasket.Products[2].Parameters.Add("Brand", "Nike");
 
             var metadata = TestDataBuilder.GetMacroExprMetadata4ComplexScenarion1();
 
             var parameters = new Dictionary<string, object>
             {
-                {"Basket", basket},
+                {"Basket", testBasket},
                 {"Parameters", new Dictionary<string, object> {{"BankBin", "Garanti"}, {"Age", 20}}}
             };
 
@@ -69,21 +69,21 @@ namespace Jexpr.Tests
         [Test]
         public void ComplexScenario2_Test()
         {
-            Basket basket = FixtureRepository.Create<Basket>();
+            TestBasket testBasket = FixtureRepository.Create<TestBasket>();
 
-            basket.Products[0].Parameters.Add("BoutiqueId", 12);
-            basket.Products[1].Parameters.Add("BoutiqueId", 12);
-            basket.Products[2].Parameters.Add("BoutiqueId", 18);
+            testBasket.Products[0].Parameters.Add("BoutiqueId", 12);
+            testBasket.Products[1].Parameters.Add("BoutiqueId", 12);
+            testBasket.Products[2].Parameters.Add("BoutiqueId", 18);
 
-            basket.Products[0].Parameters.Add("Brand", "Adidas");
-            basket.Products[1].Parameters.Add("Brand", "Nike");
-            basket.Products[2].Parameters.Add("Brand", "Nike");
+            testBasket.Products[0].Parameters.Add("Brand", "Adidas");
+            testBasket.Products[1].Parameters.Add("Brand", "Nike");
+            testBasket.Products[2].Parameters.Add("Brand", "Nike");
 
             var metadata = TestDataBuilder.GetMacroExprMetadata4ComplexScenarion2();
 
             var parameters = new Dictionary<string, object>
             {
-                {"Basket", basket},
+                {"Basket", testBasket},
                 {"Parameters", new Dictionary<string, object> {{"BankBin", "Garanti"}, {"Age", 20}}}
             };
 
@@ -104,24 +104,24 @@ namespace Jexpr.Tests
                 TestDataBuilder.GetMacroExprMetadata4ComplexScenarion2()
             };
 
-            Basket basket = FixtureRepository.Create<Basket>();
+            TestBasket testBasket = FixtureRepository.Create<TestBasket>();
 
-            basket.Products[0].Parameters.Add("BoutiqueId", 12);
-            basket.Products[1].Parameters.Add("BoutiqueId", 12);
-            basket.Products[2].Parameters.Add("BoutiqueId", 18);        
+            testBasket.Products[0].Parameters.Add("BoutiqueId", 12);
+            testBasket.Products[1].Parameters.Add("BoutiqueId", 12);
+            testBasket.Products[2].Parameters.Add("BoutiqueId", 18);        
             
-            basket.Products[0].Parameters.Add("Id", 1);
-            basket.Products[1].Parameters.Add("Id", 2);
-            basket.Products[2].Parameters.Add("Id", 3);
+            testBasket.Products[0].Parameters.Add("Id", 1);
+            testBasket.Products[1].Parameters.Add("Id", 2);
+            testBasket.Products[2].Parameters.Add("Id", 3);
 
-            basket.Products[0].Parameters.Add("Brand", "Nike");
-            basket.Products[1].Parameters.Add("Brand", "Adidas");
-            basket.Products[2].Parameters.Add("Brand", "Adidas");
+            testBasket.Products[0].Parameters.Add("Brand", "Nike");
+            testBasket.Products[1].Parameters.Add("Brand", "Adidas");
+            testBasket.Products[2].Parameters.Add("Brand", "Adidas");
 
 
             var parameters = new Dictionary<string, object>
             {
-                {"Basket", basket},
+                {"Basket", testBasket},
                 {"Parameters", new Dictionary<string, object> {{"BankBin", "Garanti"}, {"Age", 20}}}
             };
 

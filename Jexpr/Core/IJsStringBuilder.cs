@@ -4,6 +4,6 @@ namespace Jexpr.Core
 {
     internal interface IJsStringBuilder
     {
-        string BuildFrom(JexprExpression expression);
+        string BuildFrom(AbstractExpression expression);
     }
 }
