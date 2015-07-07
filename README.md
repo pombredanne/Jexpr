@@ -13,10 +13,10 @@
 ```sh
   WITH (`basket`, `profile`, `payment information`) DO
       FILTER `Basket.Products` DO
-             `BoutiqueId` .should be one of.      [12, 14]  
-        AND  `Brand`      .should be one of.      [Adidas]
-        AND  `BankBin`    .should be one of.      [Bank1, Bank2, Bank3] 
-        AND  `Age` should .greater than or equal. 20
+             `BoutiqueId` .should be one of.                [12, 14]  
+        AND  `Brand`      .should be one of.                [Adidas]
+        AND  `BankBin`    .should be one of.                [Bank1, Bank2, Bank3] 
+        AND  `Age`        .should be greater than or equal. 20
       END
       RET BEGIN
           APPLY `20%` TO `Total Basket Price`
