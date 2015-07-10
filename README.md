@@ -162,7 +162,7 @@ function ExpFunc(parametersJson) {
             (function () {
                 var _pFound = false;
                 _.chain(p.Parameters.BankBin).pluck('Parameters.BankBin').each(function (key) {
-                    if (["Garanti", "Teb", "Finans"].indexOf(key) !== -1) {
+                    if (["Bank1", "Bank2", "Bank3"].indexOf(key) !== -1) {
                         _pFound = true;
                         return true;
                     }
