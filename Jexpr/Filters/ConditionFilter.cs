@@ -10,20 +10,20 @@ namespace Jexpr.Filters
     /// </summary>
     public class ConditionFilter : AbstractFilter
     {
-        private readonly ConditionOperator _operator;
-        private readonly object _value;
+        public ConditionOperator Operator { get; private set; }
+        public object Value { get; private set; }
 
         public ConditionFilter(string propertyToVisit, ConditionOperator @operator, object value) : base(propertyToVisit)
         {
-            _operator = @operator;
-            _value = value;
+            Operator = @operator;
+            Value = value;
         }
 
         public override string ToJs(string parameterToChain)
         {
             string result;
 
-            switch (_operator)
+            switch (Operator)
             {
                 case ConditionOperator.SubSet:
                     {
@@ -43,7 +43,7 @@ namespace Jexpr.Filters
                                             return _pFound;
                                         }})()
                                     )",
-                          parameterToChain, PropertyToVisit, JsonConvert.SerializeObject(_value));
+                          parameterToChain, PropertyToVisit, JsonConvert.SerializeObject(Value));
                         break;
                     }
                 case ConditionOperator.Contains:
@@ -52,24 +52,24 @@ namespace Jexpr.Filters
                          ? parameterToChain
                          : string.Format("p.{0}", PropertyToVisit);
 
-                        result = string.Format(@"( {0}.indexOf({1}) !== -1 )", JsonConvert.SerializeObject(_value), parameter);
+                        result = string.Format(@"( {0}.indexOf({1}) !== -1 )", JsonConvert.SerializeObject(Value), parameter);
                         break;
                     }
                 case ConditionOperator.Mod:
                     {
-                        if (!_value.IsNumeric())
+                        if (!Value.IsNumeric())
                         {
                             throw new InvalidOperationException("Value must be number for evaluate MODULUS operation.");
                         }
 
-                        result = string.Format(@"( (p.{1} % {0}) === 0 )", _value.ToString().ToLower(), PropertyToVisit);
+                        result = string.Format(@"( (p.{1} % {0}) === 0 )", Value.ToString().ToLower(), PropertyToVisit);
                         break;
                     }
                 default:
                     {
-                        string tmpValue = _value is bool ? _value.ToString().ToLower() : _value.ToString();
+                        string tmpValue = Value is bool ? Value.ToString().ToLower() : Value.ToString();
 
-                        result = string.Format(@"( {0} {1} p.{2} )", tmpValue, _operator.ToName(), PropertyToVisit);
+                        result = string.Format(@"( {0} {1} p.{2} )", tmpValue, Operator.ToName(), PropertyToVisit);
                         break;
                     }
             }

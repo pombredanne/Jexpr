@@ -12,7 +12,7 @@ namespace Jexpr.Filters
             PropertyToVisit = propertyToVisit;
         }
 
-        protected internal string PropertyToVisit { get; private set; }
+        public string PropertyToVisit { get; private set; }
         public List<AbstractFilter> Conditions { get; set; }
 
         public abstract string ToJs(string parameterToChain);

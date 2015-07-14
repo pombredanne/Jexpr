@@ -9,27 +9,27 @@ namespace Jexpr.Filters
     /// </summary>
     public class ApplyConditionToSumThenAssignToResultFilter : SumFilter
     {
-        private readonly object _value;
-        private readonly string _assignee;
-        private readonly string _assigner;
-        private readonly ConditionOperator _op;
-        private readonly string _defaultAssigner;
+        public object Value { get; private set; }
+        public string Assignee { get; private set; }
+        public string Assigner { get; private set; }
+        public ConditionOperator Operator { get; private set; }
+        public string DefaultAssigner { get; private set; }
 
         public ApplyConditionToSumThenAssignToResultFilter(string propertyToVisit, object value, string assignee, string assigner, ConditionOperator op, string defaultAssigner = "[]")
             : base(propertyToVisit)
         {
-            _value = value;
-            _assignee = assignee;
-            _assigner = assigner;
-            _op = op;
-            _defaultAssigner = defaultAssigner;
+            Value = value;
+            Assignee = assignee;
+            Assigner = assigner;
+            Operator = op;
+            DefaultAssigner = defaultAssigner;
         }
 
         public override string ToJs(string parameterToChain)
         {
             string sumExp = base.ToJs(parameterToChain);
 
-            string assignToParameter = !string.IsNullOrEmpty(_assignee) ? string.Format("p.{0} = p.{1}", _assignee, _assigner) : String.Empty;
+            string assignToParameter = !string.IsNullOrEmpty(Assignee) ? string.Format("p.{0} = p.{1}", Assignee, Assigner) : String.Empty;
 
             var result = string.Format(@"
                     if({0} {1} {2}){{
@@ -38,9 +38,9 @@ namespace Jexpr.Filters
                        {4}
                     }}
                     ",
-                sumExp, _op.ToName(), _value,
+                sumExp, Operator.ToName(), Value,
                 assignToParameter,
-                string.Format("p.{0} = {1}", _assignee, _defaultAssigner));
+                string.Format("p.{0} = {1}", Assignee, DefaultAssigner));
 
             return result;
         }

@@ -53,6 +53,8 @@ namespace Jexpr.Tests
 
             JsonSerializerSettings settings = new JsonSerializerSettings();
             settings.Converters.Add(new StringEnumConverter());
+            settings.NullValueHandling = NullValueHandling.Ignore;
+            settings.TypeNameHandling = TypeNameHandling.Auto;
 
             string json2 = JsonConvert.SerializeObject(metadata, settings);
 

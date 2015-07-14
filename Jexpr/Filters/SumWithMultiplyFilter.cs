@@ -5,19 +5,19 @@
     /// </summary>
     public class SumWithMultiplyFilter : AbstractFilter
     {
-        private readonly string _multiplier;
+        public string Multiplier { get; private set; }
 
         public SumWithMultiplyFilter(string propertyToVisit, string multiplier)
             : base(propertyToVisit)
         {
-            _multiplier = multiplier;
+            Multiplier = multiplier;
         }
 
         public override string ToJs(string parameterToChain)
         {
             string result = string.Empty;
 
-            if (!string.IsNullOrEmpty(_multiplier))
+            if (!string.IsNullOrEmpty(Multiplier))
             {
                 result = string.Format(@"  
                                   (function () {{
@@ -30,7 +30,7 @@
                                         }}).value();
             
                                         return _pTotal;
-                                    }})()", parameterToChain, PropertyToVisit, _multiplier);
+                                    }})()", parameterToChain, PropertyToVisit, Multiplier);
             }
 
             return result;

@@ -57,9 +57,8 @@ namespace Jexpr.Core.Impl
         public string Compile(ExpressionMetadata metadata)
         {
             JexprJsGeneratorTemplate template = new JexprJsGeneratorTemplate(metadata);
-            string result = template.TransformText();
 
-            return result;
+            return template.TransformText();
         }
 
         private JexprResult<T> EvaluateImpl<T>(string script, Dictionary<string, object> paramerters)

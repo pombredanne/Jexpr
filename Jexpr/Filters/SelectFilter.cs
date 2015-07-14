@@ -9,19 +9,19 @@ namespace Jexpr.Filters
     /// </summary>
     public class SelectFilter : AbstractFilter
     {
-        private readonly string _assignee;
+        public string Assignee { get; private set; }
 
         public SelectFilter(string propertyToVisit="", string assignee = "")
             : base(propertyToVisit)
         {
-            _assignee = assignee;
+            Assignee = assignee;
         }
 
         public override string ToJs(string parameterToChain)
         {
             var innerFilterJsResult = GetJsFrom(Conditions);
 
-            string assignToParameter = !string.IsNullOrEmpty(_assignee) ? string.Format("p.{0} =", _assignee) : String.Format("{0} =", parameterToChain);
+            string assignToParameter = !string.IsNullOrEmpty(Assignee) ? string.Format("p.{0} =", Assignee) : String.Format("{0} =", parameterToChain);
 
             string result = string.Format(@"(  
                                     {2} (function () {{

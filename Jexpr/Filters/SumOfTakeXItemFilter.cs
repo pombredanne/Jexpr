@@ -7,14 +7,14 @@ namespace Jexpr.Filters
     /// </summary>
     public class SumOfXItemFilter : AbstractFilter
     {
-        private readonly SortDirection _sortDirection;
-        private readonly int _take;
+        public SortDirection Direction { get; private set; }
+        public int Take { get; private set; }
 
         public SumOfXItemFilter(string propertyToVisit, SortDirection sortDirection, int take = 0)
             : base(propertyToVisit)
         {
-            _sortDirection = sortDirection;
-            _take = take;
+            Direction = sortDirection;
+            Take = take;
         }
 
         public override string ToJs(string parameterToChain)
@@ -26,7 +26,7 @@ namespace Jexpr.Filters
                                                 .sum()
                                                 .value() )",
                 parameterToChain, PropertyToVisit,
-                _sortDirection == SortDirection.Ascending ? bool.TrueString.ToLower() : bool.FalseString.ToLower(), _take);
+                Direction == SortDirection.Ascending ? bool.TrueString.ToLower() : bool.FalseString.ToLower(), Take);
 
             return result;
         }

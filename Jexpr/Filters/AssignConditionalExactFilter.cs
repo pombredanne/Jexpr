@@ -1,4 +1,5 @@
 using System;
+using Jexpr.Common;
 using Jexpr.Interface;
 
 namespace Jexpr.Filters
@@ -8,11 +9,12 @@ namespace Jexpr.Filters
     /// </summary>
     public class AssignConditionalExactFilter : AbstractFilter, IHasResultProperty
     {
-        private readonly decimal _exactValue;
+        public decimal ExactValue { get; private set; }
 
-        public AssignConditionalExactFilter(decimal exactValue, string resultProperty, string propertyToVisit = "") : base(propertyToVisit)
+        public AssignConditionalExactFilter(decimal exactValue, string resultProperty, string propertyToVisit = "")
+            : base(propertyToVisit)
         {
-            _exactValue = exactValue;
+            ExactValue = exactValue;
             ResultProperty = resultProperty;
         }
 
@@ -24,7 +26,7 @@ namespace Jexpr.Filters
                                                 }} else {{
                                                    return 0;
                                                 }}
-                                            }})() )", parameterToChain, _exactValue);
+                                            }})() )", parameterToChain, ExactValue.ToFormatted());
 
             return result;
         }

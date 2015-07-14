@@ -8,12 +8,12 @@ namespace Jexpr.Filters
     /// </summary>
     public class ApplyExactToSumUsingParamtersFilter : SumFilter, IHasResultProperty
     {
-        private readonly string _parameterName;
+        public string ParameterName { get; private set; }
 
         public ApplyExactToSumUsingParamtersFilter(string propertyToVisit, string parameterName, string resultProperty)
             : base(propertyToVisit)
         {
-            _parameterName = parameterName;
+            ParameterName = parameterName;
             ResultProperty = resultProperty;
         }
 
@@ -24,7 +24,7 @@ namespace Jexpr.Filters
         {
             var sumExpression = base.ToJs(parameterToChain);
 
-            var result = String.Format(@"( ({0}) - (p.{1})", sumExpression, _parameterName);
+            var result = String.Format(@"( ({0}) - (p.{1})", sumExpression, ParameterName);
 
             return result;
         }

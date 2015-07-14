@@ -9,14 +9,14 @@ namespace Jexpr.Filters
     /// </summary>
     public class ApplyToSumFilter : SumFilter, IHasResultProperty
     {
-        private readonly decimal _value;
-        private readonly ApplyOperator _applyOperator;
+        public decimal Value { get; private set; }
+        public ApplyOperator Operator { get; private set; }
 
         public ApplyToSumFilter(string propertyToVisit, string resultProperty, decimal value, ApplyOperator applyOperator)
             : base(propertyToVisit)
         {
-            _value = value;
-            _applyOperator = applyOperator;
+            Value = value;
+            Operator = applyOperator;
             ResultProperty = resultProperty;
         }
 
@@ -28,13 +28,13 @@ namespace Jexpr.Filters
 
             var sumExpression = base.ToJs(parameterToChain);
 
-            switch (_applyOperator)
+            switch (Operator)
             {
                 case ApplyOperator.Exact:
-                    result = String.Format(@"( ({0}) - ({1})", sumExpression, _value);
+                    result = String.Format(@"( ({0}) - ({1})", sumExpression, Value);
                     break;
                 case ApplyOperator.Percent:
-                    result = string.Format(@"( ({0}) * ({1} / 100) )", sumExpression, _value);
+                    result = string.Format(@"( ({0}) * ({1} / 100) )", sumExpression, Value);
                     break;
             }
 

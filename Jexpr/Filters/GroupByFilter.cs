@@ -5,14 +5,14 @@
     /// </summary>
     public class GroupByFilter : AbstractFilter
     {
-        private readonly string _key;
-        private readonly string _groupSet;
+        public string Key { get; private set; }
+        public string GroupSet { get; private set; }
 
         public GroupByFilter(string propertyToVisit, string key, string groupSet)
             : base(propertyToVisit)
         {
-            _key = key;
-            _groupSet = groupSet;
+            Key = key;
+            GroupSet = groupSet;
         }
 
 
@@ -28,7 +28,7 @@
                                                         return _.object(_.zip(['{2}', '{3}'], currentItem))
                                                     }})
                                                     .value()
-                                                )", parameterToChain, PropertyToVisit, _key, _groupSet);
+                                                )", parameterToChain, PropertyToVisit, Key, GroupSet);
 
             return result;
         }
