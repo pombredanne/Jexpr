@@ -1,5 +1,6 @@
 # Jexpr  
-[![Build status](https://ci.appveyor.com/api/projects/status/vrhmd31v1g86avo8/branch/master?svg=true)](https://ci.appveyor.com/project/ziyasal/jexpr/branch/master)
+[![Build status](https://ci.appveyor.com/api/projects/status/vrhmd31v1g86avo8/branch/master?svg=true)](https://ci.appveyor.com/project/ziyasal/jexpr/branch/master) 
+[![Coverage Status](https://coveralls.io/repos/ziyasal/Jexpr/badge.svg?branch=master&service=github)](https://coveralls.io/github/ziyasal/Jexpr?branch=master)
 
 :warning::warning::warning: _It requires a lot of code refactoring to use in production_
 
