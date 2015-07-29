@@ -11,7 +11,7 @@ namespace Jexpr.Filters
     {
         public string Assignee { get; private set; }
 
-        public SelectFilter(string propertyToVisit="", string assignee = "")
+        public SelectFilter(string propertyToVisit = "", string assignee = "")
             : base(propertyToVisit)
         {
             Assignee = assignee;

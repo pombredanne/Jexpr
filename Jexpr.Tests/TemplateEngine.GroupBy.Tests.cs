@@ -26,19 +26,19 @@ namespace Jexpr.Tests
         {
             //http://stackoverflow.com/questions/10022156/underscore-js-groupby-multiple-values
 
-            TestBasket testBasket = FixtureRepository.Create<TestBasket>();
+            Basket basket = FixtureRepository.Create<Basket>();
 
-            testBasket.Products[0].Parameters.Add("BoutiqueId", 12);
-            testBasket.Products[1].Parameters.Add("BoutiqueId", 12);
-            testBasket.Products[2].Parameters.Add("BoutiqueId", 13);
+            basket.Products[0].Parameters.Add("BoutiqueId", 12);
+            basket.Products[1].Parameters.Add("BoutiqueId", 12);
+            basket.Products[2].Parameters.Add("BoutiqueId", 13);
 
-            var groups = testBasket.Products.GroupBy(item => int.Parse(item.Parameters["BoutiqueId"].ToString())).Select(items => new { BoutiqueId = items.Key, TotalPrice = items.Sum(item => item.UnitPrice * item.Quantity) });
+            var groups = basket.Products.GroupBy(item => int.Parse(item.Parameters["BoutiqueId"].ToString())).Select(items => new { BoutiqueId = items.Key, TotalPrice = items.Sum(item => item.UnitPrice * item.Quantity) });
 
             var expression = TestDataBuilder.GetMacroExprDef4GroupBy();
 
             var parameters = new Dictionary<string, object>
             {
-                {"Basket", testBasket}
+                {"Basket", basket}
             };
 
             string json = JsonConvert.SerializeObject(parameters);

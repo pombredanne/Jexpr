@@ -526,32 +526,32 @@ namespace Jexpr.Tests
 
         }
 
-        public static Dictionary<string, object> GetPromotionParameters()
+        internal static ApplyPromotionRequest GetPromotionRequest()
         {
             IFixture fixture = new Fixture();
 
-            TestBasket testBasket = fixture.Create<TestBasket>();
+            Basket basket = fixture.Create<Basket>();
 
-            testBasket.Products[0].Parameters.Add("BoutiqueId", 12);
-            testBasket.Products[1].Parameters.Add("BoutiqueId", 12);
-            testBasket.Products[2].Parameters.Add("BoutiqueId", 18);
+            basket.Products[0].Parameters.Add("BoutiqueId", 12);
+            basket.Products[1].Parameters.Add("BoutiqueId", 12);
+            basket.Products[2].Parameters.Add("BoutiqueId", 18);
 
-            testBasket.Products[0].Parameters.Add("Id", 1);
-            testBasket.Products[1].Parameters.Add("Id", 2);
-            testBasket.Products[2].Parameters.Add("Id", 3);
+            basket.Products[0].Parameters.Add("Id", 1);
+            basket.Products[1].Parameters.Add("Id", 2);
+            basket.Products[2].Parameters.Add("Id", 3);
 
-            testBasket.Products[0].Parameters.Add("Brand", "Nike");
-            testBasket.Products[1].Parameters.Add("Brand", "Adidas");
-            testBasket.Products[2].Parameters.Add("Brand", "Adidas");
+            basket.Products[0].Parameters.Add("Brand", "Nike");
+            basket.Products[1].Parameters.Add("Brand", "Adidas");
+            basket.Products[2].Parameters.Add("Brand", "Adidas");
 
+            ApplyPromotionRequest request = new ApplyPromotionRequest
+           {
+               ApplyMode = ApplyMode.ReadOnly,
+               Parameters = new Dictionary<string, object> { { "BankBin", "Garanti" }, { "Age", 20 } },
+               Basket = basket
+           };
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>
-            {
-                {"Basket", testBasket},
-                {"Parameters", new Dictionary<string, object> {{"BankBin", "Garanti"}, {"Age", 20}}}
-            };
-
-            return parameters;
+            return request;
         }
     }
 }

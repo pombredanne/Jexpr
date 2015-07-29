@@ -6,6 +6,6 @@ namespace Jexpr.Tests.Models
     {
         public Dictionary<string, object> Parameters { get; set; }
 
-        public TestBasket TestBasket { get; set; }
+        public Basket Basket { get; set; }
     }
 }

@@ -104,13 +104,13 @@ namespace Jexpr.Tests
         {
             var expression = TestDataBuilder.GetInExprDef(TEST_INT_PARAM, "BoutiqueId");
 
-            TestBasket testBasket = FixtureRepository.Build<TestBasket>().With(b => b.Products, FixtureRepository.CreateMany<TestProduct>(1).ToList()).Create();
+            Basket basket = FixtureRepository.Build<Basket>().With(b => b.Products, FixtureRepository.CreateMany<Product>(1).ToList()).Create();
 
-            testBasket.Products[0].Parameters.Add("BoutiqueId", TEST_INT_PARAM);
+            basket.Products[0].Parameters.Add("BoutiqueId", TEST_INT_PARAM);
 
             var parameters = new Dictionary<string, object>
             {
-                {"Basket", testBasket},
+                {"Basket", basket},
                 {
                     "Parameters",
                     new Dictionary<string, object>
@@ -134,15 +134,15 @@ namespace Jexpr.Tests
         [Test]
         public void Min_Expression_Test()
         {
-            TestBasket testBasket = FixtureRepository.Create<TestBasket>();
+            Basket basket = FixtureRepository.Create<Basket>();
 
-            int min = (int)testBasket.Products.Select(item => item.UnitPrice).Min(arg => arg);
+            int min = (int)basket.Products.Select(item => item.UnitPrice).Min(arg => arg);
 
             var expression = TestDataBuilder.GetMacroExprDef4MinMax(min, ConditionOperator.Equal, "Basket.Products", SortDirection.Descending);
 
             var parameters = new Dictionary<string, object>
             {
-                {"Basket", testBasket}
+                {"Basket", basket}
             };
 
             string json = JsonConvert.SerializeObject(parameters);
@@ -156,15 +156,15 @@ namespace Jexpr.Tests
         [Test]
         public void Max_Expression_Test()
         {
-            TestBasket testBasket = FixtureRepository.Create<TestBasket>();
+            Basket basket = FixtureRepository.Create<Basket>();
 
-            int max = (int)testBasket.Products.Select(item => item.UnitPrice).Max(arg => arg);
+            int max = (int)basket.Products.Select(item => item.UnitPrice).Max(arg => arg);
 
             var expression = TestDataBuilder.GetMacroExprDef4MinMax(max, ConditionOperator.Equal, "Basket.Products", SortDirection.Ascending);
 
             var parameters = new Dictionary<string, object>
             {
-                {"Basket", testBasket}
+                {"Basket", basket}
             };
 
             string json = JsonConvert.SerializeObject(parameters);
@@ -178,21 +178,21 @@ namespace Jexpr.Tests
         [Test]
         public void Engine_Eval_Js_Expression_Test()
         {
-            TestBasket testBasket = FixtureRepository.Create<TestBasket>();
+            Basket basket = FixtureRepository.Create<Basket>();
 
-            testBasket.Products[0].Parameters.Add("BoutiqueId", 12);
-            testBasket.Products[1].Parameters.Add("BoutiqueId", 12);
-            testBasket.Products[2].Parameters.Add("BoutiqueId", 18);
+            basket.Products[0].Parameters.Add("BoutiqueId", 12);
+            basket.Products[1].Parameters.Add("BoutiqueId", 12);
+            basket.Products[2].Parameters.Add("BoutiqueId", 18);
 
-            testBasket.Products[0].Parameters.Add("Brand", "Adidas");
-            testBasket.Products[1].Parameters.Add("Brand", "Nike");
-            testBasket.Products[2].Parameters.Add("Brand", "Nike");
+            basket.Products[0].Parameters.Add("Brand", "Adidas");
+            basket.Products[1].Parameters.Add("Brand", "Nike");
+            basket.Products[2].Parameters.Add("Brand", "Nike");
 
             var metadata = TestDataBuilder.GetMacroExprMetadata4ComplexScenarion1();
 
             var parameters = new Dictionary<string, object>
             {
-                {"Basket", testBasket},
+                {"Basket", basket},
                 {"Parameters", new Dictionary<string, object> {{"BankBin", "Garanti"}, {"Age", 20}}}
             };
 

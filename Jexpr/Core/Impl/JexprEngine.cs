@@ -80,7 +80,7 @@ namespace Jexpr.Core.Impl
             }
             catch (Exception exception)
             {
-                _logger.Log("", exception);
+                _logger.Error("An error occurred while while invoking js function.", exception);
                 jsValue = new JsValue(false);
             }
 
@@ -97,7 +97,7 @@ namespace Jexpr.Core.Impl
             }
             catch (Exception exception)
             {
-                _logger.Log("", exception);
+                _logger.Error("An error occurred while parsing js expression result.", exception);
             }
 
             return result;

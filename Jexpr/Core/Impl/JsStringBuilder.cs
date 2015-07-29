@@ -26,7 +26,7 @@ namespace Jexpr.Core.Impl
         {
             string result;
 
-            Models.OperationExpression operationExpression = abstractExpression as Models.OperationExpression;
+            OperationExpression operationExpression = abstractExpression as OperationExpression;
 
             if (operationExpression != null)
             {
@@ -57,7 +57,7 @@ namespace Jexpr.Core.Impl
             return result;
         }
 
-        private string GenerateMacroJsExpr(Models.OperationExpression operationExpression)
+        private string GenerateMacroJsExpr(OperationExpression operationExpression)
         {
             AbstractFilter abstractFilter = operationExpression.Filter;
 

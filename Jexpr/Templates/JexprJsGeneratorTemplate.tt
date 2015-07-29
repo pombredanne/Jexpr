@@ -20,14 +20,14 @@ function ExpFunc(parametersJson) {
 		var expressionGroup = this.ExpressionMetadata.Items.First();
 		//Priority = true
 		var hasPExprs = concatService.ConcatCompiledExpressions(expressionGroup.Criteria.Where(expression => expression.HasPriority).ToList(), expressionGroup.Operator);
-		var jshasPExprsBody = concatService.ConcatJsExpressionBody(this.ExpressionMetadata.Operator, hasPExprs);
+		var jshasPExprsBody = concatService.ConcatJsExpressionBody(hasPExprs, this.ExpressionMetadata.Operator);
 	 #>
 
 	 <# /* BODY START */ #>
 	if (<#= !string.IsNullOrEmpty(jshasPExprsBody) ? jshasPExprsBody :"true" #>){
 		<# 
 		   var hasntPExprs = concatService.ConcatCompiledExpressions(expressionGroup.Criteria.Where(expression => !expression.HasPriority).ToList(), expressionGroup.Operator);
-		   var jshasntPExprsBody = concatService.ConcatJsExpressionBody(this.ExpressionMetadata.Operator, hasntPExprs);
+		   var jshasntPExprsBody = concatService.ConcatJsExpressionBody(hasntPExprs, this.ExpressionMetadata.Operator);
 		 #>
 		 <# if (this.ExpressionMetadata.ResultExpression == null){ #>
 		 result.value =<#= jshasntPExprsBody #>

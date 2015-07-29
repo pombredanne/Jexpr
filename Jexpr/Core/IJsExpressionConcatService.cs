@@ -6,7 +6,7 @@ namespace Jexpr.Core
 {
     internal interface IJsExpressionConcatService
     {
-        string ConcatJsExpressionBody(OperationOperator op, List<string> expressions);
+        string ConcatJsExpressionBody(List<string> expressions, OperationOperator op);
         List<string> ConcatCompiledExpressions(List<ExpressionGroup> groups);
         List<string> ConcatCompiledExpressions(List<AbstractExpression> expressions, OperationOperator operationOperator);
     }

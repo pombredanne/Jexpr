@@ -71,8 +71,7 @@
   <ItemGroup>
     <Compile Include="JexprEngineComplexScenarioTests.cs" />
     <Compile Include="JexprEngineTests.cs" />
-    <Compile Include="Models\TestBasket.cs" />
-    <Compile Include="Models\TestProduct.cs" />
+    <Compile Include="Models\Basket.cs" />
     <Compile Include="Models\TestApplyResult.cs" />
     <Compile Include="Models\TestPromotionRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -9,8 +9,8 @@ namespace Jexpr.Filters
     /// </summary>
     public class ApplyToSumFilter : SumFilter, IHasResultProperty
     {
-        public decimal Value { get; private set; }
-        public ApplyOperator Operator { get; private set; }
+        public decimal Value { get; set; }
+        public ApplyOperator Operator { get; set; }
 
         public ApplyToSumFilter(string propertyToVisit, string resultProperty, decimal value, ApplyOperator applyOperator)
             : base(propertyToVisit)
@@ -20,7 +20,7 @@ namespace Jexpr.Filters
             ResultProperty = resultProperty;
         }
 
-        public string ResultProperty { get; internal protected set; }
+        public string ResultProperty { get; set; }
 
         public override string ToJs(string parameterToChain)
         {

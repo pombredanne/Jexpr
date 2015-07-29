@@ -16,7 +16,7 @@ namespace Jexpr.Core.Impl
         }
 
 
-        public string ConcatJsExpressionBody(OperationOperator op, List<string> expressions)
+        public string ConcatJsExpressionBody(List<string> expressions, OperationOperator op)
         {
             StringBuilder result = new StringBuilder();
 

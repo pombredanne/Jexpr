@@ -8,7 +8,7 @@ namespace Jexpr.Filters
     /// </summary>
     public class AssignExactToResultFilter : AssignConditionalExactFilter, IHasResultProperty
     {
-        public AssignExactToResultFilter(string propertyToVisit,decimal exactValue, string resultProperty)
+        public AssignExactToResultFilter(decimal exactValue, string resultProperty, string propertyToVisit = "")
             : base(exactValue, resultProperty, propertyToVisit)
         {
         }

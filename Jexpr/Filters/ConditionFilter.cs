@@ -13,7 +13,8 @@ namespace Jexpr.Filters
         public ConditionOperator Operator { get; private set; }
         public object Value { get; private set; }
 
-        public ConditionFilter(string propertyToVisit, ConditionOperator @operator, object value) : base(propertyToVisit)
+        public ConditionFilter(string propertyToVisit, ConditionOperator @operator, object value)
+            : base(propertyToVisit)
         {
             Operator = @operator;
             Value = value;
@@ -25,6 +26,28 @@ namespace Jexpr.Filters
 
             switch (Operator)
             {
+                case ConditionOperator.SubSetExact:
+                {
+                    result = string.Format(@"(  
+                                    (function () {{
+                                            var _pFound=false;
+                                            _.chain({0}).each(function (key) {{
+                                                if ({1}.indexOf(key) !== -1) {{
+                                                   _pFound = true;
+                                                    return true;
+                                                }}
+
+                                                return false;
+
+                                            }}).value();
+
+                                            return _pFound;
+                                        }})()
+                                    )",
+                        parameterToChain, JsonConvert.SerializeObject(Value));
+
+                        break;
+                    }
                 case ConditionOperator.SubSet:
                     {
                         result = string.Format(@"(  
@@ -63,6 +86,18 @@ namespace Jexpr.Filters
                         }
 
                         result = string.Format(@"( (p.{1} % {0}) === 0 )", Value.ToString().ToLower(), PropertyToVisit);
+                        break;
+                    }
+
+                case ConditionOperator.DistinctCount:
+                    {
+                        if (!Value.IsNumeric())
+                        {
+                            throw new InvalidOperationException("Value must be number for evaluate DistinctCount operation.");
+                        }
+
+                        result = string.Format(@"( _.chain({0}).pluck('{1}').uniq().value().length >= {2}  )", parameterToChain, PropertyToVisit, Value);
+
                         break;
                     }
                 default:

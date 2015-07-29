@@ -14,7 +14,8 @@ namespace Jexpr.Filters
         public List<ResultProperty> ResultSet { get; set; }
         public AbstractFilter Filter { get; set; }
 
-        public AssignToResultFilter(string propertyToVisit="") : base(propertyToVisit)
+        public AssignToResultFilter(string propertyToVisit = "")
+            : base(propertyToVisit)
         {
         }
 
@@ -22,22 +23,25 @@ namespace Jexpr.Filters
         {
 
             StringBuilder builder = new StringBuilder();
-
-            foreach (ResultProperty resultProperty in ResultSet)
+            
+            if (ResultSet != null)
             {
-                if (!string.IsNullOrEmpty(resultProperty.PickUpFromParameters))
+                foreach (ResultProperty resultProperty in ResultSet)
                 {
-                    builder.AppendFormat("result.{0} = p.{1} {2}", resultProperty.Name, resultProperty.PickUpFromParameters, Environment.NewLine);
-                }
-                else
-                {
-                    IHasResultProperty hasResultProperty = Filter as IHasResultProperty;
-
-                    if (hasResultProperty != null)
+                    if (!string.IsNullOrEmpty(resultProperty.PickUpFromParameters))
                     {
-                        if (resultProperty.Name == hasResultProperty.ResultProperty)
+                        builder.AppendFormat("result.{0} = p.{1} {2}", resultProperty.Name, resultProperty.PickUpFromParameters, Environment.NewLine);
+                    }
+                    else
+                    {
+                        IHasResultProperty hasResultProperty = Filter as IHasResultProperty;
+
+                        if (hasResultProperty != null)
                         {
-                            builder.AppendFormat("result.{0} =  {1} {2}", hasResultProperty.ResultProperty, Filter.ToJs(parameterToChain), Environment.NewLine);
+                            if (resultProperty.Name == hasResultProperty.ResultProperty)
+                            {
+                                builder.AppendFormat("result.{0} =  {1} {2}", hasResultProperty.ResultProperty, Filter.ToJs(parameterToChain), Environment.NewLine);
+                            }
                         }
                     }
                 }

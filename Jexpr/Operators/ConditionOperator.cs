@@ -33,11 +33,17 @@ namespace Jexpr.Operators
 
         [EnumMember(Value = "SubSet")]
         SubSet,
+
+        [EnumMember(Value = "SubSetExact")]
+        SubSetExact,
         
         [EnumMember(Value = "Contains")]
         Contains,
 
         [EnumMember(Value = "%")]
-        Mod,
+        Mod,    
+        
+        [EnumMember(Value = "DistinctCount")]
+        DistinctCount,
     }
 }
