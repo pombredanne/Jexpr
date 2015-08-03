@@ -27,8 +27,8 @@ namespace Jexpr.Filters
             switch (Operator)
             {
                 case ConditionOperator.SubSetExact:
-                {
-                    result = string.Format(@"(  
+                    {
+                        result = string.Format(@"(  
                                     (function () {{
                                             var _pFound=false;
                                             _.chain({0}).each(function (key) {{
@@ -44,7 +44,7 @@ namespace Jexpr.Filters
                                             return _pFound;
                                         }})()
                                     )",
-                        parameterToChain, JsonConvert.SerializeObject(Value));
+                            parameterToChain, JsonConvert.SerializeObject(Value));
 
                         break;
                     }
@@ -98,6 +98,15 @@ namespace Jexpr.Filters
 
                         result = string.Format(@"( _.chain({0}).pluck('{1}').uniq().value().length >= {2}  )", parameterToChain, PropertyToVisit, Value);
 
+                        break;
+                    }
+                case ConditionOperator.Sum:
+                    {
+                        result = string.Format(@"( _.chain({0})
+                                                .pluck('{1}')
+                                                .sum()
+                                                .value() )",
+              parameterToChain, PropertyToVisit);
                         break;
                     }
                 default:

@@ -45,5 +45,8 @@ namespace Jexpr.Operators
         
         [EnumMember(Value = "DistinctCount")]
         DistinctCount,
+
+        [EnumMember(Value = "Sum")]
+        Sum
     }
 }

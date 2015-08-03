@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Jexpr.Common;
@@ -25,7 +24,7 @@ namespace Jexpr.Filters
         {
             List<string> innerFiltersExps = Conditions.Select(filter => filter.ToJs(parameterToChain)).ToList();
 
-            string body = String.Join(String.Format(" {0} ", ConditionOperator.ToName()), innerFiltersExps);
+            string body = string.Join(string.Format(" {0} ", ConditionOperator.ToName()), innerFiltersExps);
 
             string assignToParameter = !string.IsNullOrEmpty(Assignee)
                 ? string.Format("p.{0} = p.{1}", Assignee, Assigner)

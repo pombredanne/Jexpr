@@ -12,6 +12,7 @@ function ExpFunc(parametersJson) {
 
 	var p = JSON.parse(parametersJson);
 	var result = { value:'' };
+	
 	<#
 		IJsStringBuilder builder = new JsStringBuilder();
 		IJsExpressionConcatService concatService = new JsExpressionConcatService(builder);
@@ -46,7 +47,12 @@ function ExpFunc(parametersJson) {
 		string resultExpJs = builder.BuildFrom(resultExp);
 		 #>
 
-		<#= resultExpJs #>
+		  try {
+			<#= resultExpJs #>
+		  }
+		  catch(exception){
+		     /*TODO: handle exc.*/
+		  }
 	<# /*RESULT EXPR END */ #>
 	<# }#>
 

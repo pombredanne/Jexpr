@@ -47,9 +47,9 @@ namespace Jexpr.Filters
 
         private string GetJsFrom(List<AbstractFilter> filters)
         {
-            List<string> listerExps = filters.Select(filter => filter.ToJs(String.Format("item.{0}", filter.PropertyToVisit))).ToList();
+            List<string> listerExps = filters.Select(filter => filter.ToJs(string.Format("item.{0}", filter.PropertyToVisit))).ToList();
 
-            return String.Join(" && ", listerExps);
+            return string.Join(" && ", listerExps);
         }
     }
 }

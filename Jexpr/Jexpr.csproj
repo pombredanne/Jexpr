@@ -73,6 +73,7 @@
     <Compile Include="Core\Impl\NullLogger.cs" />
     <Compile Include="Core\Impl\JsReferenceLoader.cs" />
     <Compile Include="Core\IScriptLoader.cs" />
+    <Compile Include="Filters\ConditionalSelectFilter.cs" />
     <Compile Include="Filters\FunctionFilter.cs" />
     <Compile Include="Filters\SumWithMultiplyFilter.cs" />
     <Compile Include="Filters\AssignConditionalToResultFilter.cs" />
