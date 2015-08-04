@@ -45,24 +45,27 @@
   "Basket": {
     "Products": [
       {
-        "UnitPrice": 166,
-        "Quantity": 151,
+        "TotalPrice": 35208,
+        "UnitPrice": 163,
+        "Quantity": 216,
         "Parameters": {
           "BoutiqueId": 12,
           "Brand": "Adidas"
         }
       },
       {
-        "UnitPrice": 239,
-        "Quantity": 58,
+        "TotalPrice": 19107,
+        "UnitPrice": 99,
+        "Quantity": 193,
         "Parameters": {
           "BoutiqueId": 12,
           "Brand": "Nike"
         }
       },
       {
-        "UnitPrice": 139,
-        "Quantity": 207,
+        "TotalPrice": 23478,
+        "UnitPrice": 129,
+        "Quantity": 182,
         "Parameters": {
           "BoutiqueId": 18,
           "Brand": "Nike"
@@ -71,7 +74,7 @@
     ]
   },
   "Parameters": {
-    "BankBin": "Bank1",
+    "BankBin": "Garanti",
     "Age": 20
   }
 }
@@ -95,11 +98,9 @@ ExpressionMetadata expressionMetadata = new ExpressionMetadata
                             Conditions = new List<AbstractFilter>
                             {
                                 new ConditionFilter("Parameters.BoutiqueId", 
-                                    ConditionOperator.Contains, 
-                                    new List<int> {12, 14}),
+                                ConditionOperator.Contains, new List<int> {12, 14}),
                                 new ConditionFilter("Parameters.Brand", 
-                                    ConditionOperator.Contains, 
-                                    new List<string> {"Adidas"})
+                                ConditionOperator.Contains, new List<string> {"Adidas"})
                             }
                         }
                 },
@@ -108,8 +109,7 @@ ExpressionMetadata expressionMetadata = new ExpressionMetadata
                     Key = "Parameters.BankBin",
                     HasPriority = true,
                     Filter =new ConditionFilter("Parameters.BankBin", 
-                            ConditionOperator.SubSet,
-                            new List<string> {"Bank1", "Bank2", "Bank3"} )
+                    ConditionOperator.SubSet, new List<string> {"Bank1", "Bank2", "Bank3" } )
                 },
                 new BasicExpression
                 {
@@ -138,11 +138,9 @@ ExpressionMetadata expressionMetadata = new ExpressionMetadata
                         ResultSet = new List<ResultProperty>
                         {
                             new ResultProperty {Name = "Discount"},
-                            new ResultProperty {Name = "Basket", 
-                                PickUpFromParameters = "Basket"}
+                            new ResultProperty {Name = "Basket", PickUpFromParameters = "Basket"}
                         },
-                        Filter = new ApplyToSumFilter("UnitPrice", "Discount", 20, 
-                                 ApplyOperator.Percent)
+                        Filter = new ApplyToSumFilter("UnitPrice", "Discount", 20, ApplyOperator.Percent)
                     }
                 }
             }
@@ -150,58 +148,83 @@ ExpressionMetadata expressionMetadata = new ExpressionMetadata
     },
     Operator = OperationOperator.None
 };
+
+return expressionMetadata;
+
 ```
 
 ##Generated Js
 ```js
 function ExpFunc(parametersJson) {
 
-    var p = JSON.parse(parametersJson);
-    var result = {value: ''};
+  var p = JSON.parse(parametersJson);
+  var result = {
+    value: ''
+  };
 
-    if ((
-            (function () {
-                var _pFound = false;
-                _.chain(p.Parameters.BankBin).pluck('Parameters.BankBin').each(function (key) {
-                    if (["Bank1", "Bank2", "Bank3"].indexOf(key) !== -1) {
-                        _pFound = true;
-                        return true;
-                    }
+  if ((
+      (function() {
+        var _pFound = false;
 
-                    return false;
+        if (Object.prototype.toString.call(p.Parameters.BankBin) === '[object Array]' 
+        && typeof p.Parameters.BankBin[0] == 'object') {
+          _.chain(p.Parameters.BankBin).pluck('Parameters.BankBin').each(function(key) {
+            if (["Bank1", "Bank2", "Bank3"].indexOf(key) !== -1) {
+              _pFound = true;
+              return true;
+            }
 
-                }).value();
+            return false;
 
-                return _pFound;
-            })()
-        ) && (p.Parameters.Age >= 20)) {
-        (
-            p.Basket.Products = (function () {
-                var _pFilterResult = _.chain(p.Basket.Products).filter(function (item) {
+          }).value();
 
-                    if (( [12, 14].indexOf(item.Parameters.BoutiqueId) !== -1 ) 
-                      && ( ["Adidas"].indexOf(item.Parameters.Brand) !== -1 )) {
-                        return true;
-                    }
+        } else {
 
-                    return false;
+          _.chain(p.Parameters.BankBin).each(function(key) {
+            if (["Bank1", "Bank2", "Bank3"].indexOf(key) !== -1) {
+              _pFound = true;
+              return true;
+            }
 
-                }).value();
+            return false;
 
-                return _pFilterResult;
-            })()
-        )
-    }
+          }).value();
+
+        }
+
+        return _pFound;
+      })()
+    ) && (p.Parameters.Age >= 20)) {
+
+    p.Basket.Products = (function() {
+      var _pFilterResult = _.chain(p.Basket.Products).filter(function(item) {
+
+        if (([12, 14].indexOf(item.Parameters.BoutiqueId) !== -1) 
+        && (["Adidas"].indexOf(item.Parameters.Brand) !== -1)) {
+          return true;
+        }
+
+        return false;
+
+      }).value();
+
+      return _pFilterResult;
+    })();
 
 
-    result.Discount = ( (( _.chain(p.Basket.Products)
-        .pluck('TotalPrice')
+    try {
+      result.Discount = (((_.chain(p.Basket.Products)
+        .pluck('UnitPrice')
         .sum()
-        .value() )) * (20 / 100) )
-    result.Basket = p.Basket
+        .value())) * (20 / 100));
+      result.Basket = p.Basket;
 
+    } catch (exception) {
+      /*TODO: handle exc.*/
+    }
+  }
 
-    return JSON.stringify(result);
+  return JSON.stringify(result);
 }
 ```
 
