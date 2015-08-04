@@ -53,15 +53,31 @@ namespace Jexpr.Filters
                         result = string.Format(@"(  
                                     (function () {{
                                             var _pFound=false;
-                                            _.chain({0}).pluck('{1}').each(function (key) {{
-                                                if ({2}.indexOf(key) !== -1) {{
-                                                   _pFound = true;
-                                                    return true;
-                                                }}
+                                            
+                                            if( Object.prototype.toString.call({0}) === '[object Array]' && typeof {0}[0] == 'object' ) {{
+                                                 _.chain({0}).pluck('{1}').each(function (key) {{
+                                                    if ({2}.indexOf(key) !== -1) {{
+                                                       _pFound = true;
+                                                        return true;
+                                                    }}
 
-                                                return false;
+                                                    return false;
 
-                                            }}).value();
+                                                }}).value();
+
+                                            }}else{{
+                                            
+                                             _.chain({0}).each(function (key) {{
+                                                    if ({2}.indexOf(key) !== -1) {{
+                                                       _pFound = true;
+                                                        return true;
+                                                    }}
+
+                                                    return false;
+
+                                                }}).value();
+
+                                            }}
 
                                             return _pFound;
                                         }})()

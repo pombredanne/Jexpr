@@ -193,7 +193,7 @@ namespace Jexpr.Tests
             var parameters = new Dictionary<string, object>
             {
                 {"Basket", basket},
-                {"Parameters", new Dictionary<string, object> {{"BankBin", "Garanti"}, {"Age", 20}}}
+                {"Parameters", new Dictionary<string, object> {{"BankBin", new List<string> { "Bank1" } }, {"Age", 20}}}
             };
 
             JexprJsGeneratorTemplate template = new JexprJsGeneratorTemplate(metadata);

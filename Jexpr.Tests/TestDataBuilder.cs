@@ -182,7 +182,7 @@ namespace Jexpr.Tests
                             {
                                 Key = "Parameters.BankBin",
                                 HasPriority = true,
-                                Filter =new ConditionFilter("Parameters.BankBin", ConditionOperator.SubSet, new List<string> {"Garanti", "Teb", "Finans"} )
+                                Filter =new ConditionFilter("Parameters.BankBin", ConditionOperator.SubSet, new List<string> {"Bank1", "Bank2", "Bank3" } )
                             },
                             new BasicExpression
                             {

@@ -46,7 +46,7 @@ namespace Jexpr.Tests
             var parameters = new Dictionary<string, object>
             {
                 {"Basket", basket},
-                {"Parameters", new Dictionary<string, object> {{"BankBin", "Garanti"}, {"Age", 20}}}
+                {"Parameters", new Dictionary<string, object> {{"BankBin", new List<string> { "Bank1" } }, {"Age", 20}}}
             };
 
             string json = JsonConvert.SerializeObject(parameters);
@@ -110,8 +110,8 @@ namespace Jexpr.Tests
 
             basket.Products[0].Parameters.Add("BoutiqueId", 12);
             basket.Products[1].Parameters.Add("BoutiqueId", 12);
-            basket.Products[2].Parameters.Add("BoutiqueId", 18);        
-            
+            basket.Products[2].Parameters.Add("BoutiqueId", 18);
+
             basket.Products[0].Parameters.Add("Id", 1);
             basket.Products[1].Parameters.Add("Id", 2);
             basket.Products[2].Parameters.Add("Id", 3);
@@ -124,7 +124,7 @@ namespace Jexpr.Tests
             var parameters = new Dictionary<string, object>
             {
                 {"Basket", basket},
-                {"Parameters", new Dictionary<string, object> {{"BankBin", "Garanti"}, {"Age", 20}}}
+                {"Parameters", new Dictionary<string, object> {{"BankBin", new List<string> { "Bank1" } }, {"Age", 20}}}
             };
 
             List<JexprResult<TestApplyResult>> results = new List<JexprResult<TestApplyResult>>();

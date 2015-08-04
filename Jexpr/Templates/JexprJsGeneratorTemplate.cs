@@ -114,7 +114,7 @@ namespace Jexpr.Templates
             
             #line default
             #line hidden
-            this.Write("\t}\r\n\t");
+            this.Write("\t\r\n\t");
             
             #line 39 "D:\Trendyol\Trendyol\FrontEnd\Dev\API\PromotionApi\Jexpr\Templates\JexprJsGeneratorTemplate.tt"
  /* BODY END */ 
@@ -167,7 +167,7 @@ namespace Jexpr.Templates
             
             #line default
             #line hidden
-            this.Write("\r\n\t return JSON.stringify(result);\r\n}");
+            this.Write("\t}\r\n\r\n\t return JSON.stringify(result);\r\n}");
             return this.GenerationEnvironment.ToString();
         }
     }

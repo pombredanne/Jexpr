@@ -35,7 +35,7 @@ function ExpFunc(parametersJson) {
 		 <# }else{ #>
 		 <#= jshasntPExprsBody #>
 		 <# } #>
-	}
+	
 	<# /* BODY END */ #>
 	
 	<# if (this.ExpressionMetadata.ResultExpression != null){ #>
@@ -55,6 +55,7 @@ function ExpFunc(parametersJson) {
 		  }
 	<# /*RESULT EXPR END */ #>
 	<# }#>
+	}
 
 	 return JSON.stringify(result);
 }
