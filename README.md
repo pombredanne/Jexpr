@@ -74,7 +74,7 @@
     ]
   },
   "Parameters": {
-    "BankBin": "Garanti",
+    "BankBin": ["Bank1"],
     "Age": 20
   }
 }
@@ -140,7 +140,8 @@ ExpressionMetadata expressionMetadata = new ExpressionMetadata
                             new ResultProperty {Name = "Discount"},
                             new ResultProperty {Name = "Basket", PickUpFromParameters = "Basket"}
                         },
-                        Filter = new ApplyToSumFilter("UnitPrice", "Discount", 20, ApplyOperator.Percent)
+                        Filter = new ApplyToSumFilter("UnitPrice", "Discount", 20, 
+                        ApplyOperator.Percent)
                     }
                 }
             }
@@ -158,14 +159,11 @@ return expressionMetadata;
 function ExpFunc(parametersJson) {
 
   var p = JSON.parse(parametersJson);
-  var result = {
-    value: ''
-  };
+  var result = { value: '' };
 
   if ((
       (function() {
         var _pFound = false;
-
         if (Object.prototype.toString.call(p.Parameters.BankBin) === '[object Array]' 
         && typeof p.Parameters.BankBin[0] == 'object') {
           _.chain(p.Parameters.BankBin).pluck('Parameters.BankBin').each(function(key) {
@@ -173,23 +171,18 @@ function ExpFunc(parametersJson) {
               _pFound = true;
               return true;
             }
-
+            
             return false;
-
           }).value();
 
         } else {
-
           _.chain(p.Parameters.BankBin).each(function(key) {
             if (["Bank1", "Bank2", "Bank3"].indexOf(key) !== -1) {
               _pFound = true;
               return true;
             }
-
             return false;
-
           }).value();
-
         }
 
         return _pFound;
